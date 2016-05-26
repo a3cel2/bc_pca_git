@@ -48,3 +48,30 @@ bpc_notation_to_yeast_orf <- function(bpc_list){
   return(name_matr)
 }
 
+given_motif_enrichment <- function(universe_file,
+                                   pca_call_file,
+                                   motif_regexp,
+                                   drug,
+                                   direction){
+  universe <- read.csv(universe_file,sep='\t')
+  all_orfs <- unique(c(as.vector(universe$ORF.1),as.vector(universe$ORF.2)))
+  
+  #Found in condition
+  pca_calls <- read.csv(pca_call_file,sep='\t')
+  
+  filtered_pca_calls <- pca_calls[pca_calls$Condition == drug & 
+                                    pca_calls$Effect.on.growth == direction,]
+  
+  atorvastatin_enhanced_orfs <- unique(as.vector(bpc_notation_to_yeast_orf(as.vector(filtered_pca_calls$BPC))))
+  
+  all_regex_matching_orfs <- get_genes_matching_regex_motif(motif_regexp=motif_regexp)
+  all_regex_matching_orfs <- intersect(all_orfs,all_regex_matching_orfs )
+  
+  atorvastatin_prenylated_orfs <- intersect(atorvastatin_enhanced_orfs,all_regex_matching_orfs)
+  
+  stat_table <- rbind(c(length(all_regex_matching_orfs),length(all_orfs)),
+                      c(length(atorvastatin_prenylated_orfs),length(atorvastatin_enhanced_orfs)))
+  
+  return(fisher.test(stat_table))
+}
+
