@@ -5,7 +5,7 @@ source('genome_analysis_utilities.R')
 
 
 ##Check for enrichment of atorvastatin motif
-print('Checking for CAAX motif amongst atorvastatin decreased drugs')
+print('Checking for CAAX motif enrichment amongst atorvastatin decreased drugs')
 print(given_motif_enrichment(
   universe_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-07-29/Additional.file.3.txt',
   pca_call_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-07-29/Additional.file.8.txt',
@@ -13,3 +13,6 @@ print(given_motif_enrichment(
   drug = 'atorvastatin',
   direction = 'decreased'
 ))
+
+
+

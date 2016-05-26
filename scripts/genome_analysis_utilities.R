@@ -1,6 +1,7 @@
 library(utils)
 library(seqinr)
 library(org.Sc.sgd.db)
+library(dplyr)
 
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
@@ -30,7 +31,7 @@ get_genes_matching_regex_motif <- function(
   return(names(unlist(motif_search)))
 }
 
-bpc_notation_to_yeast_orf <- function(bpc_list){
+bpc_notation_to_yeast_orf_pair <- function(bpc_list){
   name_matr <- t(as.matrix(sapply(bpc_list,function(bpc){
     split_name <- strsplit(bpc,'::')[[1]]
     parsed_names <- sapply(split_name,function(unparsed_name){
@@ -53,16 +54,15 @@ given_motif_enrichment <- function(universe_file,
                                    motif_regexp,
                                    drug,
                                    direction){
-  universe <- read.csv(universe_file,sep='\t')
-  all_orfs <- unique(c(as.vector(universe$ORF.1),as.vector(universe$ORF.2)))
+  orf_universe <- read.csv(universe_file,sep='\t',stringsAsFactors = F)
+  all_orfs <- unique(unlist(select(orf_universe,ORF.1,ORF.2)))
   
   #Found in condition
-  pca_calls <- read.csv(pca_call_file,sep='\t')
+  pca_calls <- read.csv(pca_call_file,sep='\t',stringsAsFactors = F)
   
-  filtered_pca_calls <- pca_calls[pca_calls$Condition == drug & 
-                                    pca_calls$Effect.on.growth == direction,]
+  filtered_pca_calls <- filter(pca_calls, Condition == drug, Effect.on.growth == direction)
   
-  atorvastatin_enhanced_orfs <- unique(as.vector(bpc_notation_to_yeast_orf(as.vector(filtered_pca_calls$BPC))))
+  atorvastatin_enhanced_orfs <- unique(bpc_notation_to_yeast_orf_pair(as.vector(filtered_pca_calls$BPC)))
   
   all_regex_matching_orfs <- get_genes_matching_regex_motif(motif_regexp=motif_regexp)
   all_regex_matching_orfs <- intersect(all_orfs,all_regex_matching_orfs )
