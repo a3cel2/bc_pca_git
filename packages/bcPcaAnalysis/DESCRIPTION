@@ -12,5 +12,6 @@ Imports:
     dplyr,
     utils,
     seqinr,
-    org.Sc.sgd.db
+    org.Sc.sgd.db,
+    rPython
 RoxygenNote: 5.0.1

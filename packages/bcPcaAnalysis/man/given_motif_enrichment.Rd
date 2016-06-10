@@ -4,15 +4,15 @@
 \alias{given_motif_enrichment}
 \title{Test for conditional motif enrichment}
 \usage{
-given_motif_enrichment(universe_file, universe_has_orfs = T, pca_call_file,
-  motif_regexp, condition)
+given_motif_enrichment(universe_file, pca_call_file, motif_regexp, condition)
 }
 \arguments{
 \item{universe_file}{A data frame which contains all the pairs
 in the PCA experiment under the columns 'ORF.1','ORF.2'}
 
 \item{pca_call_file}{A data frame which contains all signficant calls
-in the PCA experiment, with the condition of interest under the
+in the PCA experiment (either enhanced or depleted), 
+with the condition of interest under the
 'Condition' column and the orf pairs under the columns 'ORF.1','ORF.2'}
 
 \item{motif_regexp}{The regular expression to search for}
