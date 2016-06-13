@@ -2,8 +2,11 @@ library(devtools)
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
 
-
-to_run <- c()#c('Atorvastatin enrichment')
+#Parts of analysis to run
+#Options
+#Atorvastatin enrichment
+#GO enrichment
+to_run <- c('GO enrichment')#c('Atorvastatin enrichment')
 
 #Package containing necessary scripts
 devtools::load_all('../packages/bcPcaAnalysis')
@@ -11,11 +14,12 @@ devtools::document('../packages/bcPcaAnalysis')
 
 #Global parameters
 pca_universe = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.6.txt'
-pca_enhanced_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.11.txt'
-pca_depleted_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.10.txt'
-go_assoc
-##Check for enrichment of isoprenylation motif under atorvastatin
+pca_enhanced_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.10.txt'
+pca_depleted_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.11.txt'
+go_association_file = '/Users/Albi/Dropbox/Roth Lab/projects/bc_pca_git/data/funcassociate_go_associations.txt'
 
+
+##Check for enrichment of isoprenylation motif under atorvastatin
 if('Atorvastatin enrichment' %in% to_run){
   print('Checking for CAAX motif enrichment amongst atorvastatin decreased drugs')
   print(given_motif_enrichment(
@@ -27,3 +31,12 @@ if('Atorvastatin enrichment' %in% to_run){
   ))
 }
 
+#Check for GO enrichment in each condition, enhanced and depleted, nodewise and edgewise
+if('GO enrichment' %in% to_run){
+  all_conditions <- read.csv(pca_universe,sep='\t',stringsAsFactors=F)
+  all_conditions <- unique(all_conditions$Condition)
+  funcassociate_output <- bcpca_funcassociate_analysis(pca_universe,
+                                                       pca_enhanced_calls,
+                                                       pca_depleted_calls,
+                                                       all_conditions)
+}

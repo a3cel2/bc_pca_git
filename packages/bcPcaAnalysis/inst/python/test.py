@@ -1,6 +1,6 @@
 import json
 import urllib2
-
+import ast
 
 def split_edge_list(edge_list,split_char='\t'):
 	new_edge_list = [[],[]]
@@ -36,6 +36,7 @@ def convert_go_array_to_edgewise(go_array,universe_edge_list):
 	for item in go_array:
 		go_dict[item[0]] = item[1:]
 
+
 	inverse_go_dict = {}
 	for go_term in go_dict:
 		for gene in go_dict[go_term][1:]:
@@ -55,7 +56,7 @@ def convert_go_array_to_edgewise(go_array,universe_edge_list):
 			common_go_terms = list(set(terms_gene1).intersection(set(terms_gene2)))
 			inverse_pairwise_go_dict[ppi] = common_go_terms
 
-
+	
 
 	pairwise_go_dict = {}
 	for ppi in inverse_pairwise_go_dict:
@@ -75,6 +76,21 @@ def convert_go_array_to_edgewise(go_array,universe_edge_list):
 
 	return pairwise_go_array
 
+
+def filter_gene_list(gene_list,go_array):
+	'''Remove terms in gene_list not present in go_array'''
+	go_dict = {}
+	for item in go_array:
+		for gene in item[1:]:
+			go_dict[gene] = 1
+
+	new_gene_list = []
+	for gene in gene_list:
+		if go_dict.get(gene):
+			new_gene_list.append(gene)
+
+
+	return new_gene_list
 
 def parse_go_terms_slim(go_slim_file,all_gene_list,mapping_index=1):
 	'''go_slim_file is the name (str) of a tab-separated go slim file with the following structure
@@ -209,9 +225,10 @@ def funcassociate(gene_file,\
 	universe_file,\
 	go_association_file,\
 	order_mode="ordered",\
-	go_type='slim',\
-	nametype='common',\
-	mode='nodewise'):
+	go_type='default_funcassociate',\
+	nametype='ORF',\
+	mode='nodewise',
+	p_value_cutoff=0.05):
 	'''gene_file is a filename (str) of a file containg one item per line of the genes of interest
 
 	universe_file is a filename (str) of a file containg one item per line of all possible genes of
@@ -243,8 +260,10 @@ def funcassociate(gene_file,\
 		print('Go type not supported')
 		exit()
 
-	gene_list = file_to_list(gene_file)
-	universe_gene_list = file_to_list(universe_file)
+	gene_list = ast.literal_eval(gene_file)
+	universe_gene_list = ast.literal_eval(universe_file)
+	#gene_list = file_to_list(gene_file)
+	#universe_gene_list = file_to_list(universe_file)
 
 	if mode == 'edgewise':
 		edge_list = split_edge_list(gene_list)
@@ -264,31 +283,34 @@ def funcassociate(gene_file,\
 
 
 	go_array = go_conversion[0]
-	#print go_array
 	go_dict = go_conversion[1]
 
 	if mode == 'edgewise':
 		go_array = convert_go_array_to_edgewise(go_array,universe_edge_list)
 		new_gene_list = []
-		print edge_list
 		for i in range(len(edge_list[0])):
 			new_gene_list.append(edge_list[0][i] + ' ' + edge_list[1][i])
 		gene_list = new_gene_list
-		print gene_list
 
-	return funcassociate_server_submission(gene_list,go_array,go_dict,order_mode)
+
+	#Remove anything not in the universe
+	gene_list = filter_gene_list(gene_list,go_array)
+
+
+	return funcassociate_server_submission(gene_list,go_array,go_dict,order_mode,p_value_cutoff=p_value_cutoff)
 
 if __name__ == '__main__':
-	
+	pass
 	#print funcassociate('gene_space_enhanced.txt',
 	#	'gene_space_total.txt',
 	#	'go_slim_mapping.tab',
 	#	go_type='slim',
 	#	nametype='common')
 
-	print funcassociate('enhanced_inters.tsv',
-		'ppi_universe_orfs.tsv',
-		'funcassociate_go_associations.txt',
-		go_type='default_funcassociate',
-		nametype='ORF',
-		mode='edgewise')
+	#print funcassociate('enhanced_inters.tsv',
+	#	'ppi_universe_orfs.tsv',
+	#	'funcassociate_go_associations.txt',
+	#	go_type='default_funcassociate',
+	#	nametype='ORF',
+	#	mode='edgewise')
+
