@@ -1,4 +1,5 @@
-require(rPython)
+devtools::use_package('rPython')
+
 
 #' Converts a vector to a literal python list representation (all items in strings)
 #'

@@ -13,5 +13,8 @@ Imports:
     utils,
     seqinr,
     org.Sc.sgd.db,
-    rPython
+    rPython,
+    metap,
+    grDevices,
+    Cairo
 RoxygenNote: 5.0.1
