@@ -1,6 +1,7 @@
 library(devtools)
 library(Cairo)
 library(dplyr)
+library(grDevices)
 
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
@@ -10,7 +11,7 @@ setwd(this.dir)
 #Atorvastatin enrichment
 #GO enrichment
 
-to_run <- c('Expression PCA')#c('Atorvastatin enrichment')
+to_run <- c('Heatmap')#c('Atorvastatin enrichment')
 
 #Package containing necessary scripts
 devtools::load_all('../packages/bcPcaAnalysis')
@@ -25,8 +26,18 @@ go_association_file = '/Users/Albi/Dropbox/Roth Lab/projects/bc_pca_git/data/fun
 protein_abundance_file = "/Users/Albi/Dropbox/Roth Lab/projects/bc_pca_git/data/paxdb_abundance.tsv"
 expression_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.14.txt'
 
+hub_enrichment_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-09-02/Data for Figure 3D.xlsx'
+
 output_path <- '../results/master_output'
 
+#Color scale for a lot of stuff
+blue_black_orange <- grDevices::colorRampPalette(c(
+  rgb(1,0.45,0.25),
+  rgb(0.8,0.25,0.25),
+  rgb(0,0,0),
+  rgb(0.25,0.45,0.8),
+  rgb(0.25,0.75,1)
+))
 
 ##Check for enrichment of isoprenylation motif under atorvastatin
 #Fails, did not bother giving output
@@ -39,6 +50,23 @@ if('Atorvastatin enrichment' %in% to_run){
     motif_regexp = 'c(g|a|v|l|i){2,2}(m|s|q|a|c|l|e)\\*',
     condition = 'atorvastatin'
   ))
+}
+
+if('Heatmap' %in% to_run){
+  heatmap_output_path <- paste(c(output_path,'heatmaps'),collapse='/')
+  dir.create(heatmap_output_path, showWarnings = FALSE)
+  
+  pca_file <- read.table(pca_universe,head=T,sep='\t')
+  pca_enh <- read.table(pca_enhanced_calls,head=T,sep='\t')
+  pca_depl <- read.table(pca_depleted_calls,head=T,sep='\t')
+  
+  convert_pca_file_to_heatmap_format(pca_file=pca_file,
+                                     pca_enhanced_calls = pca_enh,
+                                     pca_depleted_calls = pca_depl,
+                                     output_path=heatmap_output_path,
+                                     filename='all_sig_bpcs.png',
+                                     draw=F
+                                     )
 }
 
 #Check for GO enrichment in each condition, enhanced and depleted, nodewise and edgewise
@@ -59,6 +87,19 @@ if('Expression PCA' %in% to_run){
   
   
   ##For quantitative
+  #Compare mRNA expression reproducibility
+  mRNA_comparison_graph(pca_universe,expression_file,output_path=expression_pca_output_path,filename='mRNA_4h_12h_comparison',draw=F)
+  #Compare tag reproducibility
+  pca_ma_prediction_plot(my_predictions,
+                         prediction_colname='bcPCA_FC.UP',
+                         measurement_colname='bcPCA_FC.DN',
+                         x_axis_label = "bcPCA Log2(R) UPTAG",
+                         y_axis_label = "bcPCA Log2(R) DNTAG",
+                         output_path=expression_pca_output_path,
+                         filename='UPtag_DNtag_comparison',
+                         xlimits=c(-4,2),
+                         ylimits=c(-4,2))
+  
   #All predictions
   pca_ma_prediction_plot(my_predictions,expression_pca_output_path)
   
@@ -86,7 +127,25 @@ if('Expression PCA' %in% to_run){
                          expression_pca_output_path,
                          filename='bcPCA_predictions_significant_filtered.pdf')
   
+  #Compare error_prone replicates
+  error_analysis <- pca_mRNA_error_analysis(pca_universe,expression_file,protein_abundance_file,iters=1000)
+  pca_mRNA_error_analysis_graph(error_analysis,output_path=expression_pca_output_path,filename='replicate_comparison',draw=F)
+  
   ##For categorical
   pca_ma_precision_plot(my_predictions,expression_pca_output_path,filename='bcPCA_precision')
-
+  
+  #Compare different hubs
+  hub_comparison_graph(my_predictions,'HXT1,HSP30',output_path=expression_pca_output_path,filename='HXT1_HSP30_comparison')
+  hub_comparison_graph(my_predictions,'LSP1',node_size=35,edge_width=10,output_path=expression_pca_output_path,filename='LSP1_comparison')
+  
+  #Compare mass action accuracy for monochromatic hubs
+  hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
+  monochromatic_prediction_accuracy_graph(my_predictions,
+                                          hub_df,
+                                          output_path=expression_pca_output_path,
+                                          filename='hub_comparison')
+  
+  
+  
+  
 }

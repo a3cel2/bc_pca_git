@@ -16,5 +16,8 @@ Imports:
     rPython,
     metap,
     grDevices,
-    Cairo
+    Cairo,
+    igraph,
+    gplots,
+    cba
 RoxygenNote: 5.0.1
