@@ -11,7 +11,7 @@ setwd(this.dir)
 #Atorvastatin enrichment
 #GO enrichment
 
-to_run <- c('Heatmap')#c('Atorvastatin enrichment')
+to_run <- c('Expression PCA')#c('Atorvastatin enrichment')
 
 #Package containing necessary scripts
 devtools::load_all('../packages/bcPcaAnalysis')
@@ -19,8 +19,8 @@ devtools::document('../packages/bcPcaAnalysis')
 
 #Global parameters
 pca_universe = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.6.txt'
-pca_enhanced_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.11.txt'
-pca_depleted_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.10.txt'
+pca_enhanced_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.10.txt'
+pca_depleted_calls = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.11.txt'
 go_association_file = '/Users/Albi/Dropbox/Roth Lab/projects/bc_pca_git/data/funcassociate_go_associations.txt'
 
 protein_abundance_file = "/Users/Albi/Dropbox/Roth Lab/projects/bc_pca_git/data/paxdb_abundance.tsv"
@@ -31,13 +31,14 @@ hub_enrichment_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-09-02/Data for Figu
 output_path <- '../results/master_output'
 
 #Color scale for a lot of stuff
-blue_black_orange <- grDevices::colorRampPalette(c(
+my_color_list <- c(
   rgb(1,0.45,0.25),
   rgb(0.8,0.25,0.25),
   rgb(0,0,0),
   rgb(0.25,0.45,0.8),
   rgb(0.25,0.75,1)
-))
+)
+blue_black_orange <- grDevices::colorRampPalette(my_color_list)
 
 ##Check for enrichment of isoprenylation motif under atorvastatin
 #Fails, did not bother giving output
@@ -65,8 +66,17 @@ if('Heatmap' %in% to_run){
                                      pca_depleted_calls = pca_depl,
                                      output_path=heatmap_output_path,
                                      filename='all_sig_bpcs.png',
-                                     draw=F
+                                     draw=F,
+                                     label_size=5,
+                                     line_width=3
                                      )
+  
+  condition_summary_barplot(pca_enh,
+                            pca_depl,
+                            color_function=blue_black_orange,
+                            draw=F,
+                            output_path=heatmap_output_path,
+                            filename='number_dynamic_bpcs.pdf')
 }
 
 #Check for GO enrichment in each condition, enhanced and depleted, nodewise and edgewise
@@ -135,8 +145,15 @@ if('Expression PCA' %in% to_run){
   pca_ma_precision_plot(my_predictions,expression_pca_output_path,filename='bcPCA_precision')
   
   #Compare different hubs
-  hub_comparison_graph(my_predictions,'HXT1,HSP30',output_path=expression_pca_output_path,filename='HXT1_HSP30_comparison')
-  hub_comparison_graph(my_predictions,'LSP1',node_size=35,edge_width=10,output_path=expression_pca_output_path,filename='LSP1_comparison')
+  hub_comparison_graph(my_predictions,'HXT1,HSP30',output_path=expression_pca_output_path,filename='HXT1_HSP30_comparison',color_list=my_color_list)
+  hub_comparison_graph(my_predictions,'LSP1',
+                       node_size=35,
+                       edge_width=10,
+                       output_path=expression_pca_output_path,
+                       filename='LSP1_comparison',
+                       title_offset=1.41,
+                       color_list=my_color_list,
+                       layout_algorithm=igraph::layout.fruchterman.reingold)
   
   #Compare mass action accuracy for monochromatic hubs
   hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))

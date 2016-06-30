@@ -476,6 +476,26 @@ reverse_map_gene_names <- function(orf_ids){
   })
 }
 
+hub_legend_draw <- function(min_val,
+                            max_val,
+                            color_list,
+                            ncolors=1000){
+  plot.new()
+  colors <- rev(grDevices::colorRampPalette(color_list)(ncolors))
+  for(i in 1:(length(colors)-1)){
+    lines(c(0.12,0.68),
+          c(0.5-(i/ncolors)/2+0.25,
+            0.5-(i/ncolors)/2+0.25),
+          lwd=3,
+          col=colors[i])
+  }
+  rect(0.1,0.25,0.7,0.75,lwd = 1)
+  text(0.85,0.75,max_val,xpd=T,cex=2)
+  text(0.85,0.25,min_val,xpd=T,cex=2)
+  text(0.85,0.5,mean(c(max_val,min_val)),xpd=T,cex=2)
+  text(0,0.8,'Log2(R)',xpd=T,cex=2,adj=0)
+}
+
 hub_comparison_graph <- function(my_predictions,
                                  hub_name,
                                  hub_name_mode = 'common',
@@ -484,7 +504,7 @@ hub_comparison_graph <- function(my_predictions,
                                  draw=F,
                                  color_list = c('red','black','green'),
                                  titles=c("mRNA\nPredictions",'bcPCA\nMeasurements'),
-                                 title_size=2,
+                                 title_size=3,
                                  title_offset=1.35,
                                  ncolors=100,
                                  node_expr_color_limits=c(-1,1),
@@ -495,7 +515,8 @@ hub_comparison_graph <- function(my_predictions,
                                  default_node_color=rgb(0.3,0.3,0.3),
                                  edge_width=7,
                                  node_size=20,
-                                 graph_seed=1234){
+                                 graph_seed=1234,
+                                 layout_algorithm=igraph::layout.kamada.kawai){
   set.seed(graph_seed)
   if(typeof(hub_name) == 'character'){
     hub_name <- strsplit(hub_name,split=',')[[1]]
@@ -507,9 +528,49 @@ hub_comparison_graph <- function(my_predictions,
                             bcPCA_qVal <= q_val_cutoff,
                             abs(bcPCA_FC.AVG) >= effect_size_cutoff)
   
-  create_orf_expr_list <- function(hub_predictions){
-    orf1_expr <- dplyr::select(hub_predictions,ORF1,mRNAFC_ORF1)
-    orf2_expr <- dplyr::select(hub_predictions,ORF2,mRNAFC_ORF2)
+  draw_comparison_network(hub_predictions,
+               color_list,
+               ncolors,
+               titles,
+               title_size,
+               title_offset,
+               node_expr_color_limits,
+               edge_expr_color_limits,
+               pca_color_limits,
+               default_node_color,
+               edge_width,
+               node_size,
+               graph_seed,
+               draw,
+               output_path,
+               filename,
+               layout_algorithm)
+}
+
+
+ 
+
+draw_comparison_network <- function(my_predictions,
+                         color_list,
+                         ncolors=100,
+                         titles,
+                         title_size=3,
+                         title_offset=1.35,
+                         node_expr_color_limits=c(-1,1),
+                         edge_expr_color_limits=c(-1,1),
+                         pca_color_limits=c(-1,1),
+                         default_node_color=rgb(0.3,0.3,0.3),
+                         edge_width=7,
+                         node_size=20,
+                         graph_seed=1234,
+                         draw=T,
+                         output_path,
+                         filename,
+                         layout_algorithm=igraph::layout.kamada.kawai){
+  
+  create_orf_expr_list <- function(my_predictions){
+    orf1_expr <- dplyr::select(my_predictions,ORF1,mRNAFC_ORF1)
+    orf2_expr <- dplyr::select(my_predictions,ORF2,mRNAFC_ORF2)
     orf_expr_list <- list()
     for(i in 1:nrow(orf1_expr)){
       orf_expr_list[as.vector(orf1_expr[i,1])] <- orf1_expr[i,2]
@@ -518,15 +579,15 @@ hub_comparison_graph <- function(my_predictions,
     return(orf_expr_list)
   }
   #Change names and predict expression
-  hub_predictions$ORF1 <- map_gene_names(as.vector(hub_predictions$ORF1))
-  hub_predictions$ORF2 <- map_gene_names(as.vector(hub_predictions$ORF2))
-  orf_expr_list <- create_orf_expr_list(hub_predictions)
+  my_predictions$ORF1 <- map_gene_names(as.vector(my_predictions$ORF1))
+  my_predictions$ORF2 <- map_gene_names(as.vector(my_predictions$ORF2))
+  orf_expr_list <- create_orf_expr_list(my_predictions)
   
   
   #Initialize graph
-  orf_graph <- igraph::graph_from_edgelist(as.matrix(hub_predictions[,c('ORF1','ORF2')]),directed=F)
+  orf_graph <- igraph::graph_from_edgelist(as.matrix(my_predictions[,c('ORF1','ORF2')]),directed=F)
   V(orf_graph)$color <- default_node_color
-  V(orf_graph)$label.cex <- ((node_size/30)*4)/sapply(V(orf_graph)$name,nchar)
+  V(orf_graph)$label.cex <- ((node_size/20)*4)/sapply(V(orf_graph)$name,nchar)
   V(orf_graph)$label.family="Arial Black"
   #Colour by node expression
   vertex_expressions <-
@@ -537,17 +598,17 @@ hub_comparison_graph <- function(my_predictions,
       vertex_expressions,color_list,ncolors,node_expr_color_limits[1],node_expr_color_limits[2]
     )
   
-  l <- igraph::layout.fruchterman.reingold(orf_graph)
-  
+  l <- layout_algorithm(orf_graph)
+
   E(orf_graph)$log2_ma_prediction <-
-    hub_predictions$Log2_MA_prediction
+    my_predictions$Log2_MA_prediction
   E(orf_graph)$predicted_color <-
     set_colours(
-      hub_predictions$Log2_MA_prediction,color_list,ncolors,edge_expr_color_limits[1],edge_expr_color_limits[2]
+      my_predictions$Log2_MA_prediction,color_list,ncolors,edge_expr_color_limits[1],edge_expr_color_limits[2]
     )
   E(orf_graph)$observed_color <-
     set_colours(
-      hub_predictions$bcPCA_FC.AVG,color_list,ncolors,pca_color_limits[1],pca_color_limits[2]
+      my_predictions$bcPCA_FC.AVG,color_list,ncolors,pca_color_limits[1],pca_color_limits[2]
     )
   
   
@@ -566,7 +627,12 @@ hub_comparison_graph <- function(my_predictions,
   if(draw == F){
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=12,height=6)
   }
-  par(mfrow = c(1,2),oma=c(0,0,0,0),mar=c(0,0,4,0))
+  par(oma=c(0,0,0,0),mar=c(0,0,6,0))
+  layout(t(matrix(c(1,2,3))),widths=c(0.7,4,4))
+  hub_legend_draw(node_expr_color_limits[1],
+                  node_expr_color_limits[2],
+                  color_list,
+                  ncolors)
   plot(
     orf_graph,edge.width = edge_width,
     vertex.size = node_size,vertex.color=V(orf_graph)$expr_colour,
@@ -590,7 +656,6 @@ hub_comparison_graph <- function(my_predictions,
     dev.off()
   }
 }
-
 
 mRNA_comparison <- function(pca_file,
                             expression_file,

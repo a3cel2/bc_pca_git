@@ -19,5 +19,6 @@ Imports:
     Cairo,
     igraph,
     gplots,
-    cba
+    cba,
+    tidyr
 RoxygenNote: 5.0.1
