@@ -479,21 +479,48 @@ reverse_map_gene_names <- function(orf_ids){
 hub_legend_draw <- function(min_val,
                             max_val,
                             color_list,
-                            ncolors=1000){
-  plot.new()
-  colors <- rev(grDevices::colorRampPalette(color_list)(ncolors))
-  for(i in 1:(length(colors)-1)){
-    lines(c(0.12,0.68),
-          c(0.5-(i/ncolors)/2+0.25,
-            0.5-(i/ncolors)/2+0.25),
-          lwd=3,
-          col=colors[i])
+                            ncolors=1000,
+                            main_font_size=2,
+                            side_font_size=2,
+                            new_plot=T,
+                            width=1,
+                            height=1,
+                            x_adjust=0,
+                            y_adjust=0){
+  if(new_plot == T){
+    plot.new()
   }
-  rect(0.1,0.25,0.7,0.75,lwd = 1)
-  text(0.85,0.75,max_val,xpd=T,cex=2)
-  text(0.85,0.25,min_val,xpd=T,cex=2)
-  text(0.85,0.5,mean(c(max_val,min_val)),xpd=T,cex=2)
-  text(0,0.8,'Log2(R)',xpd=T,cex=2,adj=0)
+  colors <- rev(grDevices::colorRampPalette(color_list)(ncolors))
+  
+  xleft <- 0.1 + x_adjust
+  middle <- 0.5 + y_adjust
+  for(i in 1:(length(colors))){
+    #rect(
+    #  xleft,
+    #  middle-(((i)/ncolors)*height)/2+0.25*height,
+    #  xleft+0.6*width,
+    #  middle-(((i-1.1)/ncolors)*height)/2+0.25*height,
+    #  col=colors[i],
+    #  border=NA)
+    lines(c(xleft,xleft+0.6*width),
+          c(middle-(((i)/ncolors)*height)/2+0.25*height,
+            middle-(((i)/ncolors)*height)/2+0.25*height),
+          col=colors[i],
+          lwd=1/height,
+          pch=15)
+    
+    #lines(c(0.1+0.02*width,0.1-0.02*width+0.6*width),
+    #      c(0.5-((i/ncolors)*height)/2+0.25*height,
+    #        0.5-((i/ncolors)*height)/2+0.25*height),
+    #      lwd=3,
+    #      col=colors[i])
+  }
+  
+   #rect(xleft,middle-0.25*height,xleft+0.6*width,middle+0.25*height,lwd = 1)
+   text(xleft+0.74*width+0.01,middle+0.25*height,max_val,xpd=T,cex=side_font_size*height)
+   text(xleft+0.74*width+0.01,middle-0.25*height,min_val,xpd=T,cex=side_font_size*height)
+   text(xleft+0.74*width+0.01,middle,mean(c(max_val,min_val)),xpd=T,cex=side_font_size*height)
+   text(xleft-0.1*width,middle+0.05+0.25*height,'Log2(R)',xpd=T,cex=main_font_size*height,adj=0)
 }
 
 hub_comparison_graph <- function(my_predictions,
@@ -506,7 +533,7 @@ hub_comparison_graph <- function(my_predictions,
                                  titles=c("mRNA\nPredictions",'bcPCA\nMeasurements'),
                                  title_size=3,
                                  title_offset=1.35,
-                                 ncolors=100,
+                                 ncolors=1000,
                                  node_expr_color_limits=c(-1,1),
                                  edge_expr_color_limits=c(-1,1),
                                  pca_color_limits=c(-1,1),

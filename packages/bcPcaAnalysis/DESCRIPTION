@@ -20,5 +20,9 @@ Imports:
     igraph,
     gplots,
     cba,
-    tidyr
+    tidyr,
+    reshape,
+    ggplot2,
+    reshape2,
+    Hmisc
 RoxygenNote: 5.0.1

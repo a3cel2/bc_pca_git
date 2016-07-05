@@ -42,7 +42,6 @@ get_genes_matching_regex_motif <- function(
   fasta_file <- strsplit(genome_dest_dir,'.gz')[[1]][1]
   yeast_proteome <- read.fasta(fasta_file,as.string=T,set.attributes = F)
   motif_search <- sapply(yeast_proteome,function(x){grep(motif_regexp,x,value=T)})
-  
   return(names(unlist(motif_search)))
 }
 

@@ -11,7 +11,7 @@ setwd(this.dir)
 #Atorvastatin enrichment
 #GO enrichment
 
-to_run <- c('Expression PCA')#c('Atorvastatin enrichment')
+to_run <- c('Connectivity')#c('Atorvastatin enrichment')
 
 #Package containing necessary scripts
 devtools::load_all('../packages/bcPcaAnalysis')
@@ -79,6 +79,61 @@ if('Heatmap' %in% to_run){
                             filename='number_dynamic_bpcs.pdf')
 }
 
+
+if('Connectivity' %in% to_run){
+  connectivity_output_path <- paste(c(output_path,'connectivity'),collapse='/')
+  dir.create(connectivity_output_path, showWarnings = FALSE)
+  
+  pca_universe <- read.table(pca_universe,head=T,sep='\t')
+  pca_enhanced <- read.table(pca_enhanced_calls,head=T,sep='\t')
+  pca_depleted <- read.table(pca_depleted_calls,head=T,sep='\t')
+  
+  
+  
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'doxorubicin_connnectivity.pdf'),collapse='/'),width=6,height=6)
+  network_connectivity_graph(pca_universe,
+                             pca_enhanced,
+                             pca_depleted,
+                             'doxorubicin',
+                             my_color_list,
+                             #Set this to True to edit the network layout
+                             edit=F,
+                             layout_save_dir='../data/script_input/',
+                             layout_file='doxo_connectivity.layout')
+  dev.off()
+  
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'ethanol_connnectivity.pdf'),collapse='/'),width=6,height=6)
+  network_connectivity_graph(pca_universe,
+                             pca_enhanced,
+                             pca_depleted,
+                             'ethanol',
+                             my_color_list,
+                             #Set this to True to edit the network layout
+                             edit=F,
+                             layout_save_dir='../data/script_input/',
+                             layout_file='ethanol_connectivity.layout',
+                             my_title='Ethanol directional connectivity',
+                             node_size=5,
+                             edge_width=2)
+  dev.off()
+  
+  
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_significance.pdf'),collapse='/'),width=12,height=3)
+  connectivity_sig_matrix <- network_connectivity_significance(pca_universe,
+                                               pca_enhanced,
+                                               pca_depleted,
+                                               my_color_list)
+  connectivity_graph(connectivity_sig_matrix,my_color_list)
+  dev.off()
+  
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_hist_doxo.pdf'),collapse='/'),width=10,height=5)
+  connectivity_histogram(pca_universe,
+                         pca_enhanced,
+                         pca_depleted,
+                         'doxorubicin')
+  dev.off()
+}
+
 #Check for GO enrichment in each condition, enhanced and depleted, nodewise and edgewise
 if('GO enrichment' %in% to_run){
   all_conditions <- read.csv(pca_universe,sep='\t',stringsAsFactors=F)
@@ -94,7 +149,6 @@ if('Expression PCA' %in% to_run){
   my_predictions <- pca_ma_prediction(pca_universe,protein_abundance_file,expression_file,'ethanol',expression_condition_regexp='Ethanol.4h')
   
   dir.create(expression_pca_output_path, showWarnings = FALSE)
-  
   
   ##For quantitative
   #Compare mRNA expression reproducibility
