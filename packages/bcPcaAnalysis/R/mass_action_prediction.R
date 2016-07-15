@@ -684,6 +684,7 @@ draw_comparison_network <- function(my_predictions,
   }
 }
 
+#Compares reproducibility between two mRNA measurements
 mRNA_comparison <- function(pca_file,
                             expression_file,
                             condition,

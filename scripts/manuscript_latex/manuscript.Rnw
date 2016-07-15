@@ -1,0 +1,19 @@
+\documentclass[a4paper,titlepage]{article}
+\title{Minimalism}
+\author{Me}
+
+
+\begin{document}
+%\oddsidemargin = -1in
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+\tableofcontents
+\section{Some Interesting Words}
+Well, and here begins my lovely article.
+\section{Good Bye World}
+\ldots{} and here it ends.
+
+\textbf{Test document}
+
+\end{document}

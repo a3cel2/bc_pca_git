@@ -24,5 +24,7 @@ Imports:
     reshape,
     ggplot2,
     reshape2,
-    Hmisc
+    Hmisc,
+    snow,
+    Matrix
 RoxygenNote: 5.0.1

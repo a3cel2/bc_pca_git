@@ -1,3 +1,4 @@
+library(igraph)
 library(devtools)
 library(shinyapps)
 #this.dir <- dirname(parent.frame(2)$ofile)
