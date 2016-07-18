@@ -234,7 +234,6 @@ edge_index_universe <- function(universe_edgelist){
   for(i in 1:nrow(universe_edgelist)){
     node_index[[universe_edgelist[i,1]]] <- rbind(node_index[[universe_edgelist[i,1]]],universe_edgelist[i,])
   }
-  return(node_index)
 }
 
 
@@ -831,7 +830,7 @@ hub_bias_heatmap <- function(hub_df,
                                              '1'="Complex\naccumulation bias"),
                              border_colour= 'grey40',
                              border_size = 0.25,
-                             legend_position='bottom',
+                             legend_position='top',
                              nonsig_colour='grey10'
                              
 ){

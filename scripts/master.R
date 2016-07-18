@@ -3,6 +3,7 @@ library(Cairo)
 library(dplyr)
 library(grDevices)
 library(xlsx)
+library(rmarkdown)
 
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
@@ -12,7 +13,10 @@ setwd(this.dir)
 #Atorvastatin enrichment
 #GO enrichment
 
-to_run <- c('Connectivity')#c('Atorvastatin enrichment')
+to_run <- c()#('Connectivity')#c('Atorvastatin enrichment')
+
+#Markdown directory
+
 
 #Package containing necessary scripts
 devtools::load_all('../packages/bcPcaAnalysis')
@@ -91,6 +95,7 @@ if('Connectivity' %in% to_run){
   pca_depleted <- read.table(pca_depleted_calls,head=T,sep='\t')
   hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
   
+  stop()
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'doxorubicin_connnectivity.pdf'),collapse='/'),width=5,height=6)
   network_connectivity_graph(pca_universe,
                              pca_enhanced,
@@ -296,3 +301,6 @@ if('Expression PCA' %in% to_run){
   
   
 }
+
+#Make Figures
+rmarkdown::render("manuscript_latex/figures/figures.Rmd", "pdf_document")

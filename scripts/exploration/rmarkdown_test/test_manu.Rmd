@@ -1,0 +1,28 @@
+---
+output: pdf_document
+documentclass: article
+classoption: letterpaper
+geometry: margin=2.5cm
+---
+
+[//]: (Figure Parameters)
+\setlength{\unitlength}{1in}
+
+
+
+
+[//]: (Figure 3)
+\graphicspath{{../../../results/master_output/connectivity/}}
+
+\textbf{\LARGE{Figure 3}}
+\begin{picture}(0,4.5)
+\put(0,-3.6){\includegraphics[width=7in]{hub_bias_heatmap.pdf}}
+\put(0,0){\includegraphics[width=3.5in]{doxorubicin_connnectivity.pdf}}
+\put(3.5,2.2){\includegraphics[width=3.5in]{connnectivity_hist_doxo.pdf}}
+\put(3.5,-0.3){\includegraphics[width=3.5in]{component_size_significance_search.pdf}}
+\put(0,4){\textbf{A}}
+\put(3.5,4){\textbf{B}}
+\put(3.5,2){\textbf{C}}
+\put(0,0){\textbf{D}}
+
+\end{picture}
