@@ -1,0 +1,140 @@
+#Maintenance, loading the required functions#
+library(dplyr)#
+library(MASS)#
+#
+this.dir <- dirname(parent.frame(2)$ofile)#
+setwd(this.dir)#
+devtools::load_all('../../../../projects/bc_pca_git/packages/bcPcaAnalysis/')#
+significance_of_overlap <- function(list1,list2,universe){#
+  overlap <- length(intersect(list1,list2))#
+  sampleb <- length(list1)#
+  samplec <- length(list2)#
+  totala <- length(universe)#
+  return(1 - phyper(overlap, sampleb, totala - sampleb, samplec)) #
+}#
+#This is what you touch#
+gene_of_interest <- 'HAC1'#
+gene_of_interest_sgd <- 'YFL031W'#
+go_term_size_cutoff <- 50#
+#
+#Data sources#
+public_sga_scores <- read.table('fg_120317_v2_scores.txt',sep='\t',head=T)#
+sgd_inters <- read.table('sgadata_costanzo2009_intermediateCutoff_101120.txt')#
+funcassociate_associations_file <- 'funcassociate_go_associations.txt'#
+sgd_inters <- sgd_inters[which(sgd_inters$V2 %in% gene_of_interest | sgd_inters$V4 %in% gene_of_interest),]#
+#
+#This is your data file#
+my_inters <- read.table('combined_data.dat')#
+my_inters <- filter(my_inters, is.na(V9))#
+universe <- my_inters$V6#
+#
+#This is the plate map#
+plate_map <- read.table('plate_map.tsv',sep='\t',head=T)#
+#
+#Find best cutoff for reproducibility#
+best_overlap_negative <- sapply((0:100)/100,function(i){#
+  inters_of_interest <- filter(sgd_inters,(V2==gene_of_interest | V4 == gene_of_interest) & V5 < -i)#
+  interacting_genes_costanzo <- as.vector(unique(unlist(inters_of_interest[,c(1,3)])))#
+  interacting_genes_found <- as.vector(unique(unlist(filter(my_inters,V8 < -i)[,5:6])))#
+  -log10(significance_of_overlap(interacting_genes_found,interacting_genes_costanzo,universe))#
+})#
+best_overlap_negative[!is.finite(best_overlap_negative)] <- 0#
+best_cutoff_negative <- -c(0:100)[which.max(best_overlap_negative)]/100#
+plot((-1)*0:100/100,best_overlap_negative,#
+     xlab='Negative Interaction Score Cutoff',#
+     ylab='Significance With Costanzo 2010 -Log10(p)',#
+     type='l',#
+     main='Finding an Optimal Cutoff\nfor Negative Interactions')#
+abline(h=-log10(0.05),lty=3,col='red',lwd=2)#
+#
+#Use the best overlap genes for the analysis later (Negative chosen instead of positive)#
+inters_of_interest <- filter(sgd_inters,(V2==gene_of_interest | V4 == gene_of_interest) & V5 < best_cutoff_negative)#
+interacting_genes_costanzo <- as.vector(unique(unlist(inters_of_interest[,c(1,3)])))#
+interacting_genes_found <- as.vector(unique(unlist(filter(my_inters,V8 < best_cutoff_negative)[,5:6])))#
+#No clear enrichment for positive interactions#
+best_overlap_positive <- sapply((0:100)/100,function(i){#
+  inters_of_interest <- filter(sgd_inters,(V2==gene_of_interest | V4 == gene_of_interest) & V5 > i)#
+  interacting_genes_costanzo <- as.vector(unique(unlist(inters_of_interest[,c(1,3)])))#
+  interacting_genes_found <- as.vector(unique(unlist(filter(my_inters,V8 > i)[,5:6])))#
+  -log10(significance_of_overlap(interacting_genes_found,interacting_genes_costanzo,universe))#
+})#
+plot(0:100/100,best_overlap_positive,#
+     xlab='Positive Interaction Score Cutoff',#
+     ylab='Significance With Costanzo 2010 -Log10(p)',#
+     type='l',#
+     main='Finding an Optimal Cutoff\nfor Positive Interactions')#
+abline(h=-log10(0.05),lty=3,col='red',lwd=2)#
+best_cutoff_positive <- c(0:100)[which.max(best_overlap_positive)]/100#
+#
+#Correlations for significant genes#
+costanzo_my_pair <- c()#
+for(gene in universe){#
+  score_row <- filter(sgd_inters,V1==gene & V3 == gene_of_interest_sgd | V1==gene_of_interest_sgd & V4 == gene)#
+  if(dim(score_row)[1] > 0){#
+    costanzo_score <- mean(score_row[,5])#
+    my_score <- mean(filter(my_inters,V6 == gene)[,8])#
+    costanzo_my_pair <- rbind(costanzo_my_pair,c(costanzo_score,my_score))#
+    rownames(costanzo_my_pair)[nrow(costanzo_my_pair)] <- gene#
+  }#
+}#
+correlation <- format(cor(costanzo_my_pair[,1],costanzo_my_pair[,2]),digits = 2)#
+plot(costanzo_my_pair,xlab='Costanzo 2010 Score',#
+     ylab='Assay Score',#
+     main=paste(c('Correlation (Boone Significant Interactions)',',\nr=',correlation),collapse=' '),#
+     pch=16)#
+#All interactions#
+row_index <- grep(gene_of_interest_sgd,public_sga_scores$ORF)#
+query_names <- apply(my_inters[,5:6],1,function(pair){#
+  pair[which(pair != gene_of_interest_sgd)]#
+})#
+assayed_by_charlie <- query_names %in% colnames(public_sga_scores)#
+result_list <- cbind(#
+  as.numeric(public_sga_scores[row_index,query_names[assayed_by_charlie]]),#
+  as.numeric(my_inters[assayed_by_charlie,8]))#
+#
+correlation <- cor(result_list,use='pair')[1,2]#
+correlation <- format(correlation,digits = 2)#
+plot(result_list,xlab='Costanzo 2010 Score',#
+     ylab='Assay Score',#
+     main=paste(c('Correlation (All Interactions)',', r=',correlation),collapse=' '),#
+     pch=16,#
+     col=rgb(0,0,0,0.5))#
+#Now find top correlations#
+cor_vector <- apply(public_sga_scores[2:nrow(public_sga_scores),],1,function(row){#
+  public_result <- as.numeric(row[query_names[assayed_by_charlie]])#
+  cor(public_result,result_list[,2],use='pair')#
+})#
+ncors <- 10#
+cutoff <- quantile(cor_vector,probs=1-ncors/length(cor_vector))#
+top_genes <- sapply(as.vector(public_sga_scores[which(cor_vector >= cutoff)+1,1]),#
+                    function(x){#
+                      strsplit(x,split='_')[[1]][1]#
+                    })#
+#
+#Do GO term enrichment#
+correlation_enrichment <- funcassociate(top_genes,#
+                         universe,#
+                         order_mode='unordered')#
+terms <- correlation_enrichment$result$over#
+go_term_results <- c()#
+if(length(terms) > 0){#
+  terms <- terms[as.numeric(terms[,3]) <= go_term_size_cutoff,8]#
+  result <- cbind(rep('Correlations',length(terms)),terms)#
+  go_term_results <- rbind(go_term_results,result)#
+}#
+#Do simple interaction enrichment#
+negative_interaction_enrichment <- funcassociate(intersect(interacting_genes_costanzo,interacting_genes_found),#
+                                        universe,#
+                                        order_mode='unordered')#
+terms <- negative_interaction_enrichment$result$over#
+if(length(terms) > 0){#
+  terms <- terms[as.numeric(terms[,3]) <= go_term_size_cutoff,8]#
+  result <- cbind(rep('Negative Interations',length(terms)),terms)#
+  go_term_results <- rbind(go_term_results,result)#
+}#
+#
+#Write interactions to file#
+colnames(go_term_results) <- c('Condition','Term')#
+write.matrix(go_term_results,file='go_term_results.tsv',sep='\t')#
+#These are the interaction s to validate#
+genes <- filter(plate_map, ORF %in% intersect(interacting_genes_costanzo,interacting_genes_found))

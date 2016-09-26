@@ -6,13 +6,13 @@ devtools::use_package('igraph')
 devtools::use_package('snow')
 devtools::use_package('Matrix')
 
-my_color_list <- c(
-  rgb(1,0.45,0.25),
-  rgb(0.8,0.25,0.25),
-  rgb(0,0,0),
-  rgb(0.25,0.45,0.8),
-  rgb(0.25,0.75,1)
-)
+#my_color_list <- c(
+#  rgb(1,0.45,0.25),
+#  rgb(0.8,0.25,0.25),
+#  rgb(0,0,0),
+#  rgb(0.25,0.45,0.8),
+# rgb(0.25,0.75,1)
+#)
 
 
 #' Return largest connected component
@@ -123,7 +123,7 @@ network_connectivity_graph <- function(pca_universe,
                                        load_saved=T,
                                        layout_save_dir='',
                                        layout_file='default.layout',
-                                       my_title='\n\nDoxorubicin directional connected components'){
+                                       my_title='\n\nDoxorubicin'){
   condition_enhanced <- collapse_multigenes(dplyr::filter(pca_enhanced,Condition==condition))
   condition_depleted <- collapse_multigenes(dplyr::filter(pca_depleted,Condition==condition))
   
@@ -432,7 +432,7 @@ make_network_iterations <- function(pca_universe,pca_file,
 #' @param mode either 'edgewise' or 'nodewise', whether the simulations should just sample edges from the main
 #' network or sample a combination of edges, and nodes by which to obtain edges
 #' @param node_sensitivity if a node is sampled, what proportion of the edges are recovered on average?
-#' @param prob_node what proportion of edges in a given simulation should be obtained by sampling PPIs form nodes
+#' @param prob_node what proportion of edges in a given simulation should be obtained by sampling PPIs from nodes?
 #' @param metric what summary statistic of the real and simulated network should be used to evaluate significance?
 #' @param n_parallel number of parallel processes to spawn for simulation
 #' @param cluster a pre-defined SNOW cluster, default is to create a new one
@@ -517,7 +517,7 @@ network_simulation_significance <- function(pca_universe,
     }
   }
 
-  print(return_matrix)
+  #print(return_matrix)
   return_matrix[which(abs(return_matrix) <= sigval + 1e-04 & sign(return_matrix) == -1)] <- -1.01
   return_matrix[which(abs(return_matrix) <= sigval + 1e-04 & sign(return_matrix) == 1)] <- 1.01
   return_matrix[which(!(return_matrix %in% c(-1.01,1.01)))] <- 0
@@ -753,7 +753,7 @@ node_edge_search_heatmap <- function(node_edge_sig_matrix,
                                                      '0'="Expected\ncomponent size",
                                                      '1'="Increased\ncomponent size"),
                                      x_label='',
-                                     y_label='Node Proportion',
+                                     y_label='Proportion of Protein-\nCentered Complex Changes',
                                      border_colour='grey40',
                                      zero_colour='grey90',
                                      border_size=0.5){
@@ -886,4 +886,49 @@ hub_bias_heatmap <- function(hub_df,
       legend.position=legend_position)
   
   plot(myplot)
+}
+
+bias_over_conditions <- function(hub_df,
+                                 p_cutoff=0.05,
+                                 title="Proportion of concerted hubs\nover different conditions"){
+  conditions <- levels(hub_df$Condition)
+  hub_proportion <- sapply(conditions,function(condition){
+    subset_df <- dplyr::filter(hub_df,Condition==condition)
+    all_hubs <- unique(subset_df$Hub)
+    cond_hubs <- unique(filter(subset_df,q.value.BH. < p_cutoff)$Hub)
+    return(length(cond_hubs)/length(all_hubs))
+  })
+  
+  hub_proportion <- as.data.frame(hub_proportion)
+  hub_proportion <- cbind(rownames(hub_proportion),hub_proportion)
+  colnames(hub_proportion) <- c('Condition','Proportion of Concerted Hubs')
+  
+  order <- sort(hub_proportion$`Proportion of Concerted Hubs`,
+                index.return=T,
+                decreasing=T)$ix
+  #hub_proportion <- hub_proportion[order,]
+    
+  hub_proportion$Condition <- factor(hub_proportion$Condition,
+                                     levels=hub_proportion$Condition[order])
+  #levels(hub_proportion$Condition) <- hub_proportion$Condition[order]
+  
+  
+  ggplot2::ggplot(data=hub_proportion,ggplot2::aes(x=Condition,
+                                 y=`Proportion of Concerted Hubs`,width=.7)) + 
+    ggplot2::ggtitle(title) +
+    ggplot2::ylab('Proportion of Concerted Hubs\n') + 
+    ggplot2::xlab('\nConditions') +
+    geom_bar(stat="identity",fill="snow4",colour="black") +
+    ggplot2::scale_y_continuous(expand = c(0,0),
+                                limits=c(0,max(hub_proportion$`Proportion of Concerted Hubs`)*1.05)) +
+    ggplot2::theme(
+      panel.background = ggplot2::element_rect(fill = "white"),
+      legend.position=c(0.8,0.8),
+      #legend.text = ggplot2::element_text(size=15),
+      legend.title = ggplot2::element_text(size=20,hjust=0),
+      text = ggplot2::element_text(size=20),
+      axis.text.x = ggplot2::element_text(angle=90, hjust=1,vjust=0.5),
+      axis.line.x = ggplot2::element_line(size = 1, linetype = "solid", colour = "black"),
+      axis.line.y = ggplot2::element_line(size = 1, linetype = "solid", colour = "black"))
+  
 }

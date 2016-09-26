@@ -42,9 +42,11 @@ process_matrix_for_heatmap <- function(pca_file,
     dplyr::group_by(Tag,Condition) %>% 
     dplyr::summarize(FC.avg=mean(FC.avg),FC.rep1=mean(FC.rep1),FC.rep2=mean(FC.rep2))
   
+ # if(length(interaction_subset) == 0){
   simplified_pca_file <- simplified_pca_file %>% 
-    dplyr::filter(Tag %in% sig_pca$Tag)  %>% 
-    dplyr::select(Tag,Condition,FC.rep1,FC.rep2)
+    dplyr::filter(Tag %in% sig_pca$Tag)
+#  } 
+  simplified_pca_file <- dplyr::select(simplified_pca_file,Tag,Condition,FC.rep1,FC.rep2)
   
   rep1 <- simplified_pca_file %>% dplyr::select(-FC.rep2) %>% tidyr::spread(Condition,FC.rep1)
   rep2 <- simplified_pca_file %>% dplyr::select(-FC.rep1) %>% tidyr::spread(Condition,FC.rep2)
@@ -73,28 +75,25 @@ convert_pca_file_to_heatmap_format <- function(pca_file,
                                                gene_dendrogram_width=0.25,
                                                condition_dendrogram_height=0.15,
                                                label_size=1,
+                                               row_label_size=1,
                                                line_width=1,
                                                label_angle=90,
+                                               row_names=T,
                                                centerings=c('gene','experiment'),
                                                centering_type=median,
                                                draw=T,
+                                               legend=T,
                                                output_path='dummy',
                                                filename='dummy',
                                                png_width=1500,
-                                               png_height=2000){
+                                               png_height=2000,
+                                               wide_margins=F,
+                                               interaction_subset=c()){
   
   tag_to_pair <- list()
   for(i in 1:(nrow(pca_file)/length(unique(pca_file$Condition)))){
     tag_to_pair[as.vector(pca_file[i,]$Tag)] <- as.vector(pca_file[i,]$PPI.short)
   }
-  
-  blue_black_orange <- grDevices::colorRampPalette(c(
-    rgb(1,0.45,0.25),
-    rgb(0.8,0.25,0.25),
-    rgb(0,0,0),
-    rgb(0.25,0.45,0.8),
-    rgb(0.25,0.75,1)
-  ))
   
   response_matr <- process_matrix_for_heatmap(pca_file,
                                               pca_enh,
@@ -103,11 +102,14 @@ convert_pca_file_to_heatmap_format <- function(pca_file,
                                               centering_type)
   
   col_dist <- uncentered_correlation_dist(t(response_matr))
-  col_clust <- hclust(col_dist,method='average')
+  col_clust <- hclust(col_dist,method='complete')
+  col_optimization <- cba::order.optimal(col_dist,col_clust$merge)
+  col_clust$merge <- col_optimization$merge
+  col_clust$order <- col_optimization$order
+  col_clust <- as.dendrogram(col_clust)
   
   row_dist <- uncentered_correlation_dist(response_matr)
-  row_clust <- hclust(row_dist,method='average')
-  col_order <- cba::order.optimal(col_dist,col_clust$merge)$order
+  row_clust <- hclust(row_dist,method='complete')
   row_order <- cba::order.optimal(row_dist,row_clust$merge)$order
   
   x_labels <- sapply(colnames(response_matr),function(name){strsplit(name,split='\\.')[[1]][1]})
@@ -116,25 +118,66 @@ convert_pca_file_to_heatmap_format <- function(pca_file,
   if(draw == F){
     grDevices::png(file=paste(c(output_path,filename),collapse='/'),width=png_width,height=png_height)
   }
+  if(length(interaction_subset) == 0){
+    sub_indeces <- which(!(tag_to_pair[rownames(response_matr)] %in% c()))
+    cluster_separation <- NULL
+  }
+  else{
+    sub_indeces <- which(tag_to_pair[rownames(response_matr)] %in% interaction_subset)
+    cluster_separation <- which(interaction_subset=='CLUSTER_BREAK')
+    cluster_separation <- cluster_separation - 1:length(cluster_separation)
+  }
   par(lwd=line_width)
-  heatmap.2(response_matr,
-            Rowv=row_order,
-            Colv=col_order,
+  if(wide_margins == T){
+    my_margins <- c(5,25)
+  } else{
+    my_margins <- c(5,5)
+  }
+  if(row_names == T){
+    my_rowlabs <- tag_to_pair[rownames(response_matr)[sub_indeces]]
+  } else{
+    my_rowlabs <- c(' ')
+    rownames(response_matr) <- NULL
+  }
+  if(legend==F){
+    key_param <- F
+    key_size <- 0.5
+    key_pars <- list()
+    key_x <- ''
+    heat_layout <- rbind(c(0,0),c(0,3),c(2,1),c(0,4))
+    
+  } else{
+    key_param <- T
+    key_size <- 1.5
+    key_pars <- list(cex.lab=label_size*0.8,cex.axis=label_size*0.8,mar=c(0,2,2,2),mgp=c(4,2,0))
+    key_x <- 'Complex Log2(R)'
+    heat_layout <- rbind(c(4,0),c(0,3),c(2,1),c(0,0))
+  }
+  print(row_names)
+  print(my_rowlabs)
+  gplots::heatmap.2(response_matr[sub_indeces,],
+            Rowv=row_order[sub_indeces],
+            Colv=col_clust,
             scale='none',
             labCol=x_labels,
-            labRow=tag_to_pair[rownames(response_matr)],
+            labRow=my_rowlabs,
             breaks=seq(min_heat_val,max_heat_val,by=(max_heat_val-min_heat_val)/n_breaks),
             col=color_function(n_breaks),
+            rowsep=cluster_separation,
+            sepwidth=c(0.05,0.15),
             distfun=uncentered_correlation_dist,
             trace='none',
-            lmat = rbind(c(4,0),c(0,3),c(2,1),c(0,0)),
+            margins = my_margins,
+            lmat = heat_layout,
             lwid = c(gene_dendrogram_width,1),
             lhei = c(0.1,condition_dendrogram_height,1,0.2),
             cexCol = label_size,
+            cexRow = row_label_size,
             srtCol = label_angle,
-            key=T,
-            key.par=list(cex.lab=label_size*0.8,cex.axis=label_size*0.8,mar=c(0,2,2,2),mgp=c(4,2,0)),
-            key.xlab='Complex Log2(R)',
+            key=key_param,
+            keysize=key_size,
+            key.par=key_pars,
+            key.xlab=key_x,
             key.title='',
             density.info = 'none',
             key.ylab='')
@@ -191,20 +234,20 @@ condition_summary_barplot <- function(pca_enhanced,
   #ggplot(data=summary_table, aes(x=Condition, y=Frequency, fill=Direction)) +
   #  geom_bar(stat="identity", position=position_dodge()) + scale_fill_manual(values=rev(blue_black_orange(2)))
   
-  my_plot <- ggplot2::ggplot(data=summary_table, aes(x=Condition, y=Frequency, fill=Direction, width=.8)) +
-    ggplot2::geom_bar(stat="identity", position=position_dodge(), colour='black') + 
+  my_plot <- ggplot2::ggplot(data=summary_table, ggplot2::aes(x=Condition, y=Frequency, fill=Direction, width=.8)) +
+    ggplot2::geom_bar(stat="identity", position=ggplot2::position_dodge(), colour='black') + 
     ggplot2::scale_y_continuous(expand = c(0,0), limits=c(0,max(summary_table$Frequency)*1.05)) +
-    ggplot2::scale_fill_manual(values=rev(color_function(10)[c(2,9)])) +
+    ggplot2::scale_fill_manual(values = rev(color_function(10)[c(2,9)])) +
     ggplot2::ylab('Dynamic Complexes') +
     ggplot2::theme(
-          panel.background = element_rect(fill = "white"),
+          panel.background = ggplot2::element_rect(fill = "white"),
           legend.position=c(0.8,0.8),
-          legend.text = element_text(size=15),
-          legend.title = element_text(size=20,hjust=0),
-          text = element_text(size=25),
-          axis.text.x = element_text(angle=90, hjust=1),
-          axis.line.x = element_line(size = 1, linetype = "solid", colour = "black"),
-          axis.line.y = element_line(size = 1, linetype = "solid", colour = "black"))
+          legend.text = ggplot2::element_text(size=15),
+          legend.title = ggplot2::element_text(size=20,hjust=0),
+          text = ggplot2::element_text(size=25),
+          axis.text.x = ggplot2::element_text(angle=90, hjust=1),
+          axis.line.x = ggplot2::element_line(size = 1, linetype = "solid", colour = "black"),
+          axis.line.y = ggplot2::element_line(size = 1, linetype = "solid", colour = "black"))
   if(draw==T){
     my_plot
   }

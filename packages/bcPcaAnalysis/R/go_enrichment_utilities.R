@@ -1,4 +1,6 @@
 devtools::use_package('rPython')
+devtools::use_package('jsonlite')
+devtools::use_package('stargazer')
 
 
 #' Converts a vector to a literal python list representation (all items in strings)
@@ -38,7 +40,7 @@ vector_to_python_list <- function(contents){
 #'
 funcassociate <- function(query,
                           universe,
-                          associations_file,
+                          associations_file=system.file('go_map.txt',package='bcPcaAnalysis'),
                           order_mode='ordered',
                           go_type='default_funcassociate',
                           nametype='ORF',
@@ -48,12 +50,11 @@ funcassociate <- function(query,
     query <- apply(query,1,function(x){paste(x,collapse='\t')})
     universe <- apply(universe,1,function(x){paste(x,collapse='\t')})
   }
-
   query <- vector_to_python_list(query)
   universe <- vector_to_python_list(universe)
   
   rPython::python.load(system.file('python/test.py',package='bcPcaAnalysis'))
-  return(fromJSON(rPython:::python.call("funcassociate",query,
+  return(jsonlite::fromJSON(rPython:::python.call("funcassociate",query,
                         universe,
                         associations_file,
                         order_mode,
@@ -131,4 +132,16 @@ bcpca_funcassociate_analysis <- function(universe_file,
     }
   }
   return(funcassociate_output_list)
+}
+
+#Formats funcassociate results to table
+format_funcassociate <- function(funcassociate_json){
+  result_table <- funcassociate_json$result$over
+  colnames(result_table) <- c('N','M','X','LOD','P','P_adj','Gene-Ontology-ID','Gene-Ontology-Attribute')
+  
+  result_table[,'LOD'] <- sapply(result_table[,'LOD'],function(x){format(as.numeric(x),digits=2)})
+  result_table[,'P'] <- sapply(result_table[,'P'],function(x){format(as.numeric(x),digits=2)})
+  result_table[,'P_adj'] <- sapply(result_table[,'P_adj'],function(x){format(as.numeric(x),digits=2)})
+
+  return(result_table)
 }

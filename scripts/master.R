@@ -13,7 +13,7 @@ setwd(this.dir)
 #Atorvastatin enrichment
 #GO enrichment
 
-to_run <- c()#('Connectivity')#c('Atorvastatin enrichment')
+to_run <- c('Expression PCA')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
 
 #Markdown directory
 
@@ -35,6 +35,8 @@ hub_enrichment_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-09-02/Data for Figu
 
 output_path <- '../results/master_output'
 saved_parameter_path <- '../data/script_input'
+heatmap_cluster_file <- 'cluster1_heatmap.tsv'
+figure_path <- '../results/rmarkdown_figures'
 
 #Color scale for a lot of stuff
 my_color_list <- c(
@@ -74,8 +76,28 @@ if('Heatmap' %in% to_run){
                                      filename='all_sig_bpcs.png',
                                      draw=F,
                                      label_size=5,
-                                     line_width=3
+                                     line_width=3,
+                                     row_names=F
                                      )
+  
+  inter_filename <- paste(c(saved_parameter_path,heatmap_cluster_file),collapse='/')
+  inters <- as.vector(read.table(inter_filename)[,1])
+  convert_pca_file_to_heatmap_format(pca_file=pca_file,
+                                     pca_enhanced_calls = pca_enh,
+                                     pca_depleted_calls = pca_depl,
+                                     output_path=heatmap_output_path,
+                                     filename='clusters_sig_bpcs.png',
+                                     draw=F,
+                                     label_size=4,
+                                     png_height=1500,
+                                     gene_dendrogram_width=0.12,
+                                     #png_width=1700,
+                                     row_label_size=3.5,
+                                     line_width=3,
+                                     interaction_subset=inters,
+                                     wide_margins=T,
+                                     legend=F
+  )
   
   condition_summary_barplot(pca_enh,
                             pca_depl,
@@ -90,12 +112,15 @@ if('Connectivity' %in% to_run){
   connectivity_output_path <- paste(c(output_path,'connectivity'),collapse='/')
   dir.create(connectivity_output_path, showWarnings = FALSE)
   
+  #Number of simulations for estimating connectivity
+  connectivity_iterations <- 1000
+  
   pca_universe <- read.table(pca_universe,head=T,sep='\t')
   pca_enhanced <- read.table(pca_enhanced_calls,head=T,sep='\t')
   pca_depleted <- read.table(pca_depleted_calls,head=T,sep='\t')
   hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
   
-  stop()
+  #Show connectivity patterns in doxorubicin
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'doxorubicin_connnectivity.pdf'),collapse='/'),width=5,height=6)
   network_connectivity_graph(pca_universe,
                              pca_enhanced,
@@ -109,7 +134,9 @@ if('Connectivity' %in% to_run){
                              layout_save_dir='../data/script_input/',
                              layout_file='doxo_connectivity.layout')
   dev.off()
+  stop()
   
+  #Show connectivity patterns in ethanol
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'ethanol_connnectivity.pdf'),collapse='/'),width=6,height=6)
   network_connectivity_graph(pca_universe,
                              pca_enhanced,
@@ -126,8 +153,8 @@ if('Connectivity' %in% to_run){
                              edge_width=2)
   dev.off()
   
-  connectivity_iterations <- 1000
-  
+
+  #Estimate the probability of getting the given component size distributions with randomly sampling edges
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance.pdf'),collapse='/'),width=12,height=3)
   component_sig_matrix <- network_simulation_significance(pca_universe,
                                                pca_enhanced,
@@ -136,6 +163,7 @@ if('Connectivity' %in% to_run){
   connectivity_graph(component_sig_matrix,my_color_list)
   dev.off()
   
+  #Estimate the probability of getting the given component size distributions with randomly sampling nodes
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
   component_sig_matrix_nodewise <- network_simulation_significance(pca_universe,
                                                                pca_enhanced,
@@ -145,6 +173,7 @@ if('Connectivity' %in% to_run){
   connectivity_graph(component_sig_matrix_nodewise,my_color_list)
   dev.off()
   
+  #Estimate the probability of getting the given graph density distributions with randomly sampling edges
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance.pdf'),collapse='/'),width=12,height=3)
   density_sig_matrix <- network_simulation_significance(pca_universe,
                                                              pca_enhanced,
@@ -156,7 +185,7 @@ if('Connectivity' %in% to_run){
                                                                            '1'="Increased density"))
   dev.off()
   
-  
+  #Estimate the probability of getting the given graph density distributions with randomly sampling nodes
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
   connectivity_sig_matrix <- network_simulation_significance(pca_universe,
                                                                pca_enhanced,
@@ -169,7 +198,9 @@ if('Connectivity' %in% to_run){
                                                                                          '1'="Increased density"))
   dev.off()
   
-  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance_search.pdf'),collapse='/'),width=9,height=6)
+  #Estimate the probability of getting the given graph component size distributions with randomly sampling differing proportions
+  #of nodes and edges
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance_search.pdf'),collapse='/'),width=8,height=5.33)
   component_size_sig_search_matrix <- network_simulation_significance_node_edge_search_matrix(pca_universe = pca_universe,
                                                                                             pca_enhanced = pca_enhanced,
                                                                                             pca_depleted = pca_depleted,
@@ -182,7 +213,9 @@ if('Connectivity' %in% to_run){
   node_edge_search_heatmap(component_size_sig_search_matrix,blue_black_orange)
   dev.off()
   
-  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance_search.pdf'),collapse='/'),width=9,height=6)
+  #Estimate the probability of getting the given graph density distributions with randomly sampling differing proportions
+  #of nodes and edges
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance_search.pdf'),collapse='/'),width=8,height=5.33)
   density_sig_search_matrix <- network_simulation_significance_node_edge_search_matrix(pca_universe = pca_universe,
                                                                                               pca_enhanced = pca_enhanced,
                                                                                               pca_depleted = pca_depleted,
@@ -201,10 +234,17 @@ if('Connectivity' %in% to_run){
   dev.off()
   
   
+  #Shows which hubs have a bias of accumulating or depleting interactions
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'hub_bias_heatmap.pdf'),collapse='/'),width=10,height=5)
   hub_bias_heatmap(hub_df,blue_black_orange,nonsig_colour = 'grey90')
   dev.off()
   
+  #Shows bias over different conditions
+  Cairo::CairoPDF(file=paste(c(connectivity_output_path,'hub_bias_over_conds.pdf'),collapse='/'),width=8,height=8)
+  bias_over_conditions(hub_df)
+  dev.off()
+  
+  #For doxorubicin, shows the component size distribution of randomly sampling edges
   Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_hist_doxo.pdf'),collapse='/'),width=10,height=5)
   connectivity_histogram(pca_universe,
                          pca_enhanced,
@@ -215,21 +255,51 @@ if('Connectivity' %in% to_run){
   
 }
 
+if('Frequency Perturbation' %in% to_run){
+  freq_perturb_output_path <- paste(c(output_path,'freq_peturb'),collapse='/')
+  dir.create(freq_perturb_output_path, showWarnings = FALSE)
+  
+  pca_univ <- read.table(pca_universe,head=T,sep='\t')
+  pca_enh <- read.table(pca_enhanced_calls,head=T,sep='\t')
+  pca_depl <- read.table(pca_depleted_calls,head=T,sep='\t')
+  
+  pca_perturbed <- rbind(pca_enh,pca_depl)
+  
+  frequent_ppis <- get_frequent_ppis(pca_perturbed,4)
+  frequent_genes <- get_genes_from_ppis(pca_perturbed,frequent_ppis)
+  
+  all_ppis <- get_frequent_ppis(pca_univ,0)
+  all_genes <- get_genes_from_ppis(pca_univ,all_ppis)
+  
+  go_enrichment <- funcassociate(frequent_genes,all_genes,order_mode='unordered')
+  outfile <- paste(c(freq_perturb_output_path,'go_table_frequent_perturbations.html'),collapse='/')
+  write(kable(format_funcassociate(go_enrichment),format='html',caption='Go Enrichment amongst proteins participating in frequently dynamic complexes'),outfile)
+  #stargazer(format_funcassociate(go_enrichment),out=outfile,out.header=F,type='html',notes.align='l')
+  #rmarkdown::render(outfile, "pdf_document")
+  #all_ppis <-
+}
+
 #Check for GO enrichment in each condition, enhanced and depleted, nodewise and edgewise
 if('GO enrichment' %in% to_run){
-  all_conditions <- read.csv(pca_universe,sep='\t',stringsAsFactors=F)
-  all_conditions <- unique(all_conditions$Condition)
-  funcassociate_output <- bcpca_funcassociate_analysis(pca_universe,
-                                                       pca_enhanced_calls,
-                                                       pca_depleted_calls,
-                                                       all_conditions)
+  ppi_freq_plot(pca_univ,pca_enh,pca_depl)
+  #all_conditions <- read.csv(pca_universe,sep='\t',stringsAsFactors=F)
+  #all_conditions <- unique(all_conditions$Condition)
+  #funcassociate_output <- bcpca_funcassociate_analysis(pca_universe,
+  #                                                     pca_enhanced_calls,
+  #                                                     pca_depleted_calls,
+  #                                                     all_conditions)
 }
 
 if('Expression PCA' %in% to_run){
   expression_pca_output_path <- paste(c(output_path,'expression_pca'),collapse='/')
-  my_predictions <- pca_ma_prediction(pca_universe,protein_abundance_file,expression_file,'ethanol',expression_condition_regexp='Ethanol.4h')
-  
   dir.create(expression_pca_output_path, showWarnings = FALSE)
+  
+  my_predictions <- pca_ma_prediction(pca_universe,
+                                      protein_abundance_file,
+                                      expression_file,
+                                      'ethanol',
+                                      expression_condition_regexp='Ethanol.4h')
+
   
   ##For quantitative
   #Compare mRNA expression reproducibility
@@ -247,6 +317,38 @@ if('Expression PCA' %in% to_run){
   
   #All predictions
   pca_ma_prediction_plot(my_predictions,expression_pca_output_path)
+  
+  #For different times
+  half_hr_predictions <- pca_ma_prediction(pca_universe,
+    protein_abundance_file,
+    expression_file,
+    'ethanol',
+    expression_condition_regexp='Ethanol.30min')
+  pca_ma_prediction_plot(half_hr_predictions,expression_pca_output_path,filename="bcPCA_mRNA_predictions_30min.pdf")
+  
+  one_hr_predictions <- pca_ma_prediction(pca_universe,
+                                           protein_abundance_file,
+                                           expression_file,
+                                           'ethanol',
+                                           expression_condition_regexp='Ethanol.1h')
+  pca_ma_prediction_plot(one_hr_predictions,expression_pca_output_path,filename="bcPCA_mRNA_predictions_1hr.pdf")
+  
+  four_hr_predictions <- pca_ma_prediction(pca_universe,
+                                          protein_abundance_file,
+                                          expression_file,
+                                          'ethanol',
+                                          expression_condition_regexp='Ethanol.4h')
+  pca_ma_prediction_plot(four_hr_predictions,expression_pca_output_path,filename="bcPCA_mRNA_predictions_4hr.pdf")
+  
+  
+  twelve_hr_predictions <- pca_ma_prediction(pca_universe,
+                                          protein_abundance_file,
+                                          expression_file,
+                                          'ethanol',
+                                          expression_condition_regexp='Ethanol.12h')
+  pca_ma_prediction_plot(twelve_hr_predictions,expression_pca_output_path,filename="bcPCA_mRNA_predictions_12hr.pdf")
+  
+  
   
   #Remove overly noisy measurements
   filtered_predictions <- filter(my_predictions,
@@ -277,10 +379,22 @@ if('Expression PCA' %in% to_run){
   pca_mRNA_error_analysis_graph(error_analysis,output_path=expression_pca_output_path,filename='replicate_comparison',draw=F)
   
   ##For categorical
-  pca_ma_precision_plot(my_predictions,expression_pca_output_path,filename='bcPCA_precision')
+  cols <- blue_black_orange(10)
+  pca_ma_precision_plot(my_predictions,
+                        expression_pca_output_path,
+                        filename='bcPCA_precision',
+                        enhanced_colour=cols[8],
+                        depleted_colour=cols[3]
+  )
   
   #Compare different hubs
-  hub_comparison_graph(my_predictions,'HXT1,HSP30',output_path=expression_pca_output_path,filename='HXT1_HSP30_comparison',color_list=my_color_list)
+  hub_comparison_graph(my_predictions,
+                       'HXT1,HSP30',
+                       output_path=expression_pca_output_path,
+                       filename='HXT1_HSP30_comparison',
+                       color_list=my_color_list,
+                       node_size=25)
+  
   hub_comparison_graph(my_predictions,'LSP1',
                        node_size=35,
                        edge_width=10,
@@ -303,4 +417,4 @@ if('Expression PCA' %in% to_run){
 }
 
 #Make Figures
-rmarkdown::render("manuscript_latex/figures/figures.Rmd", "pdf_document")
+#rmarkdown::render("manuscript_latex/figures/figures.Rmd", "pdf_document",output_dir=figure_path)

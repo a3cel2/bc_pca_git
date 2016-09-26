@@ -224,7 +224,7 @@ def funcassociate_server_submission(given_gene_list,\
 def funcassociate(gene_file,\
 	universe_file,\
 	go_association_file,\
-	order_mode="ordered",\
+	order_mode,\
 	go_type='default_funcassociate',\
 	nametype='ORF',\
 	mode='nodewise',

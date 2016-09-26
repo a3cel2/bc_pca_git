@@ -9,8 +9,7 @@ network_connectivity_graph(pca_universe, pca_enhanced, pca_depleted, condition,
   color_scale, default_node_color = rgb(0.3, 0.3, 0.3), node_size = 10,
   edge_width = 7, min_fc = -1, max_fc = 1, node_text_colour = "white",
   seed = 104, edit = F, load_saved = T, layout_save_dir = "",
-  layout_file = "default.layout",
-  my_title = "\\n\\nDoxorubicin directional connected components")
+  layout_file = "default.layout", my_title = "\\n\\nDoxorubicin")
 }
 \arguments{
 \item{pca_universe}{A PCA file showing all possible interactions for any given condition}

@@ -7,8 +7,9 @@
 node_edge_search_heatmap(node_edge_sig_matrix, my_color_function,
   legend_labels = c(`-1` = "Decreased\\ncomponent size", `0` =
   "Expected\\ncomponent size", `1` = "Increased\\ncomponent size"),
-  x_label = "", y_label = "Node Proportion", border_colour = "grey40",
-  zero_colour = "grey90", border_size = 0.5)
+  x_label = "",
+  y_label = "Proportion of Protein-\\nCentered Complex Changes",
+  border_colour = "grey40", zero_colour = "grey90", border_size = 0.5)
 }
 \arguments{
 \item{node_edge_sig_matrix}{the output from network_simulation_significance_node_edge_search_matrix,

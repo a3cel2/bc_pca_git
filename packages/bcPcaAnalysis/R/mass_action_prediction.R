@@ -614,8 +614,9 @@ draw_comparison_network <- function(my_predictions,
   #Initialize graph
   orf_graph <- igraph::graph_from_edgelist(as.matrix(my_predictions[,c('ORF1','ORF2')]),directed=F)
   V(orf_graph)$color <- default_node_color
-  V(orf_graph)$label.cex <- ((node_size/20)*4)/sapply(V(orf_graph)$name,nchar)
+  V(orf_graph)$label.cex <- ((node_size/17)*4)/sapply(V(orf_graph)$name,nchar)
   V(orf_graph)$label.family="Arial Black"
+  V(orf_graph)$label.font=2
   #Colour by node expression
   vertex_expressions <-
     log2(unlist(orf_expr_list[as.vector(V(orf_graph))]))
@@ -920,7 +921,7 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
           ylab='mRNA Prediction Accuracy')
   
   #Custom make labels
-  text(x=barCenters[1],y=0.46,c('Directionally\nbiased\nhubs'),xpd=T)
+  text(x=barCenters[1],y=0.46,c('Concerted\nhubs'),xpd=T)
   text(x=barCenters[2],y=0.46,c('Other\nhubs'),xpd=T)
   
   abline(h=0.5,lwd=line_width)

@@ -26,5 +26,7 @@ Imports:
     reshape2,
     Hmisc,
     snow,
-    Matrix
+    Matrix,
+    jsonlite,
+    stargazer
 RoxygenNote: 5.0.1

@@ -32,7 +32,7 @@ network or sample a combination of edges, and nodes by which to obtain edges}
 
 \item{node_sensitivity}{if a node is sampled, what proportion of the edges are recovered on average?}
 
-\item{prob_node}{what proportion of edges in a given simulation should be obtained by sampling PPIs form nodes}
+\item{prob_node}{what proportion of edges in a given simulation should be obtained by sampling PPIs from nodes?}
 
 \item{metric}{what summary statistic of the real and simulated network should be used to evaluate significance?}
 

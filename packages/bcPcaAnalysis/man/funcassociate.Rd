@@ -4,7 +4,8 @@
 \alias{funcassociate}
 \title{Submit a query to funcassociate and get the results}
 \usage{
-funcassociate(query, universe, associations_file, order_mode = "ordered",
+funcassociate(query, universe, associations_file = system.file("go_map.txt",
+  package = "bcPcaAnalysis"), order_mode = "ordered",
   go_type = "default_funcassociate", nametype = "ORF",
   network_mode = "nodewise", p_value_cutoff = 0.05)
 }
