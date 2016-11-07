@@ -4,12 +4,15 @@
 \alias{node_edge_search_heatmap}
 \title{Returns a heatmap which plots the output from network_simulation_significance_node_edge_search_matrix}
 \usage{
-node_edge_search_heatmap(node_edge_sig_matrix, my_color_function,
-  legend_labels = c(`-1` = "Decreased\\ncomponent size", `0` =
-  "Expected\\ncomponent size", `1` = "Increased\\ncomponent size"),
-  x_label = "",
+node_edge_search_heatmap(node_edge_sig_matrix, condition_delimiter = " ",
+  conditions_plotted = NULL, collapse_enh_depl = T, my_color_function,
+  legend_labels = c(`-1` = "Large component sizes (p < 0.05)", `0` =
+  "Expected component sizes", `1` = "Small component sizes (p < 0.05)", `2` =
+  "Most consistent simulation"), x_label = "",
   y_label = "Proportion of Protein-\\nCentered Complex Changes",
-  border_colour = "grey40", zero_colour = "grey90", border_size = 0.5)
+  border_colour = "grey40", zero_colour = "grey90", border_size = 0.25,
+  width = 0.7, top_label = "Protein-Centric\\nModel",
+  bottom_label = "Interaction-Specific\\nModel", right_margin = 11)
 }
 \arguments{
 \item{node_edge_sig_matrix}{the output from network_simulation_significance_node_edge_search_matrix,
@@ -17,10 +20,12 @@ where the rows correspond to conditions x directions and the columns are given p
 values are either 1 (significant, real value is greater than simulations), 0 (nonsigificant), -1
 (significant, real value is less than simulations)}
 
+\item{conditions_plotted}{conditions to include, if NULL plots all conditions}
+
 \item{my_color_function}{a gradient generating function, the first value will be used for -1 values in matrix,
 the middle for 0 values, the last for 1 values}
 
-\item{legend_labels}{vector of form c('-1'=label1,'0'=label2,'1'=label3)}
+\item{legend_labels}{vector of form c('-1'=label1,'0'=label2,'1'=label3,2=label4)}
 
 \item{x_label}{the title to be plotted on the X axis}
 

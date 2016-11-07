@@ -8,9 +8,9 @@ the reproducibility of the 4h and 12h mRNA based measurements}
 \usage{
 pca_mRNA_error_analysis(pca_file, expression_file, abundance_file,
   condition = "ethanol", q_val_cutoff = 1, fc_cutoff = 0,
-  expression_condition_regexp_vec = c("Ethanol.4h", "Ethanol.12h"),
-  expression_control_regexp_vec = c("Ethanol.0h", "Ethanol.0h"),
-  iters = 100, my_seed = 1234)
+  up_dn_diff_cutoff = Inf, expression_condition_regexp_vec = c("Ethanol.4h",
+  "Ethanol.1h"), expression_control_regexp_vec = c("Ethanol.0h",
+  "Ethanol.0h"), iters = 100, my_seed = 1234)
 }
 \arguments{
 \item{pca_file}{the location of a PCA file}

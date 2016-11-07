@@ -28,5 +28,8 @@ Imports:
     snow,
     Matrix,
     jsonlite,
-    stargazer
+    stargazer,
+    R.matlab,
+    stringr,
+    MASS
 RoxygenNote: 5.0.1

@@ -6,7 +6,7 @@
 \usage{
 connectivity_histogram(pca_universe, pca_enhanced, pca_depleted, condition,
   iterations = 10000, metric = get_largest_component_from_edgelist,
-  seed = 123)
+  seed = 123, text_size = 1.5)
 }
 \arguments{
 \item{pca_universe}{A PCA file corresponding to all protein-protein interactions

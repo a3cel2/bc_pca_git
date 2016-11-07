@@ -7,7 +7,7 @@
 funcassociate(query, universe, associations_file = system.file("go_map.txt",
   package = "bcPcaAnalysis"), order_mode = "ordered",
   go_type = "default_funcassociate", nametype = "ORF",
-  network_mode = "nodewise", p_value_cutoff = 0.05)
+  network_mode = "nodewise", p_value_cutoff = 0.05, reps = 1000)
 }
 \arguments{
 \item{query}{a vector of gene identifiers, or if mode is 'edgewise', a two column matrix

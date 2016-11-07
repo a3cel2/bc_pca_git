@@ -153,8 +153,6 @@ convert_pca_file_to_heatmap_format <- function(pca_file,
     key_x <- 'Complex Log2(R)'
     heat_layout <- rbind(c(4,0),c(0,3),c(2,1),c(0,0))
   }
-  print(row_names)
-  print(my_rowlabs)
   gplots::heatmap.2(response_matr[sub_indeces,],
             Rowv=row_order[sub_indeces],
             Colv=col_clust,
@@ -215,7 +213,7 @@ condition_summary_barplot <- function(pca_enhanced,
   depl_table <- table(pca_depl$Condition)
   
   summary_table <- merge(enh_table,depl_table,by='Var1',all=T)
-  colnames(summary_table) <- c('Condition','Enhanced','Depleted')
+  colnames(summary_table) <- c('Condition','Accumulated','Depleted')
   
   #Sort
   bar_order <- sort(apply(summary_table[,2:3],1,sum),index.return=T,decreasing=T)$ix
@@ -228,7 +226,7 @@ condition_summary_barplot <- function(pca_enhanced,
   
   #Sort again, enhanced_first
   summary_table$Direction<- factor(summary_table$Direction,
-                                    levels=c('Enhanced','Depleted'))
+                                    levels=c('Accumulated','Depleted'))
   
   #summary_table[,2] <- as.factor(summary_table[,2])
   #ggplot(data=summary_table, aes(x=Condition, y=Frequency, fill=Direction)) +

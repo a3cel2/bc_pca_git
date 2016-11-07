@@ -1,7 +1,9 @@
 devtools::use_package('rPython')
 devtools::use_package('jsonlite')
 devtools::use_package('stargazer')
-
+devtools::use_package('R.matlab') 
+devtools::use_package('stringr') 
+devtools::use_package('MASS') 
 
 #' Converts a vector to a literal python list representation (all items in strings)
 #'
@@ -45,15 +47,18 @@ funcassociate <- function(query,
                           go_type='default_funcassociate',
                           nametype='ORF',
                           network_mode='nodewise',
-                          p_value_cutoff=0.05){
+                          p_value_cutoff=0.05,
+                          reps=1000){
   if(network_mode == 'edgewise'){
     query <- apply(query,1,function(x){paste(x,collapse='\t')})
     universe <- apply(universe,1,function(x){paste(x,collapse='\t')})
   }
   query <- vector_to_python_list(query)
   universe <- vector_to_python_list(universe)
+
+  go_map <- read.csv(associations_file,head=F,sep='\t')
   
-  rPython::python.load(system.file('python/test.py',package='bcPcaAnalysis'))
+  rPython::python.load(system.file('python/funcassociate_submit.py',package='bcPcaAnalysis'))
   return(jsonlite::fromJSON(rPython:::python.call("funcassociate",query,
                         universe,
                         associations_file,
@@ -61,7 +66,8 @@ funcassociate <- function(query,
                         go_type,
                         nametype,
                         network_mode,
-                        p_value_cutoff)))
+                        p_value_cutoff,
+                        reps)))
 }
 
 
@@ -86,7 +92,8 @@ bcpca_funcassociate_analysis <- function(universe_file,
                                    conditions,
                                    directions=c('enhanced','depleted'),
                                    order_mode="ordered",
-                                   network_modes=c('nodewise','edgewise')){
+                                   network_modes=c('nodewise','edgewise'),
+                                   reps=1000){
   funcassociate_output_list <- list()
   
   pca_universe_table <- read.csv(universe_file,sep='\t',stringsAsFactors=F)
@@ -127,7 +134,7 @@ bcpca_funcassociate_analysis <- function(universe_file,
           universe <- edgewise_to_nodewise(universe)
         }
         funcassociate_output_list[[condition]][[direction]][[network_mode]] <-
-          funcassociate(query,universe,go_association_file,network_mode=network_mode,order_mode = order_mode)
+          funcassociate(query,universe,network_mode=network_mode,order_mode = order_mode,reps=reps)
       }
     }
   }
@@ -144,4 +151,106 @@ format_funcassociate <- function(funcassociate_json){
   result_table[,'P_adj'] <- sapply(result_table[,'P_adj'],function(x){format(as.numeric(x),digits=2)})
 
   return(result_table)
+}
+
+#Generalizes above for multiple conditions and strategies
+format_bc_pca_funcassociate <- function(bcpca_funcassociate_result,conditions,directions=c("enhanced","depleted"),modes=c("nodewise","edgewise")){
+  resulting_table <- c()
+  for(condition in conditions){
+    for(mode in modes){
+      for(direction in directions){
+        object <- bcpca_funcassociate_result[[condition]][[direction]][[mode]]
+        if(length(object$result$over) > 0){
+          primitive_df <- format_funcassociate(object)
+          primitive_df <- cbind(cbind(rep(condition,nrow(primitive_df)),
+                                  rep(mode,nrow(primitive_df)),
+                                  rep(direction,nrow(primitive_df))
+                                  ),primitive_df)
+          colnames(primitive_df)[1:3] <- c('Condition','Mode','Direction')
+          resulting_table <- rbind(resulting_table,primitive_df)
+        }
+      }
+    }
+  }
+  colnames(resulting_table)[1:3] <- c('Condition','Mode','Direction')
+  return(resulting_table)
+}
+
+convert_costanzo_matlab_data <- function(matlab_file,output_file){
+  if(!file.exists(output_file)){
+    mat_go <- R.matlab::readMat(matlab_file)
+    term_ids <- as.vector(mat_go$go[[1]])
+    term_names <- unlist(mat_go$go[[2]])
+    orfs <- unlist(mat_go$go[[3]])
+    matrix <- mat_go$go[[4]]
+    output_df <- c()
+    for(i in 1:length(term_ids)){
+      term_id <- term_ids[i]
+      term_id <- paste(c('GO:',stringr::str_pad(term_id,7,pad="0")),collapse='')
+      term_name <- term_names[i]
+      genes <- paste(orfs[which(matrix[i,] > 0)],collapse=' ')
+      output_df <- rbind(output_df,c(term_id,term_name,genes))
+    }
+    write.table(output_df,sep='\t',row.names=F,col.names=F,quote=F,file=output_file)
+  }
+}
+
+convert_sgd_slim_go_data <- function(slim_file,output_file){
+  if(!file.exists(output_file)){
+    slim_file <- read.csv(slim_file, head=F, sep='\t',stringsAsFactors=F)
+    output_list <- list()
+    for(i in 1:nrow(slim_file)){
+      term <- slim_file[i,6]
+      if(is.null(output_list[[term]])){
+        output_list[[term]] <- list('name'='','genes'=c())
+      }
+      output_list[[term]][['name']] <- slim_file[i,5]
+      output_list[[term]][['genes']] <- c(output_list[[term]][['genes']],slim_file[i,1])
+    }
+    
+    output_df <- c()
+    go_names <- names(output_list)
+    go_names <- go_names[sapply(go_names,nchar) > 3]
+    for(term in go_names){
+      name <- output_list[[term]][['name']]
+      genes <- paste(output_list[[term]][['genes']],collapse=' ')
+      output_df <- rbind(output_df,c(term,name,genes))
+    }
+    write.table(output_df,sep='\t',row.names=F,col.names=F,quote=F,file=output_file)
+  }
+}
+
+convert_sgd_full_go_data <- function(go_file,term_map,output_file){
+  if(!exists(output_file)){
+    term_file <- read.delim(term_map,sep='\t',head=F,stringsAsFactors=F)
+    term_mapping_list <- list()
+    for(i in 1:nrow(term_file)){
+      term_id <- term_file[i,1]
+      term_name <- term_file[i,2]
+      term_id <- paste(c('GO:',stringr::str_pad(term_id,7,pad="0")),collapse='')
+      term_mapping_list[[term_id]] <- term_name
+    }
+    
+    go_map <- read.delim(go_file,comment.char='!',sep='\t',head=F,stringsAsFactors=F,quote = "")
+    output_list <- list()
+    for(i in 1:nrow(go_map)){
+      term <- go_map[i,5]
+      if(is.null(output_list[[term]])){
+        output_list[[term]] <- list('name'='','genes'=c())
+      }
+      gene <- strsplit(go_map[i,11],split='\\|')[[1]][1]
+      output_list[[term]][['genes']] <- c(output_list[[term]][['genes']],gene)
+      output_list[[term]][['name']] <- term_mapping_list[[term]]
+    }
+    output_df <- c()
+    go_names <- names(output_list)
+    go_names <- go_names[sapply(go_names,nchar) > 3]
+    print(length(go_names))
+    for(term in go_names){
+      name <- output_list[[term]][['name']]
+      genes <- paste(output_list[[term]][['genes']],collapse=' ')
+      output_df <- rbind(output_df,c(term,name,genes))
+    }
+    write.table(output_df,sep='\t',row.names=F,col.names=F,quote=F,file=output_file)
+  }
 }

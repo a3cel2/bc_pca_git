@@ -1,0 +1,21 @@
+---
+classoption: letterpaper
+documentclass: article
+geometry: margin=1.5cm
+output:
+  pdf_document:
+    keep_tex: yes
+  word_document: default
+---
+
+<!-- Global figure parameters --> 
+\setlength{\unitlength}{1in}
+\fontfamily{phv}\selectfont
+<!---\usetypescript[phv]--->
+
+<!-- Supplementary Figure 5 -->
+\textbf{\LARGE{Supplementary Figure 5}}
+\begin{picture}(0,4.5)
+\graphicspath{{../../../results/master_output/connectivity/}}
+\put(0.1,0.5){\includegraphics[width=7in]{connnectivity_hist_doxo.pdf}}
+\end{picture}

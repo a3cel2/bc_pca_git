@@ -5,6 +5,7 @@ devtools::use_package('Hmisc')
 devtools::use_package('igraph')
 devtools::use_package('snow')
 devtools::use_package('Matrix')
+library(ggplot2)
 
 #my_color_list <- c(
 #  rgb(1,0.45,0.25),
@@ -458,12 +459,12 @@ network_simulation_significance <- function(pca_universe,
   record_list <- list()
   iteration_list <- list()
   return_matrix <- matrix(nrow=2,ncol=length(conditions),data=1)
-  rownames(return_matrix) <- c('enhanced','depleted')
+  rownames(return_matrix) <- c('accumulated','depleted')
   colnames(return_matrix) <- conditions
   
-  for(direction in c('enhanced','depleted')){
+  for(direction in c('accumulated','depleted')){
     record_list[[direction]] <- list()
-    if(direction == 'enhanced'){
+    if(direction == 'accumulated'){
       pca_file <- pca_enhanced
     }
     else{
@@ -634,9 +635,9 @@ network_simulation_significance_node_edge_search_matrix <- function(pca_universe
   result_matrix <- c()
   cl <- snow::makeCluster(n_parallel)
   for(condition in conditions){
-    for(direction in c('enhanced','depleted')){
+    for(direction in c('accumulated','depleted')){
       write(paste(c("working on:",condition,direction),collapse=' '), stderr())
-      if(direction == 'enhanced'){
+      if(direction == 'accumulated'){
         pca_file <- pca_enhanced
       }
       if(direction == 'depleted'){
@@ -703,13 +704,14 @@ connectivity_histogram <- function(pca_universe,
                                    condition,
                                    iterations=10000,
                                    metric = get_largest_component_from_edgelist,
-                                   seed=123){
+                                   seed=123,
+                                   text_size=1.5){
   set.seed(seed)
   par(mfrow=c(1,2),
-      mar=c(5,4.5,3,1),
+      mar=c(6,4.5,3,1),
       oma=c(0,0,0,0))
-  for(direction in c('enhanced','depleted')){
-    if(direction == 'enhanced'){
+  for(direction in c('accumulated','depleted')){
+    if(direction == 'accumulated'){
       pca_file <- pca_enhanced
     }
     else{
@@ -721,10 +723,11 @@ connectivity_histogram <- function(pca_universe,
     my_hist <- hist(shuffled_iters,
          breaks=seq(0,max(shuffled_iters),by=0.5),
          xlim=c(0,25),
-         xlab='Largest Connected component size\n(shuffled)',
+         xlab=c('','Largest component \n(simulated)'),
          main='',
          ylab='Frequency',
-         col='gray20')
+         col='gray20',
+         cex.lab=text_size)
     abline(v=largest_component,lwd=2,lty=4,col='red')
     text(largest_component,mean(c(0,max(my_hist$counts))),'Observed',srt=90,adj=c(0.5,1.5),col='gray60')
     mtext(paste(c(Hmisc::capitalize(condition),direction,'\ncomplexes'),collapse=' '),side=3,cex=1.5)
@@ -740,30 +743,39 @@ connectivity_histogram <- function(pca_universe,
 #' (significant, real value is less than simulations) 
 #' @param my_color_function a gradient generating function, the first value will be used for -1 values in matrix,
 #' the middle for 0 values, the last for 1 values
-#' @param legend_labels vector of form c('-1'=label1,'0'=label2,'1'=label3)
+#' @param legend_labels vector of form c('-1'=label1,'0'=label2,'1'=label3,2=label4)
 #' @param x_label the title to be plotted on the X axis
 #' @param y_label the title to be plotted on the Y axis
 #' @param border_colour border outline colour
 #' @param border_size border outline width
+#' @param conditions_plotted conditions to include, if NULL plots all conditions
 #'
 #' @return plots a heatmap
 node_edge_search_heatmap <- function(node_edge_sig_matrix,
+                                     condition_delimiter=' ',
+                                     conditions_plotted=NULL,
+                                     collapse_enh_depl=T,
                                      my_color_function,
-                                     legend_labels=c('-1'="Decreased\ncomponent size",
-                                                     '0'="Expected\ncomponent size",
-                                                     '1'="Increased\ncomponent size"),
+                                     legend_labels=c('-1'="Large component sizes (p < 0.05)",
+                                                     '0'="Expected component sizes",
+                                                     '1'="Small component sizes (p < 0.05)",
+                                                     '2'="Most consistent simulation"),
                                      x_label='',
                                      y_label='Proportion of Protein-\nCentered Complex Changes',
                                      border_colour='grey40',
                                      zero_colour='grey90',
-                                     border_size=0.5){
-  node_edge_sig_matrix[node_edge_sig_matrix < 0.05 & node_edge_sig_matrix > 0] <- 2
-  node_edge_sig_matrix[node_edge_sig_matrix > -0.05 & node_edge_sig_matrix < 0] <- 3
-  node_edge_sig_matrix[!(node_edge_sig_matrix %in% c(2,3))] <- 0
-  node_edge_sig_matrix[node_edge_sig_matrix == 2] <- 1
-  node_edge_sig_matrix[node_edge_sig_matrix == 3] <- -1
+                                     border_size=0.25,
+                                     width=0.7,
+                                     top_label='Protein-Centric\nModel',
+                                     bottom_label='Interaction-Specific\nModel',
+                                     right_margin=11){
   
+  
+  
+    
   my_matr <- node_edge_sig_matrix
+  print('here')
+  print(my_matr)
   my_matr.m <- reshape2::melt(my_matr)
   colnames(my_matr.m) <- c('Condition','PercentNodes','value')
   my_matr.m[,3] <- as.character(my_matr.m[,3])
@@ -801,8 +813,8 @@ node_edge_search_heatmap <- function(node_edge_sig_matrix,
     zero_colour = cols[3]
   }
   myplot <- ggplot2::ggplot(data = my_matr.m, ggplot2::aes(x=Condition, y=PercentNodes, fill=factor(value))) + 
-   ggplot2::geom_tile(color=border_colour,size=border_size) +
-   ggplot2::scale_fill_manual(values=c('-1'=cols[2],'0'=zero_colour,'1'=cols[9]),
+   ggplot2::geom_tile(color=border_colour,size=border_size,width=width) +
+   ggplot2::scale_fill_manual(values=c('-1'=cols[9],'0'=zero_colour,'1'=cols[2],'2'='black'),
                               labels = legend_labels,
                               guide = ggplot2::guide_legend(reverse = TRUE, title='')) +
    ggplot2::xlab(x_label) +
@@ -815,13 +827,64 @@ node_edge_search_heatmap <- function(node_edge_sig_matrix,
                   legend.text = ggplot2::element_text(size=ggplot2::rel(1.1)),
                   legend.key.height=ggplot2::unit(1.5,"line"),
                   legend.key.width=ggplot2::unit(1.5,"line"),
-                  legend.position='top'
-                  ) +
+                  legend.position='right',
+                  plot.margin = ggplot2::unit(c(1,right_margin,1,1), "lines")) +
   ggplot2::coord_equal()
   #ggplot2::coord_flip()
+  myplot <- myplot + ggplot2::annotation_custom(grob = grid::textGrob(label=bottom_label,just='left'),
+                                               ymin=1,
+                                               ymax=1,
+                                               xmin=nrow(my_matr)+1,
+                                               xmax=nrow(my_matr)+1)
   
-  plot(myplot)
+  myplot <- myplot + ggplot2::annotation_custom(grob = grid::textGrob(label=top_label,just='left'),
+                                       ymin=ncol(my_matr),
+                                       ymax=ncol(my_matr),
+                                       xmin=nrow(my_matr)+1,
+                                       xmax=nrow(my_matr)+1)
+  
+  p <- myplot
+  gt <- ggplot2::ggplot_gtable(ggplot2::ggplot_build(p))
+  gt$layout$clip[gt$layout$name == "panel"] <- "off"
+  grid::grid.draw(gt)
+  #return(myplot)
 }
+
+filter_matching_conditions <- function(node_edge_sig_matrix,conditions_plotted){
+  condnames <- rownames(node_edge_sig_matrix)
+  match_matr <- sapply(condnames,function(x){
+    sapply(conditions_plotted,function(condition){
+      sum(grepl(condition,x))
+    })
+  })
+  return(node_edge_sig_matrix[apply(match_matr,2,sum) > 0,])
+}
+
+process_node_edge_sig_matrix <- function(node_edge_sig_matrix,conditions_plotted,collapse_enh_depl=T){
+  #Filter out given conditions e.g. if they have only a few changes
+  if(!is.null(conditions_plotted)){
+    node_edge_sig_matrix <- filter_matching_conditions(node_edge_sig_matrix,conditions_plotted)
+  }
+  if(collapse_enh_depl == T){
+    node_edge_sig_matrix <- t(sapply(conditions_plotted,function(condition){
+      matching_rows <- node_edge_sig_matrix[grep(condition,rownames(node_edge_sig_matrix)),]
+      apply(matching_rows,2,function(x){x[which.min(abs(x))]})
+    }))
+  }
+  
+  #For colour encoding
+  #eyo <<- node_edge_sig_matrix
+  node_edge_sig_matrix[t(apply(node_edge_sig_matrix,1,function(x){abs(x)==max(abs(x))}))] <- 4
+  node_edge_sig_matrix[node_edge_sig_matrix < 0.05 & node_edge_sig_matrix > 0] <- 2
+  node_edge_sig_matrix[node_edge_sig_matrix > -0.05 & node_edge_sig_matrix < 0] <- 3
+  node_edge_sig_matrix[!(node_edge_sig_matrix %in% c(2,3,4))] <- 0
+  node_edge_sig_matrix[node_edge_sig_matrix == 2] <- 1
+  node_edge_sig_matrix[node_edge_sig_matrix == 3] <- -1
+  node_edge_sig_matrix[node_edge_sig_matrix == 4] <- 2
+  
+  return(node_edge_sig_matrix)
+}
+
 
 hub_bias_heatmap <- function(hub_df,
                              color_function,
@@ -830,14 +893,16 @@ hub_bias_heatmap <- function(hub_df,
                                              '1'="Complex\naccumulation bias"),
                              border_colour= 'grey40',
                              border_size = 0.25,
-                             legend_position='top',
-                             nonsig_colour='grey10'
+                             legend_position=c(1,1),
+                             legend_justification=c(0,1),
+                             nonsig_colour='grey10',
+                             q_cutoff = 0.05
                              
 ){
   
   #Format hub dataframe for plotting
   new_hub_df <- select(hub_df,Hub,Condition,q.value.BH.)
-  new_hub_df[,3] <- as.numeric(new_hub_df[,3] < 0.05)
+  new_hub_df[,3] <- as.numeric(new_hub_df[,3] < q_cutoff)
   new_hub_df[,3] <- new_hub_df[,3]*sign(hub_df$Delta)
   new_hub_df[,3][is.na(hub_df[,3])] <- 0
   colnames(new_hub_df)[3] <- 'value'
@@ -852,19 +917,19 @@ hub_bias_heatmap <- function(hub_df,
     return(retval)
   }))
   
-  sorted_hubs <- sorted_new_hub_df[,'Hub'][sort(sorted_new_hub_df[,'nzero'],index.return=T,decreasing=T)$ix]
+  sorted_hubs <- sorted_new_hub_df[,'Hub'][sort(sorted_new_hub_df[,'nzero'],index.return=T,decreasing=F)$ix]
   
   sorted_new_hub_df <- as.data.frame(new_hub_df %>% dplyr::group_by(Condition) %>% dplyr::summarize(nzero=sum(abs(value))))
-  sorted_conditions <- sorted_new_hub_df[,'Condition'][sort(sorted_new_hub_df[,'nzero'],index.return=T,decreasing=F)$ix]
+  sorted_conditions <- sorted_new_hub_df[,'Condition'][sort(sorted_new_hub_df[,'nzero'],index.return=T,decreasing=T)$ix]
   
   
   new_hub_df[,'Hub'] <- factor(new_hub_df[,'Hub'],levels=sorted_hubs)
   new_hub_df[,'Condition'] <- factor(new_hub_df[,'Condition'],levels=sorted_conditions)
   new_hub_df <- dplyr::filter(new_hub_df, Hub %in% names(which(hub_count_list > 0)))
   new_hub_df[,'value'] <- as.factor(new_hub_df[,'value'])
-  
+  #new_hub_df <- as.data.frame(t(new_hub_df))
   cols <- color_function(10)
-  myplot <- ggplot2::ggplot(data = new_hub_df, ggplot2::aes(x=Hub, y=Condition, fill=value)) + 
+  myplot <- ggplot2::ggplot(data = new_hub_df, ggplot2::aes(y=Hub, x=Condition, fill=value)) + 
     ggplot2::geom_tile(ggplot2::aes(fill = value),color=border_colour,size=border_size) +
     ggplot2::coord_equal() +
     ggplot2::scale_fill_manual(
@@ -875,15 +940,25 @@ hub_bias_heatmap <- function(hub_df,
       #face="bold",
       size=15,
       vjust=0),
-      axis.title.y = ggplot2::element_text(size=15
+      axis.title.y = ggplot2::element_text(size=20
+                                           #face="bold"
+      ),
+      axis.title.x = ggplot2::element_text(size=50
                                            #face="bold"
       ),
       
       axis.text.x  = ggplot2::element_text(angle=90,
                                            hjust=1,
-                                           vjust=0.5),
-      legend.text = ggplot2::element_text(size=ggplot2::rel(0.9)),
-      legend.position=legend_position)
+                                           vjust=0.5,
+                                           size=10),
+      axis.text.y = ggplot2::element_text(size=10),
+      
+      legend.text = ggplot2::element_text(size=ggplot2::rel(1)),
+      legend.position=legend_position,
+      legend.justification=legend_justification,
+      legend.key.width=unit(2, "lines"),
+      legend.key.height=unit(2, "lines"),
+      plot.margin = unit(c(0.5, 7, 0, 0), "lines"))
   
   plot(myplot)
 }
@@ -918,7 +993,7 @@ bias_over_conditions <- function(hub_df,
     ggplot2::ggtitle(title) +
     ggplot2::ylab('Proportion of Concerted Hubs\n') + 
     ggplot2::xlab('\nConditions') +
-    geom_bar(stat="identity",fill="snow4",colour="black") +
+    ggplot2::geom_bar(stat="identity",fill="snow4",colour="black") +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits=c(0,max(hub_proportion$`Proportion of Concerted Hubs`)*1.05)) +
     ggplot2::theme(

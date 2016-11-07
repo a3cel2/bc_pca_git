@@ -11,7 +11,7 @@ pca_ma_precision_plot(my_predictions, output_path, filename, draw = F,
   0.1), depleted_colour = rgb(0.1, 0.1, 0.75), polygon_transparency = 0.3,
   label_size = 1.3, legend_x_position = -1.2, legend_y_position = 0.85,
   xlabel = "mRNA Predicted Log2(R) Cutoff", ylabel = "Precision",
-  legend_labels = c("Enhanced complexes", "Depleted complexes"))
+  legend_labels = c("Accumulated complexes", "Depleted complexes"))
 }
 \arguments{
 \item{my_predictions}{output table from pca_ma_prediction}
