@@ -908,6 +908,7 @@ hub_bias_heatmap <- function(hub_df,
   colnames(new_hub_df)[3] <- 'value'
   
   
+  
   #Number of nonzero conditions
   sorted_new_hub_df <- as.data.frame(new_hub_df %>% dplyr::group_by(Hub) %>% dplyr::summarize(nzero=sum(abs(value))))
   hub_count_list <- unlist(apply(sorted_new_hub_df,1,function(x){
@@ -928,6 +929,9 @@ hub_bias_heatmap <- function(hub_df,
   new_hub_df <- dplyr::filter(new_hub_df, Hub %in% names(which(hub_count_list > 0)))
   new_hub_df[,'value'] <- as.factor(new_hub_df[,'value'])
   #new_hub_df <- as.data.frame(t(new_hub_df))
+  
+  
+  
   cols <- color_function(10)
   myplot <- ggplot2::ggplot(data = new_hub_df, ggplot2::aes(y=Hub, x=Condition, fill=value)) + 
     ggplot2::geom_tile(ggplot2::aes(fill = value),color=border_colour,size=border_size) +

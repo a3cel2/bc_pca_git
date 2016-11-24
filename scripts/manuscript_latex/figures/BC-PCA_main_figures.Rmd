@@ -11,6 +11,7 @@ output:
 <!-- Global figure parameters --> 
 \setlength{\unitlength}{1in}
 \fontfamily{phv}\selectfont
+\pagenumbering{gobble}
 <!---\usetypescript[phv]--->
 
 <!-- Figure 1 --> 
@@ -81,20 +82,28 @@ output:
 \graphicspath{{../../../results/master_output/expression_pca/}}
 \textbf{\LARGE{Figure 4}}
 \begin{picture}(0,4.5)
-\put(0,1.25){\includegraphics[width=3.3in]{bcPCA_predictions_significant_filtered.pdf}}
+\put(0,1.25){\includegraphics[width=3.3in]{bcPCA_mRNA_predictions_4h.pdf}}
 \put(4,1.25){\includegraphics[width=3.3in]{bcPCA_precision.pdf}}
 
 \put(0,-4){\includegraphics[width=2in]{hub_comparison.pdf}}
 \put(0,-0.5){\includegraphics[width=3.5in]{HXT1_HSP30_comparison.pdf}}
 \put(3.8,-0.5){\includegraphics[width=3.5in]{LSP1_comparison.pdf}}
 
-\graphicspath{{../../../results/external_graphics/}}
-\put(2.4,-4.1){\includegraphics[width=3.2in]{primary_vs_secondary.png}}
 \put(0,4){\textbf{A}}
 \put(3.8,4){\textbf{B}}
 \put(0,1.1){\textbf{C}}
 \put(3.8,1.1){\textbf{D}}
 \put(0,-0.8){\textbf{E}}
-\put(2.5,-0.8){\textbf{F}}
+\end{picture}
+\newpage
 
+<!-- Figure 4 --> 
+\textbf{\LARGE{Figure 5}}
+\begin{picture}(0,4.5)
+\graphicspath{{../../../results/external_graphics/}}
+\put(0,1.1){\includegraphics[width=2.6in]{rbd_knockdown.png}}
+\graphicspath{{../../../results/master_output/rbd2/}}
+\put(2.9,0.7){\includegraphics[width=3.8in]{rbd2_knockdown.pdf}}
+\put(0,4.3){\textbf{A}}
+\put(2.9,4.3){\textbf{B}}
 \end{picture}

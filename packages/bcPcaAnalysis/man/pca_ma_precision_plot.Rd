@@ -32,27 +32,7 @@ pca_ma_precision_plot(my_predictions, output_path, filename, draw = F,
 
 \item{top_predition_limit}{highest effect size plotted}
 
-\item{line_width}{}
-
 \item{bootstrap_iters}{how many bootstraps to draw the 95% polygon}
-
-\item{enhanced_colour}{}
-
-\item{depleted_colour}{}
-
-\item{polygon_transparency}{}
-
-\item{label_size}{}
-
-\item{legend_x_position}{}
-
-\item{legend_y_position}{}
-
-\item{xlabel}{}
-
-\item{ylabel}{}
-
-\item{legend_labels}{}
 }
 \description{
 Plots precisions for mass-action based complex predictions as a function of cutoff

@@ -149,7 +149,7 @@ convert_pca_file_to_heatmap_format <- function(pca_file,
   } else{
     key_param <- T
     key_size <- 1.5
-    key_pars <- list(cex.lab=label_size*0.8,cex.axis=label_size*0.8,mar=c(0,2,2,2),mgp=c(4,2,0))
+    key_pars <- list(cex.lab=label_size*0.8,cex.axis=label_size*0.8,mar=c(0,0,0,0),mgp=c(4,2,0))
     key_x <- 'Complex Log2(R)'
     heat_layout <- rbind(c(4,0),c(0,3),c(2,1),c(0,0))
   }

@@ -1,0 +1,24 @@
+---
+classoption: letterpaper
+documentclass: article
+geometry: margin=1.5cm
+output:
+  pdf_document:
+    keep_tex: yes
+  word_document: default
+---
+
+<!-- Global figure parameters --> 
+\setlength{\unitlength}{1in}
+\fontfamily{phv}\selectfont
+<!---\usetypescript[phv]--->
+
+<!-- Supplementary Figure 3 -->
+\textbf{\LARGE{Figure S3}}
+\begin{picture}(0,4.5)
+\graphicspath{{../../../results/external_graphics/go_enrichment/}}
+\put(0,0.5){\includegraphics[width=7in]{node_enrichment_go_v2_expanded.pdf}}
+\put(0,-3){\includegraphics[width=7in]{edge_enrichment_go_v2.pdf}}
+\put(0,4.2){\textbf{A}}
+\put(0,0){\textbf{B}}
+\end{picture}

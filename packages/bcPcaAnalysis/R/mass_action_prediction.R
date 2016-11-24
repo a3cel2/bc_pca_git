@@ -17,7 +17,7 @@ devtools::use_package('cba')
 #'
 #' @param c1 concentration of the first protein in the PPI pair, in arbitrary units
 #' @param c2 concentration of the second protein in the PPI pair, in arbitrary units
-#' @param r1 ratio of concentration change of the first protein 
+#' @param r1 ratio of concentration change of the first protein
 #' @param r2 ratio of concentration change of the second protein
 #' @param k affinity estimate (in same units as c1,c2), set to min(c1,c2)/concentration factor by default
 #' @param concentration_factor used for unknown Kd assignment, defaults to 20
@@ -31,7 +31,7 @@ mass_action_predictor <- function(c1,
                                   k=NA,
                                   concentration_factor=20,
                                   mode='analytic'){
-  
+
   if(is.na(k)){
     k = min(c(c1,c2))/concentration_factor
   }
@@ -42,13 +42,13 @@ mass_action_predictor <- function(c1,
     new_pair_analytic = 0.5*(((-1)*sqrt((c1**2)-(2*c1*(c2-k))+(c2+k)**2))+c1+c2+k)
     return(new_pair_analytic/old_pair_analytic)
   }
-  
+
   else if(mode == 'iterative'){
     f1 = 0
     f2 = 0
     f3 = 0
     f4 = 0
-    
+
     for(i in 1:100){
       f1 <- c1/(1 + (f2/k) + (f4/k))
       f2 <- c2/(1 + (f1/k) + (f3/k))
@@ -56,18 +56,18 @@ mass_action_predictor <- function(c1,
       f4 <- c2/(1 + (f1/k) + (f3/k))
     }
     old_pair <- (1/k)*f1*f2
-    
+
     c1 <- c1*(fc1)
     c2 <- c2*(fc2)
     c3 <- c1*(fc1)
     c4 <- c2*(fc2)
-    
-    
+
+
     f1 = 0
     f2 = 0
     f3 = 0
     f4 = 0
-    
+
     for(i in 1:100){
       f1 <- c1/(1 + (f2/k) + (f4/k))
       f2 <- c2/(1 + (f1/k) + (f3/k))
@@ -75,7 +75,7 @@ mass_action_predictor <- function(c1,
       f4 <- c2/(1 + (f1/k) + (f3/k))
     }
     new_pair <- (1/k)*f1*f2
-    
+
     return((new_pair/old_pair))
   }
 }
@@ -96,35 +96,35 @@ get_orf_pair_abundance <- function(pair,abundance_table){
 }
 
 
-#Groups UPtag and DNtag measurements from a PCA file, 
+#Groups UPtag and DNtag measurements from a PCA file,
 #Combines multiple measurements for the same PPI measured twice
 #returns a new data frame
 merge_pca_file <- function(pca_calls,condition){
   merged_pca_calls_up <- dplyr::filter(pca_calls, Condition == condition, UP.DN=='uptag')
   merged_pca_calls_dn <- dplyr::filter(pca_calls, Condition == condition, UP.DN=='downtag')
-  
+
   if(!identical(rownames(merged_pca_calls_up),rownames(merged_pca_calls_dn))){
     stop('PCA file is not evenly divided into uptag and uptag, please provide unprocessed data')
   }
-  
+
   new_fc_avg <- sapply(1:nrow(merged_pca_calls_up),function(i){
     mean(c(merged_pca_calls_up$FC.avg[i],merged_pca_calls_dn$FC.avg[i]))
   })
-  
+
   new_q_val <- sapply(1:nrow(merged_pca_calls_up),function(i){
     unlist(metap::sumz(c(merged_pca_calls_up$q.val[i],merged_pca_calls_dn$q.val[i])))[2]
   })
-  
+
   dmso_index <- grep('DMSO',colnames(merged_pca_calls_up))
   dmso_abundance_up <- sapply(1:nrow(merged_pca_calls_up),function(i){
     return(mean(as.numeric(merged_pca_calls_up[i,dmso_index])))
   })
-  
+
   dmso_abundance_dn <- sapply(1:nrow(merged_pca_calls_up),function(i){
     return(mean(as.numeric(merged_pca_calls_dn[i,dmso_index])))
   })
-  
-  
+
+
   merged_pca_calls <- data.frame(ORF.1=merged_pca_calls_up$ORF.1,
                                    ORF.2=merged_pca_calls_up$ORF.2,
                                    AUC=merged_pca_calls_up$AUC,
@@ -134,7 +134,7 @@ merge_pca_file <- function(pca_calls,condition){
                                    FC.DN=merged_pca_calls_dn$FC.avg,
                                    FC.avg=new_fc_avg,
                                    q.val=new_q_val)
-  
+
   return(merged_pca_calls)
 }
 
@@ -158,7 +158,7 @@ get_orf_mrna_changes <- function(pairs,
     return(sapply(1:ncol(pairs),function(i){apply(expression_file[pairs[,i],cond_index],1,mean)/apply(expression_file[pairs[,i],ctrl_index],1,mean)}))
   }
 }
-  
+
 
 #Simplifies expression file into a numeric matrix with one measurement per ORF (mean aggregation)
 #and ORF names used as indeces
@@ -192,17 +192,17 @@ pca_ma_prediction <- function(
   condition,
   expression_control_regexp='Ethanol.0h',
   expression_condition_regexp='Ethanol.4h'){
-  
+
   #Read appropriate fies
   pca_file <- read.csv(pca_file,head = T,stringsAsFactors = F, sep = '\t')
   expression_file <- read.table(expression_file,head=T,stringsAsFactors = F)
   abundance_file <- read.table(abundance_file,head=F,stringsAsFactors = F, row.names=1)
-  
+
   #Process files accordingly
   merged_pca_calls <- merge_pca_file(pca_file,condition=condition)
   expression_file <- simplify_expression_file(expression_file)
-  
-  
+
+
   orf_pairs <- merged_pca_calls[,c('ORF.1','ORF.2')]
   output_df <- data.frame()
   for(i in 1:nrow(orf_pairs)){
@@ -212,7 +212,7 @@ pca_ma_prediction <- function(
     abundances <- get_orf_pair_abundance(pair,abundance_file)
     mRNA_changes <- get_orf_mrna_changes(pair,expression_file,expression_control_regexp,expression_condition_regexp)
     prediction <- log2(mass_action_predictor(abundances[1],abundances[2],mRNA_changes[1],mRNA_changes[2]))
-    
+
     output <- data.frame(ORF1=pair[1],
                          ORF2=pair[2],
                          AUC=merged_pca_calls[i,'AUC'],
@@ -272,12 +272,12 @@ pca_ma_prediction_plot <- function(my_predictions,
        axes=F,
        cex=point_size,
        cex.lab=label_size)
-  
+
   points(x,
          y,
          cex=point_size,
          col=outline_colours)
-  
+
   axis(side=1,
        tck=-long_tick_length,
        at=seq(min(xlimits),max(xlimits),2),
@@ -286,8 +286,8 @@ pca_ma_prediction_plot <- function(my_predictions,
        tck=-short_tick_length,
        at=seq(min(xlimits),max(xlimits),1),
        labels=F)
-  
-  
+
+
   axis(side=2,
        las=1,
        tck=-long_tick_length,
@@ -298,16 +298,16 @@ pca_ma_prediction_plot <- function(my_predictions,
        tck=-short_tick_length,
        at=seq(min(ylimits),max(ylimits),1),
        labels=F)
-  
+
   text_x_pos <- quantile(xlimits,probs=c(relative_text_position_x))
   text_y_pos <- quantile(ylimits,probs=c(relative_text_position_y))
-  
+
   text(paste(c('r = ',format(cor(x,y,use='pair'),digits=2)),collapse=''),
        x=text_x_pos,
        y=text_y_pos,cex=label_size)
-  
+
   abline(lm(y~x),col='red')
-  
+
   if(draw==F){
     dev.off()
   }
@@ -325,17 +325,17 @@ pca_ma_prediction_plot <- function(my_predictions,
 #' @param effect_size_cutoff the adjusted effect size cutoff for caling significant interactions
 #' @param bottom_predition_limit lowest effect size plotted
 #' @param top_predition_limit highest effect size plotted
-#' @param line_width 
+#' @param line_width
 #' @param bootstrap_iters how many bootstraps to draw the 95% polygon
-#' @param enhanced_colour 
-#' @param depleted_colour 
-#' @param polygon_transparency 
-#' @param label_size 
-#' @param legend_x_position 
-#' @param legend_y_position 
-#' @param xlabel 
-#' @param ylabel 
-#' @param legend_labels 
+#' @param enhanced_colour
+#' @param depleted_colour
+#' @param polygon_transparency
+#' @param label_size
+#' @param legend_x_position
+#' @param legend_y_position
+#' @param xlabel
+#' @param ylabel
+#' @param legend_labels
 pca_ma_precision_plot <- function(my_predictions,
                                         output_path,
                                         filename,
@@ -358,12 +358,12 @@ pca_ma_precision_plot <- function(my_predictions,
                                         legend_labels=c('Accumulated complexes',
                                                         'Depleted complexes')
                                         ){
-  
+
   percent_correct_predictions <- function(values,
                                           labels,
                                           prediction_cutoffs,
                                           mode){
-    
+
     retlist <- sapply(prediction_cutoffs,function(cutoff){
       if(mode=='enhanced'){
         crit <- values >= cutoff
@@ -375,7 +375,7 @@ pca_ma_precision_plot <- function(my_predictions,
     })
     return(retlist)
   }
-  
+
   create_bootstrap_polygon <- function(predictions,
                                        values,
                                        prediction_cutoffs,
@@ -383,20 +383,20 @@ pca_ma_precision_plot <- function(my_predictions,
                                        boostrap_iters,
                                        quantile_upper=0.95,
                                        quantile_lower=0.05){
-    
+
     bootstrapped_vals <- sapply(1:bootstrap_iters,function(iter){
       strap <- sample(1:length(predictions),replace=T)
       percent_correct_predictions(predictions[strap],
                                   values[strap],prediction_cutoffs,mode=mode)
     })
-    
+
     lower_y <- apply(bootstrapped_vals,1,function(x){quantile(x,probs=quantile_lower,na.rm=T)})
     upper_y <- apply(bootstrapped_vals,1,function(x){quantile(x,probs=quantile_upper,na.rm=T)})
-    
+
     return(cbind(c(prediction_cutoffs,rev(prediction_cutoffs)),
                  c(lower_y,rev(upper_y))))
   }
-  
+
   mRNA_predictions <- my_predictions$Log2_MA_prediction
   if(prediction_cutoffs == 'AUTO'){
     prediction_cutoffs <- sort(unique(mRNA_predictions))
@@ -405,14 +405,14 @@ pca_ma_precision_plot <- function(my_predictions,
   }
   enhanced <-  my_predictions$bcPCA_qVal <= p_cutoff & my_predictions$bcPCA_FC.AVG >= effect_size_cutoff
   depleted <-  my_predictions$bcPCA_qVal <= p_cutoff & my_predictions$bcPCA_FC.AVG <= -(effect_size_cutoff)
-  
+
   #Plot real values
   depleted_cutoffs <- prediction_cutoffs[prediction_cutoffs <= 0]
   enhanced_cutoffs <- prediction_cutoffs[prediction_cutoffs >= 0]
-  
+
   depleted_bpc_precision <- percent_correct_predictions(mRNA_predictions,depleted,depleted_cutoffs,mode='depleted')
   enhanced_bpc_precision <- percent_correct_predictions(mRNA_predictions,enhanced,enhanced_cutoffs,mode='enhanced')
-  
+
   if(draw == F){
     CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=6,height=6)
   }
@@ -428,29 +428,29 @@ pca_ma_precision_plot <- function(my_predictions,
   lines(enhanced_cutoffs,enhanced_bpc_precision,
         lwd=line_width,
         col=enhanced_colour)
-  
+
   #Add error bars
   bootstrap_error_depleted <- create_bootstrap_polygon(mRNA_predictions,
                                                         depleted,
                                                         depleted_cutoffs,
                                                         mode='depleted',
                                                         boostrap_iters)
-  
+
   bootstrap_error_enhanced <- create_bootstrap_polygon(mRNA_predictions,
                                                        enhanced,
                                                        enhanced_cutoffs,
                                                        mode='enhanced',
                                                        boostrap_iters)
-  
+
   polygon(bootstrap_error_enhanced,border=NA,col=adjustcolor(enhanced_colour, alpha.f = polygon_transparency))
   polygon(bootstrap_error_depleted,border=NA,col=adjustcolor(depleted_colour, alpha.f = polygon_transparency))
-  
+
   legend(x=legend_x_position,
          y=legend_y_position,
          legend=legend_labels,
          fill=c(enhanced_colour,depleted_colour)
          )
-  
+
   if(draw == F){
     dev.off()
   }
@@ -510,7 +510,7 @@ hub_legend_draw <- function(min_val,
     plot.new()
   }
   colors <- rev(grDevices::colorRampPalette(color_list)(ncolors))
-  
+
   xleft <- 0.1 + x_adjust
   middle <- 0.5 + y_adjust
   for(i in 1:(length(colors))){
@@ -527,14 +527,14 @@ hub_legend_draw <- function(min_val,
           col=colors[i],
           lwd=1/height,
           pch=15)
-    
+
     #lines(c(0.1+0.02*width,0.1-0.02*width+0.6*width),
     #      c(0.5-((i/ncolors)*height)/2+0.25*height,
     #        0.5-((i/ncolors)*height)/2+0.25*height),
     #      lwd=3,
     #      col=colors[i])
   }
-  
+
    #rect(xleft,middle-0.25*height,xleft+0.6*width,middle+0.25*height,lwd = 1)
    text(xleft+0.74*width+0.01,middle+0.25*height,max_val,xpd=T,cex=side_font_size*height)
    text(xleft+0.74*width+0.01,middle-0.25*height,min_val,xpd=T,cex=side_font_size*height)
@@ -573,7 +573,7 @@ hub_comparison_graph <- function(my_predictions,
   hub_predictions <- filter(my_predictions,ORF1 %in% hub_name | ORF2 %in% hub_name,
                             bcPCA_qVal <= q_val_cutoff,
                             abs(bcPCA_FC.AVG) >= effect_size_cutoff)
-  
+
   draw_comparison_network(hub_predictions,
                color_list,
                ncolors,
@@ -594,7 +594,7 @@ hub_comparison_graph <- function(my_predictions,
 }
 
 
- 
+
 
 draw_comparison_network <- function(my_predictions,
                          color_list,
@@ -613,7 +613,7 @@ draw_comparison_network <- function(my_predictions,
                          output_path,
                          filename,
                          layout_algorithm=igraph::layout.kamada.kawai){
-  
+
   create_orf_expr_list <- function(my_predictions){
     orf1_expr <- dplyr::select(my_predictions,ORF1,mRNAFC_ORF1)
     orf2_expr <- dplyr::select(my_predictions,ORF2,mRNAFC_ORF2)
@@ -628,8 +628,8 @@ draw_comparison_network <- function(my_predictions,
   my_predictions$ORF1 <- map_gene_names(as.vector(my_predictions$ORF1))
   my_predictions$ORF2 <- map_gene_names(as.vector(my_predictions$ORF2))
   orf_expr_list <- create_orf_expr_list(my_predictions)
-  
-  
+
+
   #Initialize graph
   orf_graph <- igraph::graph_from_edgelist(as.matrix(my_predictions[,c('ORF1','ORF2')]),directed=F)
   igraph::V(orf_graph)$color <- default_node_color
@@ -644,7 +644,7 @@ draw_comparison_network <- function(my_predictions,
     set_colours(
       vertex_expressions,color_list,ncolors,node_expr_color_limits[1],node_expr_color_limits[2]
     )
-  
+
   l <- layout_algorithm(orf_graph)
 
   igraph::E(orf_graph)$log2_ma_prediction <-
@@ -657,9 +657,9 @@ draw_comparison_network <- function(my_predictions,
     set_colours(
       my_predictions$bcPCA_FC.AVG,color_list,ncolors,pca_color_limits[1],pca_color_limits[2]
     )
-  
-  
-  
+
+
+
   label_by_colour <- function(node_colours,brightness_threshold=80){
     sapply(node_colours,function(colour){
       colour <- col2rgb(colour)
@@ -670,7 +670,7 @@ draw_comparison_network <- function(my_predictions,
       return('white')
     })
   }
-  
+
   if(draw == F){
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=12,height=6)
   }
@@ -689,7 +689,7 @@ draw_comparison_network <- function(my_predictions,
   )
   #Not sure how else to add a large title
   text(0,title_offset,titles[1],cex=title_size,xpd=T)
-  
+
   plot(
     orf_graph,edge.width = edge_width,
     vertex.size = node_size,
@@ -698,7 +698,7 @@ draw_comparison_network <- function(my_predictions,
     layout = l
   )
   text(0,title_offset,titles[2],cex=title_size,xpd=T)
-  
+
   if(draw==F){
     dev.off()
   }
@@ -713,10 +713,10 @@ mRNA_comparison <- function(pca_file,
   pca_file <- read.csv(pca_file,head = T,stringsAsFactors = F, sep = '\t')
   expression_file <- read.table(expression_file,head=T,stringsAsFactors = F)
   expression_file <- simplify_expression_file(expression_file)
-  
+
   orf_pairs <- pca_file%>% dplyr::filter(Condition==condition) %>% dplyr::select(ORF.1,ORF.2)
   orfs <- unique(unlist(orf_pairs))
-  
+
   expr_matr <- c()
   for(i in 1:length(control_regexp_vec)){
     expr_matr <- cbind(expr_matr,get_orf_mrna_changes(orfs,expression_file,control_regexp_vec[i],condition_regexp_vec[i]))
@@ -749,7 +749,7 @@ mRNA_comparison_graph <- function(pca_file,
   if(draw == F){
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=6,height=6)
   }
-  par(bg=NA) 
+  par(bg=NA)
   plot(
     log10(expr_matr[,1]),log10(expr_matr[,2]),col = point_colours,pch = 16,xlab =
       xlabel,ylab = ylabel,cex.lab = label_size,cex = point_size, xlim = xlimits, ylim = ylimits
@@ -789,12 +789,12 @@ pca_mRNA_error_analysis <- function(pca_file,
 ){
   set.seed(my_seed)
   abundance_file <- read.table(abundance_file,head=F,stringsAsFactors = F, row.names=1)
-  
-  
+
+
   #mRNA reproducibility, in log2 space
   expr_matr <- mRNA_comparison(pca_file,expression_file,condition,expression_condition_regexp_vec,expression_control_regexp_vec)
-  
-  
+
+
   #PCA reproducibility
   pca_file <- read.csv(pca_file,head = T,stringsAsFactors = F, sep = '\t')
   #
@@ -802,35 +802,35 @@ pca_mRNA_error_analysis <- function(pca_file,
   merged_pca_calls <- dplyr::filter(merged_pca_calls,q.val <= q_val_cutoff,
                                     abs(FC.avg) >= fc_cutoff,
                                     abs(FC.UP - FC.DN) <= up_dn_diff_cutoff)
-  
+
   merged_ppi_index <- apply(merged_pca_calls[,c('ORF.1','ORF.2')],1,function(x){paste(x,collapse='_')})
   filtered_pca_file <- dplyr::filter(pca_file,Condition==condition)
   filtered_pca_ppi_index <- apply(filtered_pca_file[,c('ORF.1','ORF.2')],1,function(x){paste(x,collapse='_')})
-  
+
   filtered_pca_file <- filtered_pca_file[filtered_pca_ppi_index %in% merged_ppi_index,]
   filtered_pca_file_up <- dplyr::filter(filtered_pca_file,UP.DN=='uptag')
   filtered_pca_file_dn <- dplyr::filter(filtered_pca_file,UP.DN=='downtag')
-  
+
   filtered_upvals <- c(filtered_pca_file_up$FC.rep1,filtered_pca_file_up$FC.rep2)
   filtered_dnvals <- c(filtered_pca_file_dn$FC.rep1,filtered_pca_file_dn$FC.rep2)
-  
+
   #pca_error model
   up_dn_cor <- cor(filtered_upvals,filtered_dnvals)
   up_dn_error_sd <- sqrt((1/up_dn_cor)-1)
   rep_cor <- cor(filtered_pca_file$FC.rep1,filtered_pca_file$FC.rep2)
   rep_error_sd <- sqrt((1/rep_cor)-1)
-  
+
   #Process mRNA expression file
   used_orfs <- unique(c(as.vector(merged_pca_calls$ORF.1),as.vector(merged_pca_calls$ORF.2)))
   expr_matr <- expr_matr[used_orfs,]
   expr_cor <- cor(log2(expr_matr[,1]),log2(expr_matr[,2]),use='pair')
   expr_error_sd <- sqrt((1/expr_cor)-1)
-  
+
   expression_file <- read.table(expression_file,head=T,stringsAsFactors = F)
   expression_file <- simplify_expression_file(expression_file)
-  
-  
-  
+
+
+
   orf_pairs <- merged_pca_calls %>% dplyr::select(ORF.1,ORF.2)
   master_abundance_vec <- c()
   master_mRNA_change_vec <- c()
@@ -839,7 +839,7 @@ pca_mRNA_error_analysis <- function(pca_file,
     pair <- as.vector(as.matrix(pair))
     #print(pair)
     abundances <- get_orf_pair_abundance(pair,abundance_file)
-    
+
     mRNA_changes <-
         get_orf_mrna_changes(pair,
                              expression_file,
@@ -847,14 +847,14 @@ pca_mRNA_error_analysis <- function(pca_file,
     master_abundance_vec <- rbind(master_abundance_vec,abundances)
     master_mRNA_change_vec <- rbind(master_mRNA_change_vec,mRNA_changes)
   }
-  
+
   make_error_prone_predictions <- function(master_abundance_vec,
                                master_mRNA_change_vec,
                                expr_error_sd,
                                up_dn_error_sd,
                                rep_error_sd,
                                n_iters=iters){
-   
+
   iter_matr <- c()
   nrows <- nrow(master_mRNA_change_vec)
   mrna_sd <- sd(log2(master_mRNA_change_vec),na.rm=T)
@@ -879,7 +879,7 @@ pca_mRNA_error_analysis <- function(pca_file,
    }
    return(iter_matr)
   }
-  
+
   return(make_error_prone_predictions(master_abundance_vec,master_mRNA_change_vec,expr_error_sd,up_dn_error_sd,rep_error_sd))
 }
 
@@ -909,12 +909,12 @@ pca_mRNA_error_analysis_graph <- function(predictions,
         predictions$bcPCA_FC.AVG[sample_vec],use='pair')
     return(1/(1/(model_cor^2) - 1/(error_sim_cors^2) + 1))
   })
-  
-  
+
+
   beginning <- quantile(cor_matr,probs=c(0.05))
   middle <- median(cor_matr)
   end <- quantile(cor_matr,probs=c(0.95))
-  
+
   if(draw == F){
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=6,height=6)
   }
@@ -926,12 +926,13 @@ pca_mRNA_error_analysis_graph <- function(predictions,
          main=title,
          xlab=x_label,
          cex.lab=text_size,
-         xlim=c(min(cor_matr),min(max(cor_matr),1)),
+         xlim=c(0,1)
+         #xlim=c(min(cor_matr),min(max(cor_matr),1)),
          )
   lines(c(beginning,beginning),c(0,max(my_hist$counts)),col=line_colour,lwd=line_width/2,lty=2,xpd=F)
   lines(c(middle,middle),c(0,max(my_hist$counts)),col=line_colour,lwd=line_width,xpd=F)
   lines(c(end,end),c(0,max(my_hist$counts)),col=line_colour,lwd=line_width/2,lty=2,xpd=F)
-  
+
   textval <- paste(c('Median variance explained = ',format(middle*100,digits=2),'%\n'),collapse='')
   text(middle-abs(middle-min(my_hist$breaks))*text_adjustment_factor,max(my_hist$counts),textval,cex=text_size,xpd=T)
   if(draw == F){
@@ -954,34 +955,34 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
                                                     pdf_height=9,
                                                     draw=F,
                                                     text_size=1.5){
-  
-  
+
+
   hub_df <- dplyr::filter(hub_df,Condition==condition)
   nonsig_hubs <- as.vector(as.matrix(hub_df %>% dplyr::filter(q.value.BH. > q_value_cutoff) %>% dplyr::select(Hub)))
   sig_hubs <- as.vector(as.matrix(hub_df %>% dplyr::filter(q.value.BH. <= q_value_cutoff) %>% dplyr::select(Hub)))
-  
+
   nonsig_hubs <- reverse_map_gene_names(nonsig_hubs)
   sig_hubs <- reverse_map_gene_names(sig_hubs)
-  
+
   sig_hub_predictions <- dplyr::filter(my_predictions,ORF1 %in% sig_hubs | ORF2 %in% sig_hubs, bcPCA_qVal <= q_value_cutoff, abs(bcPCA_FC.AVG) >= effect_size_cutoff, !is.na(Log2_MA_prediction))
   nonsig_hub_predictions <- dplyr::filter(my_predictions,ORF1 %in% nonsig_hubs | ORF2 %in% nonsig_hubs, bcPCA_qVal <= q_value_cutoff, abs(bcPCA_FC.AVG) >= effect_size_cutoff, !is.na(Log2_MA_prediction))
-  
+
   sig_successes <- sum(sign(sig_hub_predictions$Log2_MA_prediction) == sign(sig_hub_predictions$bcPCA_FC.AVG))
   sig_failures <- sum(sign(sig_hub_predictions$Log2_MA_prediction) != sign(sig_hub_predictions$bcPCA_FC.AVG))
   nonsig_successes <- sum(sign(nonsig_hub_predictions$Log2_MA_prediction) == sign(nonsig_hub_predictions$bcPCA_FC.AVG))
   nonsig_failures <- sum(sign(nonsig_hub_predictions$Log2_MA_prediction) != sign(nonsig_hub_predictions$bcPCA_FC.AVG))
-  
+
   #print(sig_successes)
   #print(sig_failures)
-  
+
   test_statistic <- fisher.test(rbind(c(sig_successes,sig_failures),c(nonsig_successes,nonsig_failures)))
-  
+
   sig_conf_interval <- binom.test(sig_successes,sig_successes+sig_failures)$conf.int
   nonsig_conf_interval <- binom.test(nonsig_successes,nonsig_successes+nonsig_failures)$conf.int
-  
+
   top <- max(c(sig_conf_interval,nonsig_conf_interval))
   top <- top + top*height_buffer
-  
+
   if(draw == F){
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=pdf_width,height=pdf_height)
   }
@@ -992,11 +993,11 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
           space=0.5,
           col = RColorBrewer::brewer.pal(12,'Set3')[c(3,5)],
           ylab='mRNA Prediction Accuracy')
-  
+
   #Custom make labels
   text(x=barCenters[1],y=0.46,c('Concerted\nhubs'),xpd=T)
   text(x=barCenters[2],y=0.46,c('Other\nhubs'),xpd=T)
-  
+
   abline(h=0.5,lwd=line_width)
   #Add error bars
   segments(barCenters,c(sig_conf_interval[1],nonsig_conf_interval[1]),barCenters,c(sig_conf_interval[2],nonsig_conf_interval[2]),lwd=line_width)
@@ -1008,13 +1009,13 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
   for(func in c(max,min)){
     lines(c(barCenters[2]+sig_cap_width,barCenters[2]-sig_cap_width),c(rep(func(nonsig_conf_interval),2)),lwd=line_width)
   }
-  
-#   
+
+#
   #Add comparison line
   lines(barCenters,c(top,top),lwd=line_width/2)
   lines(x=rep(barCenters[1],2),y=c(top-height_buffer/2,top),lwd=line_width/2)
   lines(x=rep(barCenters[2],2),y=c(max(nonsig_conf_interval)+height_buffer/2,top),lwd=line_width/2)
-  
+
   text(mean(barCenters),top+top*height_buffer,paste(c('p = ',format(test_statistic$p.value,digits=2,scientific=T)),collapse=''),xpd=T,cex=1/1.3)
   if(draw == F){
     dev.off()
