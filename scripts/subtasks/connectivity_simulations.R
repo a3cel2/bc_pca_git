@@ -63,29 +63,29 @@ connectivity_graph(component_sig_matrix_nodewise,my_color_list)
 dev.off()
 
 #Estimate the probability of getting the given graph density distributions with randomly sampling edges
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance.pdf'),collapse='/'),width=12,height=3)
-density_sig_matrix <- network_simulation_significance(pca_universe,
-                                                      pca_enhanced,
-                                                      pca_depleted,
-                                                      iterations=connectivity_iterations,
-                                                      metric='density')
-connectivity_graph(density_sig_matrix,my_color_list,legend_labels=c('-1'="Decreased density",
-                                                                    '0'="Expected density",
-                                                                    '1'="Increased density"))
-dev.off()
-
-#Estimate the probability of getting the given graph density distributions with randomly sampling nodes
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
-connectivity_sig_matrix <- network_simulation_significance(pca_universe,
-                                                           pca_enhanced,
-                                                           pca_depleted,
-                                                           mode = 'nodewise',
-                                                           iterations=connectivity_iterations,
-                                                           metric='density')
-connectivity_graph(connectivity_sig_matrix,my_color_list,legend_labels=c('-1'="Decreased density",
-                                                                         '0'="Expected density",
-                                                                         '1'="Increased density"))
-dev.off()
+# Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance.pdf'),collapse='/'),width=12,height=3)
+# density_sig_matrix <- network_simulation_significance(pca_universe,
+#                                                       pca_enhanced,
+#                                                       pca_depleted,
+#                                                       iterations=connectivity_iterations,
+#                                                       metric='density')
+# connectivity_graph(density_sig_matrix,my_color_list,legend_labels=c('-1'="Decreased density",
+#                                                                     '0'="Expected density",
+#                                                                     '1'="Increased density"))
+# dev.off()
+# 
+# #Estimate the probability of getting the given graph density distributions with randomly sampling nodes
+# Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
+# connectivity_sig_matrix <- network_simulation_significance(pca_universe,
+#                                                            pca_enhanced,
+#                                                            pca_depleted,
+#                                                            mode = 'nodewise',
+#                                                            iterations=connectivity_iterations,
+#                                                            metric='density')
+# connectivity_graph(connectivity_sig_matrix,my_color_list,legend_labels=c('-1'="Decreased density",
+#                                                                          '0'="Expected density",
+#                                                                          '1'="Increased density"))
+# dev.off()
 
 
 #Estimate the probability of getting the given graph component size distributions with randomly sampling differing proportions
@@ -107,8 +107,8 @@ component_size_sig_search_matrix <- network_simulation_significance_node_edge_se
                                                                                             pca_enhanced = pca_enhanced,
                                                                                             pca_depleted = pca_depleted,
                                                                                             node_probs=c(0:10)/10,
-                                                                                            iterations=connectivity_iterations,
-                                                                                            load_saved=T,
+                                                                                            iterations=100,#connectivity_iterations,
+                                                                                            load_saved=F,
                                                                                             save_output=T,
                                                                                             save_directory=saved_parameter_path,
                                                                                             save_filename='parameter_search_component_size.tsv')
@@ -158,9 +158,17 @@ bias_over_conditions(hub_df)
 dev.off()
 
 #For doxorubicin, shows the component size distribution of randomly sampling edges
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_hist_doxo.pdf'),collapse='/'),width=10,height=5)
+Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_hist_AA_edge.pdf'),collapse='/'),width=10,height=5)
 connectivity_histogram(pca_universe,
                        pca_enhanced,
                        pca_depleted,
-                       'doxorubicin')
+                       'AA-mixture',
+                       xlim=c(0,90))
+dev.off()
+
+Cairo::CairoPDF(file=paste(c(connectivity_output_path,'connnectivity_hist_AA_node.pdf'),collapse='/'),width=10,height=5)
+connectivity_histogram(pca_universe,
+                       pca_enhanced,
+                       pca_depleted,
+                       'AA-mixture',xlim=c(0,90),sampling_mode='nodewise',prob_node=1)
 dev.off()

@@ -357,7 +357,8 @@ nodewise_simulation <- function(universe_matrix,
 #'
 #' @return a list of two-column matrices if metric is not specified, or a list of the output of metric
 #' on the two column-matrix if it is
-make_network_iterations <- function(pca_universe,pca_file,
+make_network_iterations <- function(pca_universe,
+                                    pca_file,
                                     condition,n_iters,
                                     mode = 'edgewise',
                                     node_sensitivity = 1,
@@ -526,7 +527,6 @@ network_simulation_significance <- function(pca_universe,
   return_matrix[return_matrix == -1.01] <- -1
   return_matrix[return_matrix == 1.01] <- 1
   return(return_matrix)
-
 }
 
 
@@ -702,14 +702,20 @@ connectivity_histogram <- function(pca_universe,
                                    pca_enhanced,
                                    pca_depleted,
                                    condition,
-                                   iterations=10000,
+                                   iterations=1000,
                                    metric = get_largest_component_from_edgelist,
                                    seed=123,
-                                   text_size=1.5){
+                                   text_size=1.5,
+                                   xlim=c(0,25),
+                                   xlab='Simulated largest component',
+                                   sampling_mode='edgewise',
+                                   prob_node=0){
   set.seed(seed)
   par(mfrow=c(1,2),
-      mar=c(6,4.5,3,1),
+      mar=c(6,4.5,3,0),
       oma=c(0,0,0,0))
+  
+  
   for(direction in c('accumulated','depleted')){
     if(direction == 'accumulated'){
       pca_file <- pca_enhanced
@@ -718,19 +724,32 @@ connectivity_histogram <- function(pca_universe,
       pca_file <- pca_depleted
     }
     largest_component <- get_largest_component_size(pca_file,condition)
-    shuffled_iters <- unlist(make_network_iterations(pca_universe,pca_file,condition,n_iters=iterations,metric = get_largest_component_from_edgelist))
+    shuffled_iters <- unlist(make_network_iterations(pca_universe,
+                                                     pca_file,
+                                                     condition,
+                                                     n_iters=iterations,
+                                                     metric = get_largest_component_from_edgelist,
+                                                     prob_node=prob_node,
+                                                     mode=sampling_mode))
     #plot(density(shuffled_iters,from=0,to=largest_component+largest_component*0.1),xlim=c(min(shuffled_iters),largest_component+largest_component*0.05))
     my_hist <- hist(shuffled_iters,
-         breaks=seq(0,max(shuffled_iters),by=0.5),
-         xlim=c(0,25),
-         xlab=c('','Largest component \n(simulated)'),
-         main='',
-         ylab='Frequency',
-         col='gray20',
-         cex.lab=text_size)
-    abline(v=largest_component,lwd=2,lty=4,col='red')
-    text(largest_component,mean(c(0,max(my_hist$counts))),'Observed',srt=90,adj=c(0.5,1.5),col='gray60')
-    mtext(paste(c(Hmisc::capitalize(condition),direction,'\ncomplexes'),collapse=' '),side=3,cex=1.5)
+         breaks=seq(0,max(shuffled_iters),by=1),
+         cex.lab=text_size,
+         plot=F)
+    
+    plot(my_hist,
+         xlim=xlim,
+      xlab=xlab,
+      ylim=c(0,max(my_hist$counts)*1.33),
+      main='',
+      ylab='Frequency',
+      col='black',
+      cex.lab=1.3)
+    
+    
+    abline(v=largest_component,lwd=6,col=rgb(1,0,0,0.7))
+    text(largest_component,mean(c(max(my_hist$counts),max(my_hist$counts)*1.3)),'Observed',srt=90,adj=c(0.5,1.5),col='gray60',cex=1.3,font=2)
+    mtext(paste(c(Hmisc::capitalize(condition),direction,'\ncomplexes'),collapse=' '),side=3,cex=1.5,line=-1)
   }
 }
 

@@ -12,7 +12,6 @@ output:
 \setlength{\unitlength}{1in}
 \fontfamily{phv}\selectfont
 \pagenumbering{gobble}
-<!---\usetypescript[phv]--->
 
 <!-- Figure 1 --> 
 \graphicspath{{../../../results/master_output/heatmaps/}}
@@ -41,40 +40,18 @@ output:
 \put(0,1.2){\textbf{C}}
 \end{picture}
 \newpage
-<!-- Figure 3 --> 
-<!--\graphicspath{{../../../results/master_output/connectivity/}}
-\textbf{\LARGE{Figure 3}}
-\begin{picture}(0,4.5)
-\put(0,-3.3){\includegraphics[width=7in]{hub_bias_heatmap.pdf}}
-\put(0,0){\includegraphics[width=3.5in]{doxorubicin_connnectivity.pdf}}
-\put(3.5,2){\includegraphics[width=4in]{component_size_significance_search.pdf}}
-\put(3.5,-0.1){\includegraphics[width=3.6in]{density_significance_search.pdf}}
-\graphicspath{{../../../results/external_graphics/node_edge_simulation/}}
-\put(5.75,0.35){\includegraphics[width=0.7in]{all_edge.pdf}}
-\put(5.75,1.65){\includegraphics[width=0.7in]{all_node.pdf}}
-\put(5.75,2.65){\includegraphics[width=0.7in]{all_edge.pdf}}
-\put(5.75,3.85){\includegraphics[width=0.7in]{all_node.pdf}}
-\put(0,4){\textbf{A}}
-\put(3.5,4){\textbf{B}}
-\put(3.5,2){\textbf{C}}
-\put(0,-0.3){\textbf{D}}
-\end{picture} -->
+
 \textbf{\LARGE{Figure 3}}
 \graphicspath{{../../../results/master_output/connectivity/}}
 \begin{picture}(0,4.5)
 \put(3.6,-0.75){\includegraphics[width=3.5in]{hub_bias_heatmap.pdf}}
 \put(0,-0.5){\includegraphics[width=4in]{doxorubicin_connnectivity.pdf}}
-\put(0,-3.91){\includegraphics[width=4.9in]{component_size_significance_search.pdf}}
-\put(3.9,-3.7){\includegraphics[width=4.3in]{density_significance_search.pdf}}
 \graphicspath{{../../../results/external_graphics/node_edge_simulation/}}
-\put(2.7,-3.3){\includegraphics[width=0.7in]{all_edge.pdf}}
-\put(2.7,-1.7){\includegraphics[width=0.7in]{all_node.pdf}}
-\put(6.45,-3.3){\includegraphics[width=0.7in]{all_edge.pdf}}
-\put(6.45,-1.7){\includegraphics[width=0.7in]{all_node.pdf}}
 \put(0,4.1){\textbf{A}}
 \put(4,4.1){\textbf{B}}
 \put(0,-1.3){\textbf{C}}
-\put(4,-1.3){\textbf{D}}
+\put(4.7,-1.3){\textbf{D}}
+\put(0.1,-4){\includegraphics[width=6.5in]{bottom_panel_illustrated.pdf}}
 \end{picture}
 \newpage
 
