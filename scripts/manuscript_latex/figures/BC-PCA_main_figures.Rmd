@@ -32,7 +32,7 @@ output:
 \textbf{\LARGE{Figure 2}}
 \begin{picture}(0,4.5)
 \put(0,1.65){\includegraphics[width=3in]{fig_2a.png}}
-\put(3.5,1.65){\includegraphics[width=3in]{fig_2b.png}}
+\put(3.7,1.85){\includegraphics[width=2.3in]{fig_2b.pdf}}
 
 \put(0.1,-2.2){\includegraphics[width=10in]{node_enrichment_go_v2_1.pdf}}
 \put(0,4.2){\textbf{A}}
@@ -45,13 +45,13 @@ output:
 \graphicspath{{../../../results/master_output/connectivity/}}
 \begin{picture}(0,4.5)
 \put(3.6,-0.75){\includegraphics[width=3.5in]{hub_bias_heatmap.pdf}}
-\put(0,-0.5){\includegraphics[width=4in]{doxorubicin_connnectivity.pdf}}
 \graphicspath{{../../../results/external_graphics/node_edge_simulation/}}
 \put(0,4.1){\textbf{A}}
 \put(4,4.1){\textbf{B}}
 \put(0,-1.3){\textbf{C}}
 \put(4.7,-1.3){\textbf{D}}
 \put(0.1,-4){\includegraphics[width=6.5in]{bottom_panel_illustrated.pdf}}
+\put(0,-0.5){\includegraphics[width=3.5in]{doxorubicin_cytoscape_drawing.pdf}}
 \end{picture}
 \newpage
 
@@ -71,16 +71,7 @@ output:
 \put(0,1.1){\textbf{C}}
 \put(3.8,1.1){\textbf{D}}
 \put(0,-0.8){\textbf{E}}
-\end{picture}
-\newpage
-
-<!-- Figure 4 --> 
-\textbf{\LARGE{Figure 5}}
-\begin{picture}(0,4.5)
-\graphicspath{{../../../results/external_graphics/}}
-\put(0,1.1){\includegraphics[width=2.6in]{rbd_knockdown.png}}
+\put(2.9,-0.8){\textbf{F}}
 \graphicspath{{../../../results/master_output/rbd2/}}
-\put(2.9,0.7){\includegraphics[width=3.8in]{rbd2_knockdown.pdf}}
-\put(0,4.3){\textbf{A}}
-\put(2.9,4.3){\textbf{B}}
+\put(2.9,-4){\includegraphics[width=3in]{rbd2_knockdown.pdf}}
 \end{picture}

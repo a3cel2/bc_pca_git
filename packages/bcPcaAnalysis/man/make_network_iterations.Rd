@@ -4,17 +4,14 @@
 \alias{make_network_iterations}
 \title{Simulate a network that is the same size as one obtained from an experimental file}
 \usage{
-make_network_iterations(pca_universe, pca_file, condition, n_iters,
-  mode = "edgewise", node_sensitivity = 1, prob_node = 1,
-  metric = get_largest_component_from_edgelist, n_parallel = 4,
-  cluster = NULL)
+make_network_iterations(pca_universe, pca_enhanced_file, pca_depleted_file,
+  condition, n_iters, mode = "edgewise", node_sensitivity = 1,
+  prob_node = 1, metric = get_largest_component_from_edgelist,
+  n_parallel = 4, cluster = NULL)
 }
 \arguments{
 \item{pca_universe}{A PCA file corresponding to all protein-protein interactions
 available in a given condition}
-
-\item{pca_file}{A PCA file corresponding to all significantly changed
-protein-protein interactions}
 
 \item{condition}{the condition of interest, a string present in both pca_universe and pca_file}
 
@@ -35,6 +32,9 @@ should be from a sampled node compared to a sampled edge}
 \item{n_parallel}{number of parallel computing sessions to start}
 
 \item{cluster}{the identity of a cluster created by the SNOW package, if not specified, it creates ones}
+
+\item{pca_file}{A PCA file corresponding to all significantly changed
+protein-protein interactions}
 }
 \value{
 a list of two-column matrices if metric is not specified, or a list of the output of metric

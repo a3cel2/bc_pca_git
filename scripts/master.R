@@ -14,7 +14,7 @@ setwd(this.dir)
 #GO enrichment
 #Frequency Perturbation
 #Connectivity
-to_run <- c('Connectivity')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
+to_run <- c('Make figures')#'Make figures')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
 
 #Markdown directory
 figure_path <- "../results/rmarkdown_figures"
@@ -29,7 +29,7 @@ pca_enhanced_calls = '../data/external/Additional.file.10.txt'
 pca_depleted_calls = '../data/external/Additional.file.11.txt'
 go_association_file = '../data/funcassociate_go_associations.txt'
 
-protein_abundance_file = "../data/paxdb_abundance.tsv"
+protein_abundance_file = '../data/paxdb_abundance.tsv'
 expression_file = '../data/external/Additional.file.14.txt'
 
 hub_enrichment_file = '../data/external/Data for Figure 3D.xlsx'

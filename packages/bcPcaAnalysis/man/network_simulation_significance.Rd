@@ -5,9 +5,10 @@
 \title{Returns a matrix corresponding to significant deviations from an observed network, given a defined property}
 \usage{
 network_simulation_significance(pca_universe, pca_enhanced, pca_depleted,
-  excluded_condition_grep = "CRISPR", iterations = 1000, seed = 123,
-  sigval = 0.05, mode = "edgewise", node_sensitivity = 1, prob_node = 1,
-  metric = "component_size", n_parallel = 8, cluster = NULL)
+  excluded_condition_grep = "CRISPR", conditions = NULL,
+  iterations = 1000, seed = 123, sigval = 0.05, mode = "edgewise",
+  node_sensitivity = 1, prob_node = 1, metric = "component_size",
+  n_parallel = 8, cluster = NULL)
 }
 \arguments{
 \item{pca_universe}{A PCA file corresponding to all protein-protein interactions

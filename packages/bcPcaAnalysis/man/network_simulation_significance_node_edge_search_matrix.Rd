@@ -7,7 +7,7 @@ a subnetwork simulation, and returns a matrix in which the rows are all conditio
 and the columns correspond to the given proportions of node-based (indirect) protein complex changes}
 \usage{
 network_simulation_significance_node_edge_search_matrix(pca_universe,
-  pca_enhanced, pca_depleted, iterations = 100, node_probs = c(0:10)/10,
+  pca_enhanced, pca_depleted, iterations = 1000, node_probs = c(0:10)/10,
   metric = "component size", conditions = NULL,
   excluded_condition_grep = "CRISPR", n_parallel = 8, load_saved = F,
   save_output = F, save_directory = NULL, save_filename = NULL,

@@ -381,7 +381,7 @@ network_simulation_significance_node_edge_search_matrix <- function(pca_universe
                                                                     save_directory=NULL,
                                                                     save_filename=NULL,
                                                                     seed=99){
-  
+  set.seed(seed)
   saved_file_path <- paste(c(save_directory,save_filename),collapse='/')
   if(file.exists(saved_file_path) & load_saved == T){
     output_table <- read.table(saved_file_path)

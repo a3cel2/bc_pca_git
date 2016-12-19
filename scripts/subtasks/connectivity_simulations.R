@@ -10,7 +10,7 @@ pca_depleted <- read.table(pca_depleted_calls,head=T,sep='\t')
 hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
 
 #Show connectivity patterns in doxorubicin
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'doxorubicin_connnectivity.pdf'),collapse='/'),width=5,height=6)
+Cairo::CairoPDF(file=paste(c(connectivity_output_path,'doxorubicin_connnectivity.pdf'),collapse='/'),width=8,height=4)
 network_connectivity_graph(pca_universe,
                            pca_enhanced,
                            pca_depleted,
@@ -18,10 +18,14 @@ network_connectivity_graph(pca_universe,
                            my_color_list,
                            #Set this to True to edit the network layout
                            edit=F,
+                           to_plot='enhanced',
+                           load_saved=T,
                            node_size=10,
                            edge_width=4,
+                           my_title='',
                            layout_save_dir='../data/script_input/',
-                           layout_file='doxo_connectivity.layout')
+                           layout_file='doxo_connectivity.layout',
+                           network_export_file='doxo_output_graph.tsv')
 dev.off()
 #stop()
 
@@ -44,23 +48,23 @@ dev.off()
 
 
 #Estimate the probability of getting the given component size distributions with randomly sampling edges
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance.pdf'),collapse='/'),width=12,height=3)
-component_sig_matrix <- network_simulation_significance(pca_universe,
-                                                        pca_enhanced,
-                                                        pca_depleted,
-                                                        iterations=connectivity_iterations)
-connectivity_graph(component_sig_matrix,my_color_list)
-dev.off()
-
-#Estimate the probability of getting the given component size distributions with randomly sampling nodes
-Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
-component_sig_matrix_nodewise <- network_simulation_significance(pca_universe,
-                                                                 pca_enhanced,
-                                                                 pca_depleted,
-                                                                 iterations=connectivity_iterations,
-                                                                 mode = 'nodewise')
-connectivity_graph(component_sig_matrix_nodewise,my_color_list)
-dev.off()
+# Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance.pdf'),collapse='/'),width=12,height=3)
+# component_sig_matrix <- network_simulation_significance(pca_universe,
+#                                                         pca_enhanced,
+#                                                         pca_depleted,
+#                                                         iterations=connectivity_iterations)
+# connectivity_graph(component_sig_matrix,my_color_list)
+# dev.off()
+# 
+# #Estimate the probability of getting the given component size distributions with randomly sampling nodes
+# Cairo::CairoPDF(file=paste(c(connectivity_output_path,'component_size_significance_nodewise.pdf'),collapse='/'),width=12,height=3)
+# component_sig_matrix_nodewise <- network_simulation_significance(pca_universe,
+#                                                                  pca_enhanced,
+#                                                                  pca_depleted,
+#                                                                  iterations=connectivity_iterations,
+#                                                                  mode = 'nodewise')
+# connectivity_graph(component_sig_matrix_nodewise,my_color_list)
+# dev.off()
 
 #Estimate the probability of getting the given graph density distributions with randomly sampling edges
 # Cairo::CairoPDF(file=paste(c(connectivity_output_path,'density_significance.pdf'),collapse='/'),width=12,height=3)
@@ -107,8 +111,8 @@ component_size_sig_search_matrix <- network_simulation_significance_node_edge_se
                                                                                             pca_enhanced = pca_enhanced,
                                                                                             pca_depleted = pca_depleted,
                                                                                             node_probs=c(0:10)/10,
-                                                                                            iterations=100,#connectivity_iterations,
-                                                                                            load_saved=F,
+                                                                                            iterations=connectivity_iterations,
+                                                                                            load_saved=T,
                                                                                             save_output=T,
                                                                                             save_directory=saved_parameter_path,
                                                                                             save_filename='parameter_search_component_size.tsv')
@@ -146,6 +150,8 @@ node_edge_search_heatmap(processed_density_sig_search_matrix,
                                          '2'="Most consistent simulation"))
 dev.off()
 
+
+stop()
 
 #Shows which hubs have a bias of accumulating or depleting interactions
 Cairo::CairoPDF(file=paste(c(connectivity_output_path,'hub_bias_heatmap.pdf'),collapse='/'),width=6,height=8.5)

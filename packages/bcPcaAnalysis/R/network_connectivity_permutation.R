@@ -122,8 +122,10 @@ network_connectivity_graph <- function(pca_universe,
                                        seed=104,
                                        edit=F,
                                        load_saved=T,
+                                       to_plot='both',
                                        layout_save_dir='',
                                        layout_file='default.layout',
+                                       network_export_file='default.tsv',
                                        my_title='\n\nDoxorubicin'){
   condition_enhanced <- collapse_multigenes(dplyr::filter(pca_enhanced,Condition==condition))
   condition_depleted <- collapse_multigenes(dplyr::filter(pca_depleted,Condition==condition))
@@ -134,7 +136,14 @@ network_connectivity_graph <- function(pca_universe,
   g2 <- igraph::graph_from_edgelist(as.matrix(condition_depleted[,c('Gene.1','Gene.2')]),directed=T)
   g1_n <- keep_only_largest_connected_component(g1)
   g2_n <- keep_only_largest_connected_component(g2)
-  g <- igraph::graph.union(g1_n,g2_n)
+  
+  if(to_plot == 'both'){
+    g <- igraph::graph.union(g1_n,g2_n)
+  } else if(to_plot == 'enhanced'){
+    g <- g1_n
+  } else if(to_plot == 'depleted'){
+    g <- g2_n
+  }
   
   #Get changes for new graph
   edges <- igraph::get.edgelist(g)
@@ -157,6 +166,7 @@ network_connectivity_graph <- function(pca_universe,
   par(oma=c(0,0,0,0),mar=c(0,0,0,0))
   set.seed(seed)
   layout_file_path <- paste(c(layout_save_dir,layout_file),collapse='/')
+  net_export_file_path <- paste(c(layout_save_dir,network_export_file),collapse='/')
   if(file.exists(layout_file_path) & load_saved == T){
    l <- read.table(layout_file_path,head=F) 
    l <- as.matrix(l)
@@ -170,6 +180,7 @@ network_connectivity_graph <- function(pca_universe,
     l <- igraph::tkplot.getcoords(editplot)
   }
   write.table(l,file = layout_file_path, col.names=F,quote=F,row.names=F)
+  write.table(cbind(igraph::get.edgelist(g),expr),quote=F,col.names=F,row.names=F,file=net_export_file_path)
   plot(g,layout=l,vertex.size=node_size,edge.width=edge_width)
   hub_legend_draw(min_fc,max_fc,my_color_list,main_font_size = 0.7,side_font_size = 0.7 ,width=0.2,new_plot=F,x_adjust=-1,y_adjust=-1)
   
@@ -250,7 +261,7 @@ empirical_two_tailed_p <- function(observed_value,iterated_value_list){
   return(min(c(min(c(lower_p,higher_p))*2,1)))
 }
 
-#' Add edges from a protein-protein interaction matrix into a sampled subnetwork
+#' Modify edges from a protein-protein interaction matrix into a sampled subnetwork
 #'
 #' @param universe_matrix a sparse matrix with all possible edges
 #' @param matched_empty_matrix a sparse matric that is a subset of universe_matrix, to which edges are to be added
@@ -260,25 +271,33 @@ empirical_two_tailed_p <- function(observed_value,iterated_value_list){
 #' @param mode either 'node' or 'edge', whether to sample one itneraction, or all interactions involving one protein
 #'
 #' @return a modified version of matched_empty_matrix
-add_edges <- function(universe_matrix,
-                      matched_empty_matrix,
-                      nodelist,
-                      edge_indeces,
-                      n_edge_indeces,
-                      mode){
-  if(mode == 'node'){
-    node <- sample(nodelist,1)
-    v1 <- universe_matrix[node,]
-    v2 <- universe_matrix[,node]
-    matched_empty_matrix[node,] <- v1
-    matched_empty_matrix[,node] <- v2
-  } else if(mode == 'edge'){
-    edge <- edge_indeces[round(runif(min=1,max=n_edge_indeces,1)),]
-    matched_empty_matrix[edge[1],edge[2]] <- universe_matrix[edge[1],edge[2]]
+modify_edges <- function(universe_matrix,
+                         matched_empty_matrix,
+                         node=NULL,
+                         edge,
+                         n_edge_indeces,
+                         sample_mode,
+                         modification_mode='addition'){
+  if(sample_mode == 'node'){
+    if(modification_mode == 'addition'){
+      v1 <- universe_matrix[node,]
+      v2 <- universe_matrix[,node]
+      matched_empty_matrix[node,] <- v1
+      matched_empty_matrix[,node] <- v2
+    } else if(modification_mode == 'subtraction'){
+      matched_empty_matrix[node,] <- 0
+      matched_empty_matrix[,node] <- 0
+    }
+  } else if(sample_mode == 'edge'){
+    if(modification_mode == 'addition'){
+      
+      matched_empty_matrix[edge[1],edge[2]] <- universe_matrix[edge[1],edge[2]]
+    } else if(modification_mode == 'subtraction'){
+      matched_empty_matrix[edge[1],edge[2]] <- 0
+    }
   }
   return(matched_empty_matrix)
 }
-
 
 #' Simulate a subnetwork from a larger protein-protein interaction network by randomly sampling either nodes or edges
 #'
@@ -291,49 +310,150 @@ add_edges <- function(universe_matrix,
 #' @return a sparse matrix representing a sample of the larger network
 nodewise_simulation <- function(universe_matrix,
                                 matched_empty_matrix,
-                                n_edges,
+                                n_edges_enhanced,
+                                n_edges_depleted,
                                 nodelist,
                                 prob_node=1){
   
-  remaining_edges <- n_edges
+  remaining_edges_enhanced <- n_edges_enhanced
+  remaining_edges_depleted <- n_edges_depleted
   
   edge_indeces <- Matrix::which(as.matrix(universe_matrix) != 0,arr.ind=T)
   n_edge_indeces <- nrow(edge_indeces)
   
-  n_edges_edgewise <- round((1 - prob_node)*n_edges)
-  n_edges_nodewise <- n_edges - n_edges_edgewise
+  n_edges_edgewise_enhanced <- round((1 - prob_node)*n_edges_enhanced)
+  n_edges_nodewise_enhanced <- n_edges_enhanced - n_edges_edgewise_enhanced
   
-  remaining_edges_nodewise <- n_edges_nodewise
-
+  n_edges_edgewise_depleted <- round((1 - prob_node)*n_edges_depleted)
+  n_edges_nodewise_depleted <- n_edges_depleted - n_edges_edgewise_depleted
   
-  while(remaining_edges > 0){
-    if(remaining_edges_nodewise > 0){
-      sample_mode = 'node'
-    } else{
-      sample_mode = 'edge'
+  remaining_edges_nodewise_enhanced <- n_edges_nodewise_enhanced
+  remaining_edges_nodewise_depleted <- n_edges_nodewise_depleted
+  
+  #Two separate matrices here make for more efficient calculations
+  matched_empty_matrix_enhanced <- matched_empty_matrix
+  matched_empty_matrix_depleted <- matched_empty_matrix
+  
+  #Alternate between enhanced and depleted sampling
+  i <- 0
+  while(remaining_edges_enhanced > 0 | remaining_edges_depleted > 0){
+    #Enhanced sampling mode
+    if(i %% 2 == 0){
+      matched_empty_matrix <- matched_empty_matrix_enhanced
+      remaining_edges_nodewise <- remaining_edges_nodewise_enhanced
+      remaining_edges <- remaining_edges_enhanced
+      n_edges <- n_edges_enhanced
+      n_edges_nodewise <- n_edges_nodewise_enhanced
+      #Depleted sampling mode
+    }else if(i %% 2 == 1){
+      matched_empty_matrix <- matched_empty_matrix_depleted
+      remaining_edges_nodewise <- remaining_edges_nodewise_depleted
+      remaining_edges <- remaining_edges_depleted
+      n_edges <- n_edges_depleted
+      n_edges_nodewise <- n_edges_nodewise_depleted
     }
-    test_matched_empty_matrix <- add_edges(universe_matrix,matched_empty_matrix,nodelist,edge_indeces,n_edge_indeces,mode=sample_mode)
-    
-    if(!identical(test_matched_empty_matrix,matched_empty_matrix)){
-      if(sample_mode == 'node'){
-        sum_nonzero <- Matrix::nnzero(test_matched_empty_matrix)
-        remaining_edges <- n_edges - sum_nonzero
-        remaining_edges_nodewise <- n_edges_nodewise - sum_nonzero
-      } else {
-        remaining_edges <- remaining_edges - 1
+    if(remaining_edges > 0){
+      #Add 'node-centric' interaction changes until you're done
+      #then start adding edge-centric interaction changes afterwards
+      if(remaining_edges_nodewise > 0){
+        sample_mode <- 'node'
+        node <- sample(nodelist,1)
+        edge <- NULL
+      } else{
+        sample_mode <- 'edge'
+        node <- NULL
+        edge <- edge_indeces[sample(n_edge_indeces,1),]
       }
-      while(remaining_edges < 0 | remaining_edges_nodewise < 0){
-        test_matched_empty_matrix <- add_edges(universe_matrix,matched_empty_matrix,nodelist,edge_indeces,n_edge_indeces,mode=sample_mode)
+      
+      #print('we are sampling in this mode:')
+      #print(sample_mode)
+      
+      test_matched_empty_matrix <- modify_edges(universe_matrix=universe_matrix,
+                                                matched_empty_matrix,
+                                                node,
+                                                edge,
+                                                n_edge_indeces,
+                                                sample_mode=sample_mode)
+      if(!identical(test_matched_empty_matrix,matched_empty_matrix)){
         sum_nonzero <- Matrix::nnzero(test_matched_empty_matrix)
-        remaining_edges <- n_edges - sum_nonzero
-        remaining_edges_nodewise <- n_edges_nodewise - sum_nonzero
+        if(sample_mode == 'node'){
+          remaining_edges <- n_edges - sum_nonzero
+          remaining_edges_nodewise <- n_edges_nodewise - sum_nonzero
+        } else {
+          remaining_edges <- n_edges - sum_nonzero
+        }
+        #print('i took a sample and need the this made more edges now:')
+        #print(remaining_edges_nodewise)
+        
+        #Don't oversample edges if doing node-based sampling - keep sampling a node until you don't over-sample
+        #(e.g. if 1 edge needed, you can only sample a 'node' with interaction degree 1)
+        #print('the amount of nodewise edges is:')
+        #print(remaining_edges_nodewise)
+        while(remaining_edges_nodewise < 0 & sample_mode == 'node'){
+          #  print('I oversampled, attempting to correct')
+          node <- sample(nodelist,1)
+          test_matched_empty_matrix <- modify_edges(universe_matrix,
+                                                    matched_empty_matrix,
+                                                    node,
+                                                    edge,
+                                                    n_edge_indeces,
+                                                    sample_mode=sample_mode)
+          sum_nonzero <- Matrix::nnzero(test_matched_empty_matrix)
+          remaining_edges_nodewise <- n_edges_nodewise - sum_nonzero
+          #print(remaining_edges_nodewise)
+        }
       }
-      matched_empty_matrix <- test_matched_empty_matrix
+      
+      #Update, if there is a conflict in edges, remove it from the other matrix
+      #to ensure exclusivity of edges
+      if(i %% 2 == 0){
+        matched_empty_matrix_enhanced <- test_matched_empty_matrix
+        matched_empty_matrix_depleted <- modify_edges(universe_matrix,
+                                                      matched_empty_matrix_depleted,
+                                                      node,
+                                                      edge,
+                                                      n_edge_indeces,
+                                                      sample_mode=sample_mode,
+                                                      modification_mode='subtraction')
+        remaining_edges_enhanced <- remaining_edges
+        nzero_alt <- Matrix::nnzero(matched_empty_matrix_depleted)
+        remaining_edges_depleted <- n_edges_depleted - nzero_alt
+        if(sample_mode == 'node'){
+          remaining_edges_nodewise_enhanced <- remaining_edges_nodewise
+          remaining_edges_nodewise_depleted <- n_edges_nodewise_depleted - nzero_alt
+        }
+      }
+      if(i %% 2 == 1){
+        matched_empty_matrix_depleted <- test_matched_empty_matrix
+        matched_empty_matrix_enhanced <- modify_edges(universe_matrix,
+                                                      matched_empty_matrix_enhanced,
+                                                      node,
+                                                      edge,
+                                                      n_edge_indeces,
+                                                      sample_mode=sample_mode,
+                                                      modification_mode='subtraction')
+        remaining_edges_depleted <- remaining_edges
+        nzero_alt <- Matrix::nnzero(matched_empty_matrix_enhanced)
+        remaining_edges_enhanced <- n_edges_enhanced - nzero_alt
+        if(sample_mode == 'node'){
+          remaining_edges_nodewise_depleted <- remaining_edges_nodewise
+          remaining_edges_nodewise_enhanced <- n_edges_nodewise_enhanced - nzero_alt
+        }
+      }
     }
+    i <- i + 1
+    #print(i)
   }
-  matr_sum <- as.matrix(Matrix::summary(matched_empty_matrix))
-  #print(matr_sum)
-  return(cbind(rownames(matched_empty_matrix)[matr_sum[,1]],colnames(matched_empty_matrix)[matr_sum[,2]]))
+  edgelist_enh <- as.matrix(Matrix::summary(matched_empty_matrix_enhanced))
+  edgelist_enh <- cbind(rownames(matched_empty_matrix_enhanced)[edgelist_enh[,1]],colnames(matched_empty_matrix)[edgelist_enh[,2]])
+  
+  edgelist_depl <- as.matrix(Matrix::summary(matched_empty_matrix_depleted))
+  edgelist_depl <- cbind(rownames(matched_empty_matrix_depleted)[edgelist_depl[,1]],colnames(matched_empty_matrix_depleted)[edgelist_depl[,2]])
+  
+  
+  return(list('enhanced'=edgelist_enh,
+              'depleted'=edgelist_depl))
+  #return(cbind(rownames(matched_empty_matrix)[matr_sum[,1]],colnames(matched_empty_matrix)[matr_sum[,2]]))
 }
 
 #' Simulate a network that is the same size as one obtained from an experimental file
@@ -358,8 +478,10 @@ nodewise_simulation <- function(universe_matrix,
 #' @return a list of two-column matrices if metric is not specified, or a list of the output of metric
 #' on the two column-matrix if it is
 make_network_iterations <- function(pca_universe,
-                                    pca_file,
-                                    condition,n_iters,
+                                    pca_enhanced_file,
+                                    pca_depleted_file,
+                                    condition,
+                                    n_iters,
                                     mode = 'edgewise',
                                     node_sensitivity = 1,
                                     prob_node = 1,
@@ -367,10 +489,22 @@ make_network_iterations <- function(pca_universe,
                                     n_parallel = 4,
                                     cluster = NULL) {
   
-  real_edgelist <- as.matrix(dplyr::filter(pca_file,Condition==condition) 
-                             %>% dplyr::select(ORF.1,ORF.2))
-  n_edges <- nrow(real_edgelist)
-  n_nodes <- length(unique(as.vector(real_edgelist)))
+  
+  real_edgelist_enhanced <- as.matrix(dplyr::filter(pca_enhanced_file,Condition==condition) 
+                                      %>% dplyr::select(ORF.1,ORF.2))
+  real_edgelist_depleted <- as.matrix(dplyr::filter(pca_depleted_file,Condition==condition) 
+                                      %>% dplyr::select(ORF.1,ORF.2))
+  
+  
+  n_edges_enhanced <- nrow(real_edgelist_enhanced)
+  n_nodes_enhanced <- length(unique(as.vector(real_edgelist_enhanced)))
+  
+  n_edges_depleted <- nrow(real_edgelist_depleted)
+  n_nodes_depleted <- length(unique(as.vector(real_edgelist_depleted)))
+  
+  n_edges_total <- n_edges_enhanced + n_edges_depleted
+  
+  
   potential_edgelist <- as.matrix(dplyr::filter(pca_universe,Condition==condition) 
                                   %>% dplyr::select(ORF.1,ORF.2))
   potential_nrow <- nrow(potential_edgelist)
@@ -384,9 +518,16 @@ make_network_iterations <- function(pca_universe,
   if(mode == 'edgewise'){
     snow::clusterExport(cl,c('metric'),environment())
     retval <- snow::parLapply(cl,1:n_iters,function(n){
-      edgelist <- potential_edgelist[sample(1:potential_nrow,n_edges,replace=F),,drop=F]
+      edge_samples <- sample(1:potential_nrow,n_edges_total,replace=F)
+      enhanced_sample <- edge_samples[1:n_edges_enhanced]
+      depleted_sample <- edge_samples[(n_edges_enhanced+1):n_edges_total]
+      #depleted_sample <- sample(1:potential_nrow[!(1:potential_nrow)],n_edges,replace=F)
+      edgelist_enhanced <- potential_edgelist[enhanced_sample,,drop=F]
+      edgelist_depleted <- potential_edgelist[depleted_sample,,drop=F]
+      
       if(!is.null(metric)){
-        return(metric(edgelist))
+        return(list('enhanced'=metric(edgelist_enhanced),
+                    'depleted'=metric(edgelist_depleted)))
       }
       return(edgelist)
     })
@@ -398,26 +539,41 @@ make_network_iterations <- function(pca_universe,
     matched_empty_matrix <- universe_matrix
     matched_empty_matrix[matched_empty_matrix > 0 ] <- 0
     
-    snow::clusterExport(cl,c('metric','nodewise_simulation','n_edges','add_edges','prob_node','nodelist','universe_matrix','matched_empty_matrix'),environment())
+    snow::clusterExport(cl,c('metric',
+                             'nodewise_simulation',
+                             'n_edges_enhanced',
+                             'n_edges_depleted',
+                             'modify_edges',
+                             'prob_node',
+                             'nodelist',
+                             'universe_matrix',
+                             'matched_empty_matrix'),
+                        environment())
     snow::clusterEvalQ(cl, {library(Matrix)})
     #nodewise_simulation(universe_matrix,matched_empty_matrix,n_edges,nodelist,prob_node=prob_node)
     
     retval <- snow::parLapply(cl,1:n_iters,function(n){
-      edgelist <- nodewise_simulation(universe_matrix,matched_empty_matrix,n_edges,nodelist,prob_node=prob_node)
+      edgelist <- nodewise_simulation(universe_matrix,
+                                      matched_empty_matrix,
+                                      n_edges_enhanced,
+                                      n_edges_depleted,
+                                      nodelist,
+                                      prob_node=prob_node)
       if(!is.null(metric)){
-        return(metric(edgelist))
+        return(list('enhanced'=metric(edgelist$enhanced),
+                    'depleted'=metric(edgelist$depleted)))
       }
       return(edgelist)
     })
-  
+    
     
   }
   if(is.null(cluster)){
     snow::stopCluster(cl)
   }
   return(retval)
-  
 }
+
 
 #' Returns a matrix corresponding to significant deviations from an observed network, given a defined property
 #'
@@ -443,87 +599,103 @@ make_network_iterations <- function(pca_universe,
 #' values are either 1 (significant, real value is greater than simulations), 0 (nonsigificant), -1
 #' (significant, real value is less than simulations)
 network_simulation_significance <- function(pca_universe,
-                                              pca_enhanced,
-                                              pca_depleted,
-                                              excluded_condition_grep = 'CRISPR',
-                                              iterations = 1000,
-                                              seed=123,
-                                              sigval=0.05,
-                                              mode='edgewise',
-                                              node_sensitivity = 1,
-                                              prob_node=1,
-                                              metric='component_size',
+                                            pca_enhanced,
+                                            pca_depleted,
+                                            excluded_condition_grep = 'CRISPR',
+                                            conditions = NULL,
+                                            iterations = 1000,
+                                            seed=123,
+                                            sigval=0.05,
+                                            mode='edgewise',
+                                            node_sensitivity = 1,
+                                            prob_node=1,
+                                            metric='component_size',
                                             n_parallel=8,
                                             cluster=NULL){
-  conditions <- as.vector(unique(c(levels(pca_enhanced$Condition),levels(pca_depleted$Condition))))
-  conditions <- conditions[!(grepl(excluded_condition_grep,conditions))]
+  set.seed(seed)
+  if(is.null(conditions)){
+    conditions <- as.vector(unique(c(levels(pca_enhanced$Condition),levels(pca_depleted$Condition))))
+    conditions <- conditions[!(grepl(excluded_condition_grep,conditions))]
+  }
   record_list <- list()
   iteration_list <- list()
   return_matrix <- matrix(nrow=2,ncol=length(conditions),data=1)
-  rownames(return_matrix) <- c('accumulated','depleted')
+  rownames(return_matrix) <- c('enhanced','depleted')
   colnames(return_matrix) <- conditions
   
-  for(direction in c('accumulated','depleted')){
-    record_list[[direction]] <- list()
-    if(direction == 'accumulated'){
-      pca_file <- pca_enhanced
+  #for(direction in c('accumulated','depleted')){
+  #  record_list[[direction]] <- list()
+  #  if(direction == 'accumulated'){
+  #    pca_file <- pca_enhanced
+  #  }
+  #  else{
+  #    pca_file <- pca_depleted
+  #  }
+  for(condition in conditions){
+    write(condition,stderr())
+    if(metric == 'component_size'){
+      real_metric_enhanced <- get_largest_component_size(pca_enhanced,condition)
+      real_metric_depleted <- get_largest_component_size(pca_depleted,condition)
+      metric_function <- get_largest_component_from_edgelist
+    }
+    else if (metric == 'density'){
+      edgelist_enhanced <- as.matrix(dplyr::filter(pca_enhanced,Condition==condition) 
+                                     %>% dplyr::select(ORF.1,ORF.2))
+      edgelist_depleted <- as.matrix(dplyr::filter(pca_depleted,Condition==condition) 
+                                     %>% dplyr::select(ORF.1,ORF.2))
+      
+      real_metric_enhanced <- get_density_from_edgelist(edgelist_enhanced)
+      real_metric_depleted <- get_density_from_edgelist(edgelist_depleted)
+      metric_function <- get_density_from_edgelist
+    }
+    if(mode == 'edgewise'){
+      results <- unlist(make_network_iterations(pca_universe,
+                                                pca_enhanced,
+                                                pca_depleted,
+                                                condition=condition,
+                                                mode=mode,
+                                                n_iters=iterations,
+                                                metric=metric_function,
+                                                n_parallel=n_parallel,
+                                                cluster=cluster))
+      
+      iteration_list[['enhanced']][[condition]] <- results[names(results) == 'enhanced']
+      iteration_list[['depleted']][[condition]] <- results[names(results) == 'depleted']
+      
+    }
+    else if(mode =='nodewise'){
+      results <- unlist(make_network_iterations(pca_universe,
+                                                pca_enhanced,
+                                                pca_depleted,
+                                                condition,
+                                                n_iters=iterations,
+                                                mode = 'nodewise',
+                                                node_sensitivity,
+                                                prob_node=prob_node,
+                                                metric=metric_function,
+                                                n_parallel=n_parallel,
+                                                cluster=cluster))
+      
+      iteration_list[['enhanced']][[condition]] <- results[names(results) == 'enhanced']
+      iteration_list[['depleted']][[condition]] <- results[names(results) == 'depleted']
+      
     }
     else{
-      pca_file <- pca_depleted
+      stop('Invalid mode specified')
     }
-    for(condition in conditions){
-      if(metric == 'component_size'){
-        real_metric <- get_largest_component_size(pca_file,condition)
-        metric_function <- get_largest_component_from_edgelist
-      }
-      else if (metric == 'density'){
-        real_metric <- get_density(pca_file,condition)
-        metric_function <- get_density_from_edgelist
-      }
-      if(mode == 'edgewise'){
-        iteration_list[[direction]][[condition]] <- unlist(make_network_iterations(pca_universe,
-                                                                            pca_file,
-                                                                            condition=condition,
-                                                                            mode=mode,
-                                                                            n_iters=iterations,
-                                                                            metric=metric_function,
-                                                                            n_parallel=n_parallel,
-                                                                            cluster=cluster))
-      }
-      else if(mode =='nodewise'){
-        iteration_list[[direction]][[condition]] <- unlist(make_network_iterations(pca_universe,pca_file,
-                                                                            condition,
-                                                                            n_iters=iterations,
-                                                                            mode = 'nodewise',
-                                                                            node_sensitivity,
-                                                                            prob_node=prob_node,
-                                                                            metric=metric_function,
-                                                                            n_parallel=n_parallel,
-                                                                            cluster=cluster))
-      }
-      else{
-        stop('Invalid mode specified')
-      }
-      record_list[[direction]][[condition]] <- real_metric
-      #print(condition)
-      #print(direction)
-      #print(real_metric)
-      #print(iteration_list[[direction]][[condition]])
-      #if(metric == 'component_size'){
-      #  return_matrix[direction,condition] <- #sum(iteration_list[[direction]][[condition]] >= record_list[[direction]][[condition]])/iterations
-      #}
-      #else if(metric == 'connectivity'){
+    record_list[['enhanced']][[condition]] <- real_metric_enhanced
+    record_list[['depleted']][[condition]] <- real_metric_depleted
+    for(direction in c('enhanced','depleted')){
       return_matrix[direction,condition] <- (empirical_two_tailed_p(record_list[[direction]][[condition]],iteration_list[[direction]][[condition]])+1e-04)*
-        sign(record_list[[direction]][[condition]] - median(iteration_list[[direction]][[condition]]))#sum(iteration_list[[direction]][[condition]] <= record_list[[direction]][[condition]])/iterations
-      #}
+        sign(record_list[[direction]][[condition]] - mean(iteration_list[[direction]][[condition]]))#sum(iteration_list[[direction]][[condition]] <= record_list[[direction]][[condition]])/iterations
     }
   }
-
-  #print(return_matrix)
+  
+  print(return_matrix)
   return_matrix[which(abs(return_matrix) <= sigval + 1e-04 & sign(return_matrix) == -1)] <- -1.01
   return_matrix[which(abs(return_matrix) <= sigval + 1e-04 & sign(return_matrix) == 1)] <- 1.01
   return_matrix[which(!(return_matrix %in% c(-1.01,1.01)))] <- 0
- 
+  
   return_matrix[return_matrix == -1.01] <- -1
   return_matrix[return_matrix == 1.01] <- 1
   return(return_matrix)
@@ -608,7 +780,7 @@ connectivity_graph <- function(my_matr,
 network_simulation_significance_node_edge_search_matrix <- function(pca_universe,
                                                                     pca_enhanced,
                                                                     pca_depleted,
-                                                                    iterations=100,
+                                                                    iterations=1000,
                                                                     node_probs=c(0:10)/10,
                                                                     metric='component size',
                                                                     conditions=NULL,
@@ -635,46 +807,57 @@ network_simulation_significance_node_edge_search_matrix <- function(pca_universe
   result_matrix <- c()
   cl <- snow::makeCluster(n_parallel)
   for(condition in conditions){
-    for(direction in c('accumulated','depleted')){
-      write(paste(c("working on:",condition,direction),collapse=' '), stderr())
-      if(direction == 'accumulated'){
-        pca_file <- pca_enhanced
-      }
-      if(direction == 'depleted'){
-        pca_file <- pca_depleted
-      }
-      sub_pca_universe <- dplyr::filter(pca_universe,Condition==condition) 
-      val_list <- c()
-      if(metric == 'density'){
-        observed_val <- get_density(pca_file,condition)
-      }
-      else if(metric == 'component size'){
-        observed_val <- get_largest_component_size(pca_file,condition)
-      }
-      for(i in node_probs){
-        write(paste(c("current node proportion:",i),collapse=' '), stderr())
-        my_net <- make_network_iterations(sub_pca_universe,
-                                          pca_file,
-                                          condition,
-                                          n_iters=iterations,
-                                          mode='nodewise',
-                                          node_sensitivity=1,
-                                          prob_node=i,
-                                          metric=NULL,
-                                          n_parallel=8,
-                                          cluster=cl)
-        if(metric == 'component size'){
-          shuffled_vals <- sapply(my_net,get_largest_component_from_edgelist)
-        }
-        if(metric == 'density'){
-          shuffled_vals <- sapply(my_net,get_density_from_edgelist)
-        }
-        val_list <- c(val_list,(empirical_two_tailed_p(observed_val,shuffled_vals)+1e-04)*sign(observed_val-mean(shuffled_vals)))
-        
-      }
-      result_matrix <- rbind(result_matrix,val_list)
-      rownames(result_matrix)[nrow(result_matrix)] <- paste(c(condition,direction),collapse=' ')
+    # for(direction in c('accumulated','depleted')){
+    write(paste(c("working on:",condition),collapse=' '), stderr())
+    #if(direction == 'accumulated'){
+    #  pca_file <- pca_enhanced
+    #}
+    #if(direction == 'depleted'){
+    #  pca_file <- pca_depleted
+    #}
+    sub_pca_universe <- dplyr::filter(pca_universe,Condition==condition) 
+    val_list_enhanced <- c()
+    val_list_depleted <- c()
+    if(metric == 'density'){
+      observed_val_enhanced <- get_density(pca_enhanced,condition)
+      observed_val_depleted <- get_density(pca_depleted,condition)
     }
+    else if(metric == 'component size'){
+      observed_val_enhanced <- get_largest_component_size(pca_enhanced,condition)
+      observed_val_depleted <- get_largest_component_size(pca_depleted,condition)
+    }
+    for(i in node_probs){
+      write(paste(c("current node proportion:",i),collapse=' '), stderr())
+      my_net <- make_network_iterations(sub_pca_universe,
+                                        pca_enhanced,
+                                        pca_depleted,
+                                        condition,
+                                        n_iters=iterations,
+                                        mode='nodewise',
+                                        node_sensitivity=1,
+                                        prob_node=i,
+                                        metric=NULL,
+                                        n_parallel=8,
+                                        cluster=cl)
+      #print('done')
+      #print(my_net)
+      #stop()
+      if(metric == 'component size'){
+        shuffled_vals_enhanced <- sapply(my_net,function(x){get_largest_component_from_edgelist(x$enhanced)})
+        shuffled_vals_depleted <- sapply(my_net,function(x){get_largest_component_from_edgelist(x$depleted)})
+      }
+      if(metric == 'density'){
+        shuffled_vals_enhanced <- sapply(my_net,function(x){get_density_from_edgelist(x$enhanced)})
+        shuffled_vals_depleted <- sapply(my_net,function(x){get_density_from_edgelist(x$depleted)})
+      }
+      val_list_enhanced <- c(val_list_enhanced,(empirical_two_tailed_p(observed_val_enhanced,shuffled_vals_enhanced)+1e-04)*sign(observed_val_enhanced-mean(shuffled_vals_enhanced)))
+      val_list_depleted <- c(val_list_depleted,(empirical_two_tailed_p(observed_val_depleted,shuffled_vals_depleted)+1e-04)*sign(observed_val_depleted-mean(shuffled_vals_depleted)))
+    }
+    result_matrix <- rbind(result_matrix,val_list_enhanced)
+    rownames(result_matrix)[nrow(result_matrix)] <- paste(c(condition,'enhanced'),collapse=' ')
+    result_matrix <- rbind(result_matrix,val_list_depleted)
+    rownames(result_matrix)[nrow(result_matrix)] <- paste(c(condition,'depleted'),collapse=' ')
+    #}
   }
   colnames(result_matrix) <- node_probs
   snow::stopCluster(cl)
@@ -702,11 +885,12 @@ connectivity_histogram <- function(pca_universe,
                                    pca_enhanced,
                                    pca_depleted,
                                    condition,
-                                   iterations=1000,
+                                   iterations=10000,
                                    metric = get_largest_component_from_edgelist,
                                    seed=123,
                                    text_size=1.5,
                                    xlim=c(0,25),
+                                   breakstep=1,
                                    xlab='Simulated largest component',
                                    sampling_mode='edgewise',
                                    prob_node=0){
@@ -715,42 +899,56 @@ connectivity_histogram <- function(pca_universe,
       mar=c(6,4.5,3,0),
       oma=c(0,0,0,0))
   
+  edgelist_enhanced <- as.matrix(dplyr::filter(pca_enhanced,Condition==condition) 
+                        %>% dplyr::select(ORF.1,ORF.2))
+  edgelist_depleted <- as.matrix(dplyr::filter(pca_depleted,Condition==condition) 
+                                 %>% dplyr::select(ORF.1,ORF.2))
   
-  for(direction in c('accumulated','depleted')){
-    if(direction == 'accumulated'){
-      pca_file <- pca_enhanced
-    }
-    else{
-      pca_file <- pca_depleted
-    }
-    largest_component <- get_largest_component_size(pca_file,condition)
-    shuffled_iters <- unlist(make_network_iterations(pca_universe,
-                                                     pca_file,
-                                                     condition,
-                                                     n_iters=iterations,
-                                                     metric = get_largest_component_from_edgelist,
-                                                     prob_node=prob_node,
-                                                     mode=sampling_mode))
-    #plot(density(shuffled_iters,from=0,to=largest_component+largest_component*0.1),xlim=c(min(shuffled_iters),largest_component+largest_component*0.05))
-    my_hist <- hist(shuffled_iters,
-         breaks=seq(0,max(shuffled_iters),by=1),
-         cex.lab=text_size,
-         plot=F)
-    
+  
+  largest_component_enhanced <- metric(edgelist_enhanced)
+  largest_component_depleted <- metric(edgelist_depleted)
+  shuffled_iters <- unlist(make_network_iterations(pca_universe,
+                                                   pca_enhanced,
+                                                   pca_depleted,
+                                                   condition,
+                                                   n_iters=iterations,
+                                                   metric = metric,
+                                                   prob_node=prob_node,
+                                                   mode=sampling_mode))
+  print(shuffled_iters[names(shuffled_iters)=='enhanced'])
+  #plot(density(shuffled_iters,from=0,to=largest_component+largest_component*0.1),xlim=c(min(shuffled_iters),largest_component+largest_component*0.05))
+  my_hist_enh <- hist(shuffled_iters[names(shuffled_iters)=='enhanced'],
+                      breaks=seq(0,max(shuffled_iters) + 0.1*max(shuffled_iters),by=breakstep),
+                      cex.lab=text_size,
+                      plot=F)
+  
+  my_hist_depl <- hist(shuffled_iters[names(shuffled_iters)=='depleted'],
+                       breaks=seq(0,max(shuffled_iters) + 0.1*max(shuffled_iters),by=breakstep),
+                       cex.lab=text_size,
+                       plot=F)
+  histlist <- list('accumulated'=list('histvar'=my_hist_enh,
+                                      'largest_component'=largest_component_enhanced),
+                   'depleted'=list('histvar'=my_hist_depl,
+                                   'largest_component'=largest_component_depleted))
+  for(i in 1:length(histlist)){
+    hist <- histlist[[i]]
+    my_hist <- hist$histvar
+    direction <- names(histlist)[i]
     plot(my_hist,
          xlim=xlim,
-      xlab=xlab,
-      ylim=c(0,max(my_hist$counts)*1.33),
-      main='',
-      ylab='Frequency',
-      col='black',
-      cex.lab=1.3)
+         xlab=xlab,
+         ylim=c(0,max(my_hist$counts)*1.33),
+         main='',
+         ylab='Frequency',
+         col='black',
+         cex.lab=1.3)
     
     
-    abline(v=largest_component,lwd=6,col=rgb(1,0,0,0.7))
-    text(largest_component,mean(c(max(my_hist$counts),max(my_hist$counts)*1.3)),'Observed',srt=90,adj=c(0.5,1.5),col='gray60',cex=1.3,font=2)
+    abline(v=hist$largest_component,lwd=6,col=rgb(1,0,0,0.7))
+    text(hist$largest_component,mean(c(max(my_hist$counts),max(my_hist$counts)*1.3)),'Observed',srt=90,adj=c(0.5,1.5),col='gray60',cex=1.3,font=2)
     mtext(paste(c(Hmisc::capitalize(condition),direction,'\ncomplexes'),collapse=' '),side=3,cex=1.5,line=-1)
   }
+  #}
 }
 
 

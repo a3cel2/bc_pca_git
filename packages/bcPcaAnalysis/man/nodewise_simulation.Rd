@@ -4,19 +4,19 @@
 \alias{nodewise_simulation}
 \title{Simulate a subnetwork from a larger protein-protein interaction network by randomly sampling either nodes or edges}
 \usage{
-nodewise_simulation(universe_matrix, matched_empty_matrix, n_edges, nodelist,
-  prob_node = 1)
+nodewise_simulation(universe_matrix, matched_empty_matrix, n_edges_enhanced,
+  n_edges_depleted, nodelist, prob_node = 1)
 }
 \arguments{
 \item{universe_matrix}{all possible protein-protein interactions}
 
 \item{matched_empty_matrix}{an empty version of universe_matrix to store the values}
 
-\item{n_edges}{number of edges needed for the simulation}
-
 \item{nodelist}{nodes in universe_matrix}
 
 \item{prob_node}{proportion of edges which are to be obtained by node-wise sampling rather than direct edge-based sampling}
+
+\item{n_edges}{number of edges needed for the simulation}
 }
 \value{
 a sparse matrix representing a sample of the larger network

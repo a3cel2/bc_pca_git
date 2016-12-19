@@ -197,7 +197,7 @@ pca_ma_prediction <- function(
   pca_file <- read.csv(pca_file,head = T,stringsAsFactors = F, sep = '\t')
   expression_file <- read.table(expression_file,head=T,stringsAsFactors = F)
   abundance_file <- read.table(abundance_file,head=F,stringsAsFactors = F, row.names=1)
-
+  #abundance_file <- abundance_file[unique(c(pca_file$ORF.1,pca_file$ORF.2)),,drop=F]
   #Process files accordingly
   merged_pca_calls <- merge_pca_file(pca_file,condition=condition)
   expression_file <- simplify_expression_file(expression_file)
@@ -478,6 +478,9 @@ set_colours <- function(attribute,color_list,ncolors,minimum,maximum){
 map_gene_names <- function(gene_names){
   sapply(gene_names,function(name){
     proposed_name <- org.Sc.sgd.db::org.Sc.sgdGENENAME[[name]][1]
+    if(is.null(proposed_name)){
+      return(name)
+    }
     if(is.na(proposed_name)){
       return(name)
     }
@@ -991,7 +994,7 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
           ylim=c(0.5,1),
           xpd=F,
           space=0.5,
-          col = RColorBrewer::brewer.pal(12,'Set3')[c(3,5)],
+          col = rgb(0.4,0.4,0.4),#RColorBrewer::brewer.pal(12,'Set3')[c(3,5)],
           ylab='mRNA Prediction Accuracy')
 
   #Custom make labels
