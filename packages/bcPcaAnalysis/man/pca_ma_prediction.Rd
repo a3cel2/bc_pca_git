@@ -6,7 +6,9 @@
 \usage{
 pca_ma_prediction(pca_file, abundance_file, expression_file, condition,
   expression_control_regexp = "Ethanol.0h",
-  expression_condition_regexp = "Ethanol.4h")
+  expression_condition_regexp = "Ethanol.4h",
+  prediction_method = "independent", shuffled_kds = F,
+  shuffled_concentrations = F, return_only_baseline = F)
 }
 \arguments{
 \item{pca_file}{filename corresponding to output from the PCA experiment,
@@ -24,6 +26,12 @@ must have an ORF column corresponding to the ORF, and the experiments must be or
 \item{expression_control_regexp}{regular expression used to match the control condition in the mRNA file}
 
 \item{expression_condition_regexp}{regular expression used to match the condition of interesti n the mRNA file}
+
+\item{prediction_method}{a string, either 'maslov'}
+
+\item{shuffled_kds}{}
+
+\item{return_only_baseline}{}
 }
 \value{
 a data frame with the original data combined with the predictions

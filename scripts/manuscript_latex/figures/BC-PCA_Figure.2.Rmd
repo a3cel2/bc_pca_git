@@ -1,0 +1,27 @@
+---
+classoption: letterpaper
+documentclass: article
+geometry: margin=1.5cm
+output:
+  pdf_document:
+    keep_tex: yes
+  word_document: default
+---
+
+<!-- Global figure parameters --> 
+\setlength{\unitlength}{1in}
+\fontfamily{phv}\selectfont
+\pagenumbering{gobble}
+
+<!-- Figure 2 --> 
+\graphicspath{{../../../results/external_graphics/go_enrichment/}}
+\textbf{\LARGE{Figure 2}}
+\begin{picture}(0,4.5)
+\put(0,1.65){\includegraphics[width=3in]{fig_2a.png}}
+\put(3.7,1.85){\includegraphics[width=2.3in]{fig_2b.pdf}}
+
+\put(0.1,-2.2){\includegraphics[width=10in]{node_enrichment_go_v2_1.pdf}}
+\put(0,4.2){\textbf{A}}
+\put(3.5,4.2){\textbf{B}}
+\put(0,1.2){\textbf{C}}
+\end{picture}

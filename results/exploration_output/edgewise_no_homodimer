@@ -1,0 +1,49 @@
+Condition	Mode	Direction	N	M	X	LOD	P	P_adj	Gene-Ontology-ID	Gene-Ontology-Attribute
+FK506	edgewise	enhanced	8	8	134	2.2	2.1e-08	0	GO:0005886	plasma membrane
+FK506	edgewise	enhanced	4	8	37	1.5	5e-05	0.019	GO:0022804	active transmembrane transporter activity
+atorvastatin	edgewise	depleted	3	7	21	1.7	0.00016	0.047	GO:0044255	cellular lipid metabolic process
+atorvastatin	edgewise	depleted	9	10	336	1.2	7.7e-05	0.02	GO:0044238	primary metabolic process
+atorvastatin	edgewise	depleted	9	10	346	1.2	9.9e-05	0.033	GO:0071704	organic substance metabolic process
+H2O2	edgewise	enhanced	5	11	40	1.4	1.3e-05	0.009	GO:0006812	cation transport
+H2O2	edgewise	enhanced	7	11	83	1.4	1.6e-06	0	GO:0055085	transmembrane transport
+H2O2	edgewise	enhanced	6	11	80	1.2	2.7e-05	0.021	GO:0022891	substrate-specific transmembrane transporter activity
+H2O2	edgewise	enhanced	6	11	87	1.2	4.3e-05	0.03	GO:0022892	substrate-specific transporter activity
+H2O2	edgewise	enhanced	8	29	58	0.94	3.7e-05	0.028	GO:0006811	ion transport
+H2O2	edgewise	enhanced	10	29	89	0.87	2e-05	0.012	GO:0022857	transmembrane transporter activity
+H2O2	edgewise	enhanced	10	29	102	0.8	6.8e-05	0.047	GO:0005215	transporter activity
+H2O2	edgewise	enhanced	24	33	460	0.63	5.6e-05	0.039	GO:0016021	integral component of membrane
+H2O2	edgewise	depleted	5	16	28	1.4	1.8e-05	0.007	GO:0071705	nitrogen compound transport
+H2O2	edgewise	depleted	5	16	39	1.2	9.6e-05	0.046	GO:0008324	cation transmembrane transporter activity
+H2O2	edgewise	depleted	18	30	134	1.1	7.3e-11	0	GO:0005886	plasma membrane
+H2O2	edgewise	depleted	7	30	37	1.1	1.9e-05	0.008	GO:0022804	active transmembrane transporter activity
+H2O2	edgewise	depleted	7	16	83	1.1	4.2e-05	0.019	GO:0055085	transmembrane transport
+H2O2	edgewise	depleted	7	16	89	1	6.7e-05	0.036	GO:0022857	transmembrane transporter activity
+NaCl	edgewise	enhanced	19	38	134	0.96	1.5e-09	0	GO:0005886	plasma membrane
+menadione	edgewise	depleted	2	8	3	2.5	0.00012	0.019	GO:0005342	organic acid transmembrane transporter activity
+menadione	edgewise	depleted	2	8	4	2.3	0.00023	0.05	GO:0015849	organic acid transport
+menadione	edgewise	depleted	5	8	80	1.4	5.7e-05	0.01	GO:0022891	substrate-specific transmembrane transporter activity
+menadione	edgewise	depleted	5	8	83	1.3	6.8e-05	0.011	GO:0055085	transmembrane transport
+menadione	edgewise	depleted	5	8	87	1.3	8.6e-05	0.015	GO:0022892	substrate-specific transporter activity
+menadione	edgewise	depleted	5	8	89	1.3	9.7e-05	0.018	GO:0022857	transmembrane transporter activity
+menadione	edgewise	depleted	5	8	102	1.2	0.00019	0.036	GO:0005215	transporter activity
+heat-shock	edgewise	enhanced	17	51	134	0.65	1.4e-05	0.014	GO:0005886	plasma membrane
+ethanol	edgewise	enhanced	8	152	12	1.1	1.8e-05	0.024	GO:0005741	mitochondrial outer membrane
+ethanol	edgewise	enhanced	9	152	14	1.1	8e-06	0.012	GO:0044429	mitochondrial part
+ethanol	edgewise	enhanced	15	166	35	0.7	2e-05	0.028	GO:0005739	mitochondrion
+ethanol	edgewise	depleted	24	99	83	0.75	6.7e-09	0	GO:0055085	transmembrane transport
+ethanol	edgewise	depleted	31	157	89	0.62	3.6e-08	0	GO:0022857	transmembrane transporter activity
+ethanol	edgewise	depleted	27	151	80	0.61	2.9e-07	0	GO:0022891	substrate-specific transmembrane transporter activity
+ethanol	edgewise	depleted	28	151	87	0.58	5.3e-07	0	GO:0022892	substrate-specific transporter activity
+ethanol	edgewise	depleted	32	157	102	0.55	3.6e-07	0	GO:0005215	transporter activity
+ethanol	edgewise	depleted	25	96	134	0.51	1.7e-05	0.023	GO:0005886	plasma membrane
+ethanol	edgewise	depleted	69	108	460	0.49	2e-08	0	GO:0016021	integral component of membrane
+ethanol	edgewise	depleted	75	106	590	0.43	2.6e-06	0.002	GO:0044425	membrane part
+ethanol	edgewise	depleted	99	131	681	0.4	2.5e-06	0.001	GO:0016020	membrane
+ethanol	edgewise	depleted	58	158	265	0.37	5.4e-06	0.007	GO:0044765	single-organism transport
+AA-mixture	edgewise	enhanced	49	73	460	0.54	3.2e-07	0	GO:0016021	integral component of membrane
+AA-mixture	edgewise	enhanced	20	96	99	0.54	4.4e-05	0.042	GO:0005789	endoplasmic reticulum membrane
+AA-mixture	edgewise	enhanced	20	96	100	0.53	5.1e-05	0.045	GO:0098589	membrane region
+AA-mixture	edgewise	enhanced	21	97	105	0.53	3.8e-05	0.035	GO:0044432	endoplasmic reticulum part
+AA-mixture	edgewise	enhanced	24	96	128	0.51	2.4e-05	0.023	GO:0005783	endoplasmic reticulum
+AA-mixture	edgewise	enhanced	64	87	590	0.48	1.7e-06	0.003	GO:0044425	membrane part
+methionine	edgewise	depleted	10	35	80	0.8	4.8e-05	0.046	GO:0022891	substrate-specific transmembrane transporter activity

@@ -7,7 +7,7 @@ my_predictions <- pca_ma_prediction(pca_universe,
                                     'ethanol',
                                     expression_condition_regexp='Ethanol.4h')
 
-#stop()
+
 ##For quantitative
 #Compare mRNA expression reproducibility
 mRNA_comparison_graph(pca_universe,expression_file,output_path=expression_pca_output_path,filename='mRNA_4h_12h_comparison',draw=F)
@@ -26,7 +26,6 @@ pca_ma_prediction_plot(my_predictions,
 pca_ma_prediction_plot(my_predictions,expression_pca_output_path)
 
 #For different times
-
 for(time_point in c('30min','1h','4h','12h')){
   condition_regexp <- paste(c('Ethanol',time_point),collapse='.')
   filename <- paste(c('bcPCA_mRNA_predictions_',time_point,'.pdf'),collapse='')

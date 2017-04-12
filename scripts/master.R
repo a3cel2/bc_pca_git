@@ -14,7 +14,7 @@ setwd(this.dir)
 #GO enrichment
 #Frequency Perturbation
 #Connectivity
-to_run <- c('Make figures')#'Make figures')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
+to_run <- c('Make figures')#'Reviewer update')#'Expression PCA')#'Make figures')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
 
 #Markdown directory
 figure_path <- "../results/rmarkdown_figures"
@@ -30,6 +30,7 @@ pca_depleted_calls = '../data/external/Additional.file.11.txt'
 go_association_file = '../data/funcassociate_go_associations.txt'
 
 protein_abundance_file = '../data/paxdb_abundance.tsv'
+protein_abundance_file_msonly = '../data/paxdb_abundance_msms_godoy.txt'
 expression_file = '../data/external/Additional.file.14.txt'
 
 hub_enrichment_file = '../data/external/Data for Figure 3D.xlsx'
@@ -135,9 +136,17 @@ if('RBD2' %in% to_run){
   dev.off()
 }
 
+if('Reviewer update' %in% to_run){
+  source('subtasks/reviewer_update.R')
+  
+}
+
 #Creates figures using Rmarkdown
 if('Make figures' %in% to_run){
-  rmarkdown::render("manuscript_latex/figures/BC-PCA_main_figures.Rmd", "pdf_document",output_dir=figure_path)
+  rmarkdown::render("manuscript_latex/figures/BC-PCA_Figure.1.Rmd", "pdf_document",output_dir=figure_path)
+  rmarkdown::render("manuscript_latex/figures/BC-PCA_Figure.2.Rmd", "pdf_document",output_dir=figure_path)
+  rmarkdown::render("manuscript_latex/figures/BC-PCA_Figure.3.Rmd", "pdf_document",output_dir=figure_path)
+  rmarkdown::render("manuscript_latex/figures/BC-PCA_Figure.4.Rmd", "pdf_document",output_dir=figure_path)
   rmarkdown::render("manuscript_latex/figures/BC-PCA-Figure.S3.Rmd", "pdf_document",output_dir=figure_path)
   rmarkdown::render("manuscript_latex/figures/BC-PCA-Figure.S4.Rmd", "pdf_document",output_dir=figure_path)
 }

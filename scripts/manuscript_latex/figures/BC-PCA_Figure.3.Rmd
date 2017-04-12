@@ -1,0 +1,27 @@
+---
+classoption: letterpaper
+documentclass: article
+geometry: margin=1.5cm
+output:
+  pdf_document:
+    keep_tex: yes
+  word_document: default
+---
+
+<!-- Global figure parameters --> 
+\setlength{\unitlength}{1in}
+\fontfamily{phv}\selectfont
+\pagenumbering{gobble}
+
+\textbf{\LARGE{Figure 3}}
+\graphicspath{{../../../results/master_output/connectivity/}}
+\begin{picture}(0,4.5)
+\put(3.6,-0.75){\includegraphics[width=3.5in]{hub_bias_heatmap.pdf}}
+\graphicspath{{../../../results/external_graphics/node_edge_simulation/}}
+\put(0,4.1){\textbf{A}}
+\put(4,4.1){\textbf{B}}
+\put(0,-1.3){\textbf{C}}
+\put(4.7,-1.3){\textbf{D}}
+\put(0.1,-4){\includegraphics[width=6.5in]{bottom_panel_illustrated.pdf}}
+\put(0,-0.5){\includegraphics[width=3.5in]{doxorubicin_cytoscape_drawing.pdf}}
+\end{picture}

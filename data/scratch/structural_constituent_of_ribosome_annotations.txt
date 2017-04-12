@@ -1,0 +1,484 @@
+Gene	Gene Systematic Name	Gene Ontology Term	Gene Ontology Term ID	Qualifier	Aspect	Method	Evidence	Source	Assigned On	Annotation Extension	Reference
+15S_RRNA	Q0020	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with mitochondrial small ribosomal subunit	SGD	2015-06-12		Osinga KA, et al. (1981) PMID:6262728
+VAR1	Q0140	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR007980	InterPro	2017-01-14		DDB, et al. (2001)
+VAR1	Q0140	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+21S_RRNA	Q0158	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IMP	SGD	2003-07-21		Julou C and Bolotin-Fukuhara M (1982) PMID:6759872
+21S_RRNA	Q0158	structural constituent of ribosome	GO:0003735		molecular function	manually curated	ISS	SGD	2003-07-21		Julou C and Bolotin-Fukuhara M (1982) PMID:6759872
+RDN18-1	RDN18-1	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2002-06-19		Venema J and Tollervey D (1999) PMID:10690410
+RDN18-2	RDN18-2	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2002-06-19		Venema J and Tollervey D (1999) PMID:10690410
+RDN25-1	RDN25-1	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2002-06-19		Venema J and Tollervey D (1999) PMID:10690410
+RDN25-2	RDN25-2	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2007-05-23		Venema J and Tollervey D (1999) PMID:10690410
+RDN5-1	RDN5-1	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2002-06-19		Kiparisov S, et al. (2005) PMID:16047201
+RDN5-2	RDN5-2	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-07-30		Kiparisov S, et al. (2005) PMID:16047201
+RDN5-3	RDN5-3	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-07-30		Kiparisov S, et al. (2005) PMID:16047201
+RDN5-4	RDN5-4	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-07-30		Kiparisov S, et al. (2005) PMID:16047201
+RDN5-5	RDN5-5	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-07-30		Kiparisov S, et al. (2005) PMID:16047201
+RDN5-6	RDN5-6	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2002-06-19		Kiparisov S, et al. (2005) PMID:16047201
+RDN58-1	RDN58-1	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2002-06-19		Venema J and Tollervey D (1999) PMID:10690410
+RDN58-2	RDN58-2	structural constituent of ribosome	GO:0003735		molecular function	manually curated	TAS	SGD	2002-06-19		Venema J and Tollervey D (1999) PMID:10690410
+RPL19B	YBL027W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL19B	YBL027W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000196, IPR015974, IPR033935, IPR015972	InterPro	2017-01-14		DDB, et al. (2001)
+RPL19B	YBL027W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRPL16	YBL038W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2013-11-22		Pan C and Mason TL (1995) PMID:7478995
+MRPL16	YBL038W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL16	YBL038W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR016180, IPR000114, IPR020798	InterPro	2017-01-14		DDB, et al. (2001)
+RPS8A	YBL072C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPS8A	YBL072C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018283, IPR001047	InterPro	2017-01-14		DDB, et al. (2001)
+RPL23A	YBL087C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL23A	YBL087C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000218	InterPro	2017-01-14		DDB, et al. (2001)
+RPL23A	YBL087C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRP21	YBL090W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2001-01-18		Green-Willms NS, et al. (1998) PMID:9528754
+MRP21	YBL090W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001911	InterPro	2017-01-14		DDB, et al. (2001)
+RPL32	YBL092W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL32	YBL092W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018263, IPR001515	InterPro	2017-01-14		DDB, et al. (2001)
+RPL4A	YBR031W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL4A	YBR031W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002136, IPR023574	InterPro	2017-01-14		DDB, et al. (2001)
+RPL4A	YBR031W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS11B	YBR048W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-22		Otaka E, et al. (1982) PMID:6814480
+RPS11B	YBR048W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000266, IPR019979	InterPro	2017-01-14		DDB, et al. (2001)
+RPL19A	YBR084C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL19A	YBR084C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000196, IPR015974, IPR033935, IPR015972	InterPro	2017-01-14		DDB, et al. (2001)
+RPL19A	YBR084C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRPL36	YBR122C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPS9	YBR146W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+MRPS9	YBR146W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020574, IPR000754	InterPro	2017-01-14		DDB, et al. (2001)
+RPS6B	YBR181C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS6B	YBR181C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001377, IPR018282, IPR014401	InterPro	2017-01-14		DDB, et al. (2001)
+RPS9B	YBR189W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS9B	YBR189W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005710	InterPro	2017-01-14		DDB, et al. (2001)
+RPL21A	YBR191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001147, IPR018259	InterPro	2017-01-14		DDB, et al. (2001)
+RPL21A	YBR191W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL21A	YBR191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+MRPS5	YBR251W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR013810, IPR000851, IPR005324	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS5	YBR251W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+MRPL37	YBR268W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+MRPL27	YBR282W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPL32	YCR003W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002677	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL32	YCR003W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+RPS14A	YCR031C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-04		Planta RJ and Mager WH (1998) PMID:9559554
+RPS14A	YCR031C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001971	InterPro	2017-01-14		DDB, et al. (2001)
+RPS14A	YCR031C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+IMG1	YCR046C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001857	InterPro	2017-01-14		DDB, et al. (2001)
+IMG1	YCR046C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+IMG2	YCR071C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+IMG2	YCR071C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR007740	InterPro	2017-01-14		DDB, et al. (2001)
+MRP10	YDL045W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Jin C, et al. (1997) PMID:9065385
+MRP10	YDL045W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+RPS29B	YDL061C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018271, IPR001209	InterPro	2017-01-14		DDB, et al. (2001)
+RPS29B	YDL061C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPS29B	YDL061C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPL31A	YDL075W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL31A	YDL075W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000054, IPR020052	InterPro	2017-01-14		DDB, et al. (2001)
+RPP1A	YDL081C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Ben-Shem A, et al. (2011) PMID:22096102
+RPP1A	YDL081C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027534	InterPro	2017-01-14		DDB, et al. (2001)
+RPL13A	YDL082W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL13A	YDL082W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-20		Gaudet P, et al (2010)
+RPL13A	YDL082W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018256, IPR001380	InterPro	2017-01-14		DDB, et al. (2001)
+RPS16B	YDL083C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS16B	YDL083C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020574, IPR000754	InterPro	2017-01-14		DDB, et al. (2001)
+RPS16B	YDL083C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPP1B	YDL130W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Ben-Shem A, et al. (2011) PMID:22096102
+RPP1B	YDL130W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027534	InterPro	2017-01-14		DDB, et al. (2001)
+RPL41B	YDL133C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL41B	YDL133C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR007836	InterPro	2017-01-14		DDB, et al. (2001)
+RPL35B	YDL136W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL35B	YDL136W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001854, IPR018254	InterPro	2017-01-14		DDB, et al. (2001)
+RPL35B	YDL136W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPL41A	YDL184C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL41A	YDL184C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR007836	InterPro	2017-01-14		DDB, et al. (2001)
+RPL35A	YDL191W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL35A	YDL191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001854, IPR018254	InterPro	2017-01-14		DDB, et al. (2001)
+RPL35A	YDL191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+MRPL11	YDL202W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+RPL4B	YDR012W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002136, IPR023574	InterPro	2017-01-14		DDB, et al. (2001)
+RPL4B	YDR012W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2015-07-08		Ben-Shem A, et al. (2011) PMID:22096102
+RPL4B	YDR012W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS11A	YDR025W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-22		Otaka E, et al. (1982) PMID:6814480
+RPS11A	YDR025W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000266, IPR019979	InterPro	2017-01-14		DDB, et al. (2001)
+RSM10	YDR041W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001848	InterPro	2017-01-14		DDB, et al. (2001)
+RSM10	YDR041W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPS13	YDR064W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS13	YDR064W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-25		Xiang RH and Lee JC (1989) PMID:2517480
+RPS13	YDR064W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-25		Yeh YC, et al. (1986) PMID:3533916
+RPS13	YDR064W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR012606, IPR000589	InterPro	2017-01-14		DDB, et al. (2001)
+MRX14	YDR115W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000271	InterPro	2017-01-14		DDB, et al. (2001)
+MRX14	YDR115W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	ISA with ACA79888.1	SGD	2008-11-11		Gan X, et al. (2002) PMID:12392552
+MRPL1	YDR116C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002143, IPR005879	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL1	YDR116C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RSM24	YDR175C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RSM24	YDR175C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR017081	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL7	YDR237W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MHR1	YDR296W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-06-10		Amunts A, et al. (2014) PMID:24675956
+MRPL35	YDR322W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL35	YDR322W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPS28	YDR337W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005290, IPR000589	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS28	YDR337W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+MRP1	YDR347W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPP2B	YDR382W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Ben-Shem A, et al. (2011) PMID:22096102
+RPP2B	YDR382W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027534	InterPro	2017-01-14		DDB, et al. (2001)
+MRP20	YDR405W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRP20	YDR405W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2011-02-04		Fearon K and Mason TL (1992) PMID:1544898
+MRP20	YDR405W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR012678, IPR013025	InterPro	2017-01-14		DDB, et al. (2001)
+RPL12B	YDR418W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL12B	YDR418W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020783, IPR000911, IPR020785	InterPro	2017-01-14		DDB, et al. (2001)
+RPL12B	YDR418W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPS17B	YDR447C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS17B	YDR447C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018273, IPR001210	InterPro	2017-01-14		DDB, et al. (2001)
+RPS18A	YDR450W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS18A	YDR450W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018269, IPR001892	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL28	YDR462W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+RPL27B	YDR471W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with preribosome, large subunit precursor	SGD	2013-11-09		Altvater M, et al. (2012) PMID:23212245
+RPL27B	YDR471W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018262, IPR001141	InterPro	2017-01-14		DDB, et al. (2001)
+RPL27B	YDR471W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RSM28	YDR494W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2005-03-01		Williams EH, et al. (2005) PMID:15701796
+RPL37B	YDR500C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL37B	YDR500C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018267, IPR001569, IPR011331	InterPro	2017-01-14		DDB, et al. (2001)
+RPL37B	YDR500C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RML2	YEL050C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2013-08-30		Graack HR and Wittmann-Liebold B (1998) PMID:9445368
+RML2	YEL050C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR022666, IPR002171, IPR022669, IPR005880, IPR022671	InterPro	2017-01-14		DDB, et al. (2001)
+RPL12A	YEL054C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL12A	YEL054C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020783, IPR000911, IPR020785	InterPro	2017-01-14		DDB, et al. (2001)
+RPL12A	YEL054C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RSM18	YER050C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RSM18	YER050C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001648	InterPro	2017-01-14		DDB, et al. (2001)
+RPL34A	YER056C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR008195	InterPro	2017-01-14		DDB, et al. (2001)
+RPL34A	YER056C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with preribosome, large subunit precursor	SGD	2013-11-09		Ohmayer U, et al. (2013) PMID:23874617
+RPL34A	YER056C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS24A	YER074W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS24A	YER074W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001976, IPR012678	InterPro	2017-01-14		DDB, et al. (2001)
+RPS8B	YER102W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPS8B	YER102W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018283, IPR001047	InterPro	2017-01-14		DDB, et al. (2001)
+RPL23B	YER117W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL23B	YER117W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000218	InterPro	2017-01-14		DDB, et al. (2001)
+RPL23B	YER117W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS26B	YER131W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS26B	YER131W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000892	InterPro	2017-01-14		DDB, et al. (2001)
+RPS26B	YER131W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-20		Gaudet P, et al (2010)
+RPL22B	YFL034C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPL22B	YFL034C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002671	InterPro	2017-01-14		DDB, et al. (2001)
+RPL2A	YFR031C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL2A	YFR031C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR022666, IPR022671, IPR022669, IPR002171	InterPro	2017-01-14		DDB, et al. (2001)
+RPL29	YFR032C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL29	YFR032C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002673	InterPro	2017-01-14		DDB, et al. (2001)
+YMR31	YFR049W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Matsushita Y, et al. (1989) PMID:2693936
+GET1	YGL020C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2014-02-10		Gaudet P, et al (2010)
+RPL30	YGL030W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2001-01-18		Vilardell J and Warner JR (1997) PMID:9121443
+RPL30	YGL030W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000231	InterPro	2017-01-14		DDB, et al. (2001)
+RPL24A	YGL031C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL24A	YGL031C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MNP1	YGL068W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR013823, IPR000206, IPR008932	InterPro	2017-01-14		DDB, et al. (2001)
+MNP1	YGL068W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-06-10		Amunts A, et al. (2014) PMID:24675956
+RPL7A	YGL076C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL28	YGL103W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL28	YGL103W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR030878, IPR001196	InterPro	2017-01-14		DDB, et al. (2001)
+RPL28	YGL103W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2015-07-08		Ben-Shem A, et al. (2011) PMID:22096102
+RPS2	YGL123W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-23		Xiang RH and Lee JC (1989) PMID:2517480
+RPS2	YGL123W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR013810, IPR005711, IPR005324, IPR000851	InterPro	2017-01-14		DDB, et al. (2001)
+RSM23	YGL129C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPL1B	YGL135W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL1B	YGL135W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002143	InterPro	2017-01-14		DDB, et al. (2001)
+RPL9A	YGL147C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL9A	YGL147C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020040, IPR002359, IPR000702	InterPro	2017-01-14		DDB, et al. (2001)
+RPS26A	YGL189C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS26A	YGL189C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000892	InterPro	2017-01-14		DDB, et al. (2001)
+RPS26A	YGL189C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-20		Gaudet P, et al (2010)
+RPS25A	YGR027C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPL26B	YGR034W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL26B	YGR034W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005825, IPR005756	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL25	YGR076C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRP13	YGR084C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRP13	YGR084C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL11B	YGR085C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL11B	YGR085C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020929, IPR002132	InterPro	2017-01-14		DDB, et al. (2001)
+RPL11B	YGR085C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS23A	YGR118W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPS23A	YGR118W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005680, IPR006032	InterPro	2017-01-14		DDB, et al. (2001)
+RPL24B	YGR148C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL24B	YGR148C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRPS35	YGR165W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPS0A	YGR214W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005707, IPR027498, IPR001865, IPR018130	InterPro	2017-01-14		DDB, et al. (2001)
+RPS0A	YGR214W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-22		Demianova M, et al. (1996) PMID:8626693
+RSM27	YGR215W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+MRPL9	YGR220C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000597, IPR019927	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL9	YGR220C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-11-13		Grohmann L, et al. (1991) PMID:2060626
+RPL14B	YHL001W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL14B	YHL001W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002784	InterPro	2017-01-14		DDB, et al. (2001)
+RPL14B	YHL001W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRP4	YHL004W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001865, IPR018130, IPR005706	InterPro	2017-01-14		DDB, et al. (2001)
+MRP4	YHL004W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPS20	YHL015W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic small ribosomal subunit	SGD	2008-09-29		Yeh YC, et al. (1986) PMID:3533916
+RPS20	YHL015W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001848, IPR018268, IPR005729	InterPro	2017-01-14		DDB, et al. (2001)
+RPS20	YHL015W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2014-07-29		Gaudet P, et al (2010)
+RPL8A	YHL033C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL27A	YHR010W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL27A	YHR010W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018262, IPR001141	InterPro	2017-01-14		DDB, et al. (2001)
+RPL27A	YHR010W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS27B	YHR021C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-20		Yeh YC, et al. (1986) PMID:3533916
+RPS27B	YHR021C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000592	InterPro	2017-01-14		DDB, et al. (2001)
+PPE1	YHR075C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2011-12-01		Kitakawa M, et al. (1997) PMID:9151978
+RPL42B	YHR141C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL42B	YHR141C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000552	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL6	YHR147C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL6	YHR147C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020040, IPR002358, IPR019906, IPR000702	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL6	YHR147C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+IMP3	YHR148W	structural constituent of ribosome	GO:0003735	NOT	molecular function	computational	IBA	GO_Central	2014-07-29		Gaudet P, et al (2010)
+RPS4B	YHR203C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS4B	YHR203C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000876	InterPro	2017-01-14		DDB, et al. (2001)
+RPL2B	YIL018W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL2B	YIL018W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR022666, IPR022671, IPR022669, IPR002171	InterPro	2017-01-14		DDB, et al. (2001)
+RPL34B	YIL052C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR008195	InterPro	2017-01-14		DDB, et al. (2001)
+RPL34B	YIL052C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL34B	YIL052C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS24B	YIL069C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS24B	YIL069C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001976, IPR012678	InterPro	2017-01-14		DDB, et al. (2001)
+RSM25	YIL093C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR016939	InterPro	2017-01-14		DDB, et al. (2001)
+RSM25	YIL093C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPL16A	YIL133C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL16A	YIL133C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR023563, IPR005755, IPR005822	InterPro	2017-01-14		DDB, et al. (2001)
+RPL16A	YIL133C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPL40A	YIL148W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001975	InterPro	2017-01-14		DDB, et al. (2001)
+RPL40A	YIL148W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2015-07-08		Ben-Shem A, et al. (2011) PMID:22096102
+MRPL8	YJL063C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000456	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL8	YJL063C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPL49	YJL096W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL49	YJL096W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPS21B	YJL136C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-14		Yeh YC, et al. (1986) PMID:3533916
+RPS21B	YJL136C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001931, IPR018279	InterPro	2017-01-14		DDB, et al. (2001)
+RPL17B	YJL177W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL17B	YJL177W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018260, IPR005721, IPR001063	InterPro	2017-01-14		DDB, et al. (2001)
+RPL39	YJL189W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL39	YJL189W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020083, IPR000077	InterPro	2017-01-14		DDB, et al. (2001)
+RPL39	YJL189W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS22A	YJL190C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS22A	YJL190C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000630	InterPro	2017-01-14		DDB, et al. (2001)
+RPS14B	YJL191W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-04		Planta RJ and Mager WH (1998) PMID:9559554
+RPS14B	YJL191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001971	InterPro	2017-01-14		DDB, et al. (2001)
+RPS14B	YJL191W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPL43B	YJR094W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL43B	YJR094W-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002674, IPR011331	InterPro	2017-01-14		DDB, et al. (2001)
+RSM26	YJR101W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RSM7	YJR113C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020606	InterPro	2017-01-14		DDB, et al. (2001)
+RSM7	YJR113C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPS5	YJR123W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-23		Otaka E, et al. (1982) PMID:6814480
+RPS5	YJR123W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005716, IPR020606	InterPro	2017-01-14		DDB, et al. (2001)
+RPS4A	YJR145C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS4A	YJR145C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000876	InterPro	2017-01-14		DDB, et al. (2001)
+MRP17	YKL003C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRP17	YKL003C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000529	InterPro	2017-01-14		DDB, et al. (2001)
+MRP17	YKL003C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL14A	YKL006W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL14A	YKL006W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL14A	YKL006W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002784	InterPro	2017-01-14		DDB, et al. (2001)
+MRT4	YKL009W	structural constituent of ribosome	GO:0003735	NOT	molecular function	computational	IBA	GO_Central	2016-01-29		Gaudet P, et al (2010)
+MRPL31	YKL138C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RSM22	YKL155C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPS27A	YKL156W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-20		Yeh YC, et al. (1986) PMID:3533916
+RPS27A	YKL156W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000592	InterPro	2017-01-14		DDB, et al. (2001)
+MRP49	YKL167C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2011-02-04		Fearon K and Mason TL (1992) PMID:1544898
+MRPL38	YKL170W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL38	YKL170W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005745, IPR000218	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL38	YKL170W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL17A	YKL180W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL17A	YKL180W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018260, IPR005721, IPR001063	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL13	YKR006C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+RPS21A	YKR057W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-14		Yeh YC, et al. (1986) PMID:3533916
+RPS21A	YKR057W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001931, IPR018279	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL20	YKR085C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL40B	YKR094C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001975	InterPro	2017-01-14		DDB, et al. (2001)
+RPL40B	YKR094C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2015-07-08		Ben-Shem A, et al. (2011) PMID:22096102
+RPL8B	YLL045C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RLP24	YLR009W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL15A	YLR029C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPL15A	YLR029C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR024794, IPR000439, IPR020925, IPR012678	InterPro	2017-01-14		DDB, et al. (2001)
+RPS0B	YLR048W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005707, IPR027498, IPR001865, IPR018130	InterPro	2017-01-14		DDB, et al. (2001)
+RPS0B	YLR048W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-22		Demianova M, et al. (1996) PMID:8626693
+RPL22A	YLR061W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPL22A	YLR061W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002671	InterPro	2017-01-14		DDB, et al. (2001)
+RPL10	YLR075W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR016180, IPR001197, IPR018255	InterPro	2017-01-14		DDB, et al. (2001)
+RPL10	YLR075W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL10	YLR075W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS31	YLR167W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic small ribosomal subunit	SGD	2008-12-05		Otaka E, et al. (1984) PMID:18782943
+RPS31	YLR167W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic small ribosomal subunit	SGD	2008-12-05		Higo K and Otaka E (1979) PMID:385049
+RPS31	YLR167W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002906	InterPro	2017-01-14		DDB, et al. (2001)
+RPL37A	YLR185W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL37A	YLR185W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018267, IPR001569, IPR011331	InterPro	2017-01-14		DDB, et al. (2001)
+RPL37A	YLR185W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS28B	YLR264W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-20		Yeh YC, et al. (1986) PMID:3533916
+RPS28B	YLR264W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000289	InterPro	2017-01-14		DDB, et al. (2001)
+RPS30A	YLR287C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS30A	YLR287C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR006846	InterPro	2017-01-14		DDB, et al. (2001)
+RPS30A	YLR287C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+MRPL15	YLR312W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL15	YLR312W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL38	YLR325C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002675	InterPro	2017-01-14		DDB, et al. (2001)
+RPL38	YLR325C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL38	YLR325C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS25B	YLR333C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPP0	YLR340W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Ben-Shem A, et al. (2011) PMID:22096102
+RPL26A	YLR344W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL26A	YLR344W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005825, IPR005756	InterPro	2017-01-14		DDB, et al. (2001)
+RPS22B	YLR367W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS22B	YLR367W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000630	InterPro	2017-01-14		DDB, et al. (2001)
+RPS29A	YLR388W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018271, IPR001209	InterPro	2017-01-14		DDB, et al. (2001)
+RPS29A	YLR388W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPS29A	YLR388W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPL31B	YLR406C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL31B	YLR406C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000054, IPR020052	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL4	YLR439W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2011-02-04		Graack HR, et al. (1988) PMID:3060376
+MRPL4	YLR439W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2011-02-04		Gruschke S, et al. (2010) PMID:20404317
+MRPL4	YLR439W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR010729	InterPro	2017-01-14		DDB, et al. (2001)
+RPS1A	YLR441C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-03		Planta RJ and Mager WH (1998) PMID:9559554
+RPS1A	YLR441C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027500, IPR001593, IPR018281	InterPro	2017-01-14		DDB, et al. (2001)
+RPL6B	YLR448W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL6B	YLR448W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000915	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL39	YML009C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+MRPL39	YML009C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001705	InterPro	2017-01-14		DDB, et al. (2001)
+RPS17A	YML024W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS17A	YML024W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018273, IPR001210	InterPro	2017-01-14		DDB, et al. (2001)
+YML6	YML025C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002136, IPR023574	InterPro	2017-01-14		DDB, et al. (2001)
+YML6	YML025C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+RPS18B	YML026C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS18B	YML026C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018269, IPR001892	InterPro	2017-01-14		DDB, et al. (2001)
+RPS1B	YML063W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-03		Planta RJ and Mager WH (1998) PMID:9559554
+RPS1B	YML063W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027500, IPR001593, IPR018281	InterPro	2017-01-14		DDB, et al. (2001)
+RPL6A	YML073C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000915	InterPro	2017-01-14		DDB, et al. (2001)
+RPL6A	YML073C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+MRPL3	YMR024W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL15B	YMR121C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPL15B	YMR121C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR024794, IPR000439, IPR020925, IPR012678	InterPro	2017-01-14		DDB, et al. (2001)
+RPL13B	YMR142C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL13B	YMR142C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018256, IPR001380	InterPro	2017-01-14		DDB, et al. (2001)
+RPL13B	YMR142C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-20		Gaudet P, et al (2010)
+RPS16A	YMR143W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS16A	YMR143W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020574, IPR000754	InterPro	2017-01-14		DDB, et al. (2001)
+RPS16A	YMR143W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+MRPS8	YMR158W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000630	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS8	YMR158W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPS17	YMR188C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000266	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS17	YMR188C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPL24	YMR193W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL24	YMR193W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR026569	InterPro	2017-01-14		DDB, et al. (2001)
+RPL36A	YMR194W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL36A	YMR194W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000509	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL44	YMR225C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+RPS10B	YMR230W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-04		Planta RJ and Mager WH (1998) PMID:9559554
+RPS10B	YMR230W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL20A	YMR242C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-09		Ohmayer U, et al. (2013) PMID:23874617
+RPL20A	YMR242C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR021138, IPR023573	InterPro	2017-01-14		DDB, et al. (2001)
+RPL20A	YMR242C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+MRPL33	YMR286W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005996	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL33	YMR286W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-11-19		Grohmann L, et al. (1991) PMID:2060626
+RLP7	YNL002C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+MRP7	YNL005C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001684, IPR018261	InterPro	2017-01-14		DDB, et al. (2001)
+MRP7	YNL005C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL9B	YNL067W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020040, IPR002359, IPR000702	InterPro	2017-01-14		DDB, et al. (2001)
+RPL9B	YNL067W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL16B	YNL069C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL16B	YNL069C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR023563, IPR005755, IPR005822	InterPro	2017-01-14		DDB, et al. (2001)
+RPL16B	YNL069C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+SWS2	YNL081C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018269, IPR001892	InterPro	2017-01-14		DDB, et al. (2001)
+SWS2	YNL081C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with small ribosomal subunit	SGD	2015-02-19		Gan X, et al. (2002) PMID:12392552
+RPS7B	YNL096C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000554	InterPro	2017-01-14		DDB, et al. (2001)
+RPS7B	YNL096C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-03		Planta RJ and Mager WH (1998) PMID:9559554
+YNL122C	YNL122C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR021137	InterPro	2017-01-14		DDB, et al. (2001)
+YNL122C	YNL122C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2015-06-10		Amunts A, et al. (2014) PMID:24675956
+NAM9	YNL137C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPL42A	YNL162W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL42A	YNL162W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000552	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL22	YNL177C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005727, IPR001063	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL22	YNL177C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPS3	YNL178W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPS3	YNL178W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005703, IPR001351	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL19	YNL185C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020783, IPR000911, IPR006519	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL19	YNL185C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL17	YNL252C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL17	YNL252C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPL10	YNL284C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL10	YNL284C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR030878, IPR005749	InterPro	2017-01-14		DDB, et al. (2001)
+RPL18B	YNL301C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL18B	YNL301C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000039, IPR021132	InterPro	2017-01-14		DDB, et al. (2001)
+RPL18B	YNL301C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS19B	YNL302C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS19B	YNL302C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018277, IPR001266	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS18	YNL306W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001971	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS18	YNL306W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPS18	YNL306W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2013-11-22		Gan X, et al. (2002) PMID:12392552
+MRPL50	YNR022C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+MRPS12	YNR036C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR006032, IPR005679	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS12	YNR036C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	ISA with AAG30937.1	SGD	2008-11-11		Gan X, et al. (2002) PMID:12392552
+MRPS12	YNR036C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-07-20		Gaudet P, et al (2010)
+RSM19	YNR037C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002222, IPR023575	InterPro	2017-01-14		DDB, et al. (2001)
+RSM19	YNR037C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPP2A	YOL039W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-02-03		Ben-Shem A, et al. (2011) PMID:22096102
+RPP2A	YOL039W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR027534	InterPro	2017-01-14		DDB, et al. (2001)
+RPS15	YOL040C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-04		Planta RJ and Mager WH (1998) PMID:9559554
+RPS15	YOL040C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005713, IPR002222, IPR023575	InterPro	2017-01-14		DDB, et al. (2001)
+RPS15	YOL040C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2014-09-05		Gaudet P, et al (2010)
+RPL18A	YOL120C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL18A	YOL120C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000039, IPR021132	InterPro	2017-01-14		DDB, et al. (2001)
+RPL18A	YOL120C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS19A	YOL121C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS19A	YOL121C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018277, IPR001266	InterPro	2017-01-14		DDB, et al. (2001)
+RPL25	YOL127W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL25	YOL127W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR012678, IPR013025	InterPro	2017-01-14		DDB, et al. (2001)
+RPL25	YOL127W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPL3	YOR063W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL3	YOR063W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000597	InterPro	2017-01-14		DDB, et al. (2001)
+RPL3	YOR063W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS7A	YOR096W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000554	InterPro	2017-01-14		DDB, et al. (2001)
+RPS7A	YOR096W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-03		Planta RJ and Mager WH (1998) PMID:9559554
+MRPL23	YOR150W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL23	YOR150W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR023563, IPR005822, IPR005823	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL23	YOR150W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+PET123	YOR158W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPS28A	YOR167C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-10-20		Yeh YC, et al. (1986) PMID:3533916
+RPS28A	YOR167C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000289	InterPro	2017-01-14		DDB, et al. (2001)
+RPS30B	YOR182C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-05		Planta RJ and Mager WH (1998) PMID:9559554
+RPS30B	YOR182C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR006846	InterPro	2017-01-14		DDB, et al. (2001)
+RPS30B	YOR182C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL33B	YOR234C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL33B	YOR234C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018266, IPR001780	InterPro	2017-01-14		DDB, et al. (2001)
+RPS10A	YOR293W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	NAS	SGD	2008-12-04		Planta RJ and Mager WH (1998) PMID:9559554
+RPS10A	YOR293W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL20B	YOR312C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-09		Ohmayer U, et al. (2013) PMID:23874617
+RPL20B	YOR312C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR021138, IPR023573	InterPro	2017-01-14		DDB, et al. (2001)
+RPL20B	YOR312C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPS12	YOR369C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000530	InterPro	2017-01-14		DDB, et al. (2001)
+RPS12	YOR369C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-22		Yeh YC, et al. (1986) PMID:3533916
+MRPS16	YPL013C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020592, IPR000307	InterPro	2017-01-14		DDB, et al. (2001)
+MRPS16	YPL013C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL21B	YPL079W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL21B	YPL079W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001147, IPR018259	InterPro	2017-01-14		DDB, et al. (2001)
+RPL21B	YPL079W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPS9A	YPL081W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS9A	YPL081W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005710	InterPro	2017-01-14		DDB, et al. (2001)
+RPS6A	YPL090C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-03		Otaka E, et al. (1982) PMID:6814480
+RPS6A	YPL090C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR001377, IPR018282, IPR014401	InterPro	2017-01-14		DDB, et al. (2001)
+MRP51	YPL118W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2001-01-18		Green-Willms NS, et al. (1998) PMID:9528754
+MRP51	YPL118W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769
+RPL5	YPL131W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL5	YPL131W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPL5	YPL131W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005485	InterPro	2017-01-14		DDB, et al. (2001)
+RPL33A	YPL143W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL33A	YPL143W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018266, IPR001780	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL40	YPL173W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005825	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL40	YPL173W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2006-11-13		Kitakawa M, et al. (1997) PMID:9151978
+MRPL40	YPL173W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RTC6	YPL183W-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	ISA with ACB04361.1	SGD	2008-11-11		Gan X, et al. (2002) PMID:12392552
+RTC6	YPL183W-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000473	InterPro	2017-01-14		DDB, et al. (2001)
+RPL7B	YPL198W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-09		Ohmayer U, et al. (2013) PMID:23874617
+RPL7B	YPL198W	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-22		Gaudet P, et al (2010)
+RPL1A	YPL220W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-12-07		Lee SW, et al. (2002) PMID:11983894
+RPL1A	YPL220W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002143	InterPro	2017-01-14		DDB, et al. (2001)
+RPL36B	YPL249C-A	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-15		Otaka E, et al. (1984) PMID:18782943
+RPL36B	YPL249C-A	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR000509	InterPro	2017-01-14		DDB, et al. (2001)
+RPL43A	YPR043W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL43A	YPR043W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR002674, IPR011331	InterPro	2017-01-14		DDB, et al. (2001)
+MRPL51	YPR100W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-05		Gan X, et al. (2002) PMID:12392552
+RPL11A	YPR102C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IC with cytosolic large ribosomal subunit	SGD	2013-11-08		Lee SW, et al. (2002) PMID:11983894
+RPL11A	YPR102C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR020929, IPR002132	InterPro	2017-01-14		DDB, et al. (2001)
+RPL11A	YPR102C	structural constituent of ribosome	GO:0003735		molecular function	computational	IBA	GO_Central	2015-05-21		Gaudet P, et al (2010)
+RPS23B	YPR132W	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2008-09-17		Otaka E, et al. (1982) PMID:6814480
+RPS23B	YPR132W	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR005680, IPR006032	InterPro	2017-01-14		DDB, et al. (2001)
+MRP2	YPR166C	structural constituent of ribosome	GO:0003735		molecular function	computational	IEA with IPR018271, IPR001209	InterPro	2017-01-14		DDB, et al. (2001)
+MRP2	YPR166C	structural constituent of ribosome	GO:0003735		molecular function	manually curated	IDA	SGD	2014-12-08		Saveanu C, et al. (2001) PMID:11278769

@@ -132,6 +132,10 @@ bcpca_funcassociate_analysis <- function(universe_file,
         if(network_mode == 'nodewise'){
           query <- edgewise_to_nodewise(query)
           universe <- edgewise_to_nodewise(universe)
+        }else if(network_mode == 'edgewise'){
+          #Remove homodimers
+          query <- query[query[,1] != query[,2], ]
+          universe <- universe[universe[,1] != universe[,2], ]
         }
         funcassociate_output_list[[condition]][[direction]][[network_mode]] <-
           funcassociate(query,universe,network_mode=network_mode,order_mode = order_mode,reps=reps)

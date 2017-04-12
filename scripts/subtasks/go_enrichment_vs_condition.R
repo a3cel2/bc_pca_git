@@ -11,7 +11,8 @@ funcassociate_output <- bcpca_funcassociate_analysis(pca_universe,
                                                      pca_enhanced_calls,
                                                      pca_depleted_calls,
                                                      all_conditions,
-                                                     reps=10000)
+                                                     reps=1000)
+
 funcassociate_table <- format_bc_pca_funcassociate(funcassociate_output,conditions = all_conditions)
 outfile <- paste(c(go_output_path,'go_table_all_experiments.html'),collapse='/')
 write(knitr::kable(funcassociate_table,format='html',caption='Go Enrichment amongst all_experiments'),outfile)

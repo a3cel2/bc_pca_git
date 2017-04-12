@@ -11,6 +11,50 @@ devtools::use_package('cba')
 #pca_universe = '/Users/Albi/Dropbox/barcoded-PCA/2015-08-30/Additional.file.6.txt'
 
 
+correlate_abundance_to_AUC <- function(ppi_universe,protein_abundance_file,min_degree=1,max_degree=1){
+  
+  date_hubs <- as.vector(read.table('../data/date_hubs.txt',stringsAsFactors = F)[,1])
+  party_hubs <- as.vector(read.table('../data/party_hubs.txt',stringsAsFactors = F)[,1])
+  
+  abundance_table <- read.table(protein_abundance_file,row.names=1,stringsAsFactors = F)
+  pca_univ <- read.table(pca_universe,head=T,stringsAsFactors = F)
+  #Reduce to one condition
+  pca_univ <- dplyr::filter(pca_univ,Condition==pca_univ$Condition[1] & UP.DN == 'uptag' & !is.na(AUC)) %>% dplyr::select(ORF.1,ORF.2,AUC,contains('DMSO'),UP.DN,p.val,q.val)
+  
+  pca_net <- igraph::graph.data.frame(pca_univ[,c('ORF.1','ORF.2')])
+  hubs <- names(which(igraph::degree(pca_net) >= 10))
+  
+  sub_univ <- c()
+  for(i in 1:nrow(pca_univ)){
+    if(pca_univ[i,1] %in% date_hubs & pca_univ[i,2] %in% date_hubs){
+      sub_univ <- rbind(sub_univ,pca_univ[i,])
+    }else if(pca_univ[i,1] %in% date_hubs & !(pca_univ[i,2] %in% date_hubs)){
+      if(which.min(get_orf_pair_abundance(c(pca_univ[i,1],pca_univ[i,2]),abundance_table)) == 1){
+        sub_univ <- rbind(sub_univ,pca_univ[i,])
+      } 
+    }else if(!(pca_univ[i,1] %in% date_hubs) & (pca_univ[i,2] %in% date_hubs)){
+      if(which.min(get_orf_pair_abundance(c(pca_univ[i,1],pca_univ[i,2]),abundance_table)) == 2){
+        sub_univ <- rbind(sub_univ,pca_univ[i,])
+      } 
+    }
+  }
+  #sub_univ <- apply(pca_univ,1,function(x){
+  #  if(x[1] %in% party_hubs & x[2] in party_hubs){
+  #    
+  #  }
+  #})
+  #apply(pca_univ,1,function(x){
+  #  
+  #})
+  #pca_univ <- dplyr::filter(pca_univ, !(ORF.1 %in% hubs) & !(ORF.2 %in% hubs))
+  #pca_univ <- dplyr::filter(pca_univ, ORF.1 %in% date_hubs | ORF.2 %in% date_hubs)
+  #pca_univ <- dplyr::filter(pca_univ, ORF.1 %in% party_hubs & ORF.2 %in% party_hubs)
+  min_vals <- apply(pca_univ,1,function(x){min(get_orf_pair_abundance(x[1:2],abundance_table))})
+  avg_auc <- pca_univ$AUC#apply(pca_univ[,'AUC'],1,mean)
+  
+}
+
+
 
 
 #' A simple mass action prediction for protein complex level changes
@@ -42,7 +86,8 @@ mass_action_predictor <- function(c1,
     new_pair_analytic = 0.5*(((-1)*sqrt((c1**2)-(2*c1*(c2-k))+(c2+k)**2))+c1+c2+k)
     return(new_pair_analytic/old_pair_analytic)
   }
-
+  
+  #An iterative method which takes into account that the assay is done in diploid (i.e. 3/4 complexes will not give MTX)
   else if(mode == 'iterative'){
     f1 = 0
     f2 = 0
@@ -125,8 +170,8 @@ merge_pca_file <- function(pca_calls,condition){
   })
 
 
-  merged_pca_calls <- data.frame(ORF.1=merged_pca_calls_up$ORF.1,
-                                   ORF.2=merged_pca_calls_up$ORF.2,
+  merged_pca_calls <- data.frame(ORF.1=as.vector(merged_pca_calls_up$ORF.1),
+                                   ORF.2=as.vector(merged_pca_calls_up$ORF.2),
                                    AUC=merged_pca_calls_up$AUC,
                                    DMSO.UP=dmso_abundance_up,
                                    DMSO.DN=dmso_abundance_dn,
@@ -134,6 +179,8 @@ merge_pca_file <- function(pca_calls,condition){
                                    FC.DN=merged_pca_calls_dn$FC.avg,
                                    FC.avg=new_fc_avg,
                                    q.val=new_q_val)
+  merged_pca_calls$ORF.1 <- as.vector(merged_pca_calls$ORF.1)
+  merged_pca_calls$ORF.2 <- as.vector(merged_pca_calls$ORF.2)
 
   return(merged_pca_calls)
 }
@@ -163,11 +210,80 @@ get_orf_mrna_changes <- function(pairs,
 #Simplifies expression file into a numeric matrix with one measurement per ORF (mean aggregation)
 #and ORF names used as indeces
 simplify_expression_file <- function(expression_file){
-  expression_file <- expression_file %>% dplyr::select(-ID_REF)
+  if('ID_REF' %in% colnames(expression_file)){
+    expression_file <- expression_file %>% dplyr::select(-ID_REF)
+  }
   expression_file <- aggregate(expression_file[,-1],list(expression_file$ORF),mean,na.rm=T)
   rownames(expression_file) <- expression_file[,1]
   expression_file <- expression_file[,-1]
   return(expression_file)
+}
+
+mass_action_predictor_vectorized <- function(kd_list,abundances,mrna_changes,orf_pairs,return_only_baseline=F){
+ 
+  mrna_changes[is.na(mrna_changes)] <- 1
+  new_abundances <- abundances[names(mrna_changes)]*mrna_changes
+  
+  .conc_formula <- function(c1,c2,k){
+    return(0.5*(((-1)*sqrt((c1**2)-(2*c1*(c2-k))+(c2+k)**2))+c1+c2+k))
+  }
+  
+  return(apply(orf_pairs,1,function(pair){
+    k <- kd_list[[pair[1]]][[pair[2]]]
+    c1 <- abundances[pair[1]]
+    c2 <- abundances[pair[2]]
+    old_conc <- .conc_formula(c1,c2,k)
+    
+    c1 <- new_abundances[pair[1]]
+    c2 <- new_abundances[pair[2]]
+    
+    new_conc <- .conc_formula(c1,c2,k)
+    
+    if(return_only_baseline == T){
+      return(log2(old_conc))  
+    }
+    return(log2(new_conc/old_conc))
+    #log2(sum(steady_state_free_conc_cond[pair])) - log2(sum(steady_state_free_conc_ctrl[pair]))
+  }))
+}
+
+maslov_predictor <- function(kd_list,abundances,mrna_changes,orf_pairs=NULL,converged_max_diff=1e-08,return_only_baseline=F){
+  .maslov_iterator <- function(free_conc){
+    max_diff = Inf
+    while(max_diff > converged_max_diff){  
+      new_free_conc <- free_conc
+      for(i in 1:length(proteins)){
+        this_protein <- proteins[i]
+        partner_kds <- kd_list[[this_protein]]
+        partners <- names(partner_kds)
+        denominator <- 1 + sum(new_free_conc[partners]/partner_kds)
+          #sum(sapply(partners,function(partner){new_free_conc[partner]/partner_kds[partner]}))
+        new_free_conc[this_protein] <- abundances[this_protein]/denominator
+      }
+      max_diff <- max(abs(new_free_conc - free_conc))
+      #print(max_diff)
+      free_conc <- new_free_conc
+    }
+    return(free_conc)
+  }
+  
+  free_conc <- abundances
+  proteins <- names(free_conc)
+  
+  steady_state_free_conc_ctrl <- .maslov_iterator(free_conc)
+  
+  #Do this to deal with missing values
+  mrna_changes[is.na(mrna_changes)] <- 1
+  abundances[names(mrna_changes)] <- abundances[names(mrna_changes)]*mrna_changes
+  free_conc <- abundances
+  steady_state_free_conc_cond <- .maslov_iterator(free_conc)
+  
+  return(apply(orf_pairs,1,function(pair){
+    if(return_only_baseline == F){
+      return(log2(prod(steady_state_free_conc_cond[pair])) - log2(prod(steady_state_free_conc_ctrl[pair])))
+    }
+    return(log2(prod(steady_state_free_conc_cond[pair])/kd_list[[pair[1]]][[pair[2]]]))
+  }))
 }
 
 
@@ -183,6 +299,9 @@ simplify_expression_file <- function(expression_file){
 #' @param condition the condition in the pca_file which is to be correlated
 #' @param expression_control_regexp regular expression used to match the control condition in the mRNA file
 #' @param expression_condition_regexp regular expression used to match the condition of interesti n the mRNA file
+#' @param prediction_method a string, either 'maslov' 
+#' @param shuffled_kds 
+#' @param return_only_baseline 
 #'
 #' @return a data frame with the original data combined with the predictions
 pca_ma_prediction <- function(
@@ -191,46 +310,103 @@ pca_ma_prediction <- function(
   expression_file,
   condition,
   expression_control_regexp='Ethanol.0h',
-  expression_condition_regexp='Ethanol.4h'){
-
+  expression_condition_regexp='Ethanol.4h',
+  prediction_method='independent',
+  shuffled_kds=F,
+  shuffled_concentrations=F,
+  return_only_baseline=F){
+  
   #Read appropriate fies
   pca_file <- read.csv(pca_file,head = T,stringsAsFactors = F, sep = '\t')
-  expression_file <- read.table(expression_file,head=T,stringsAsFactors = F)
+  expression_file <- read.csv(expression_file,head=T,stringsAsFactors = F, sep = '\t')
   abundance_file <- read.table(abundance_file,head=F,stringsAsFactors = F, row.names=1)
+  if(shuffled_concentrations){
+    abundance_file$V2 <- sample(abundance_file$V2)
+  }
   #abundance_file <- abundance_file[unique(c(pca_file$ORF.1,pca_file$ORF.2)),,drop=F]
   #Process files accordingly
   merged_pca_calls <- merge_pca_file(pca_file,condition=condition)
   expression_file <- simplify_expression_file(expression_file)
-
-
+  
+  
   orf_pairs <- merged_pca_calls[,c('ORF.1','ORF.2')]
-  output_df <- data.frame()
+  
+  kd_list <- list()
+  abundances <- vector()
+  mrna_changes <- vector()
+  if(shuffled_kds==T){
+    shuffled_orf_pairs <- orf_pairs[sample(1:nrow(orf_pairs)),]
+  }
   for(i in 1:nrow(orf_pairs)){
     pair <- orf_pairs[i,]
     pair <- as.vector(as.matrix(pair))
-    #print(pair)
-    abundances <- get_orf_pair_abundance(pair,abundance_file)
-    mRNA_changes <- get_orf_mrna_changes(pair,expression_file,expression_control_regexp,expression_condition_regexp)
-    prediction <- log2(mass_action_predictor(abundances[1],abundances[2],mRNA_changes[1],mRNA_changes[2]))
-
-    output <- data.frame(ORF1=pair[1],
-                         ORF2=pair[2],
-                         AUC=merged_pca_calls[i,'AUC'],
-                         bcPCA_FC.UP=merged_pca_calls[i,'FC.UP'],
-                         bcPCA_FC.DN=merged_pca_calls[i,'FC.DN'],
-                         bcPCA_FC.AVG=merged_pca_calls[i,'FC.avg'],
-                         bcPCA_qVal=merged_pca_calls[i,'q.val'],
-                         bcPCA_DMSO.UP=merged_pca_calls[i,'DMSO.UP'],
-                         bcPCA_DMSO.DN=merged_pca_calls[i,'DMSO.DN'],
-                         PaxDB_Abundance_ORF1=abundances[1],
-                         PaxDB_Abundance_ORF2=abundances[2],
-                         mRNAFC_ORF1=mRNA_changes[1],
-                         mRNAFC_ORF2=mRNA_changes[2],
-                         Log2_MA_prediction=prediction)
-    output_df <- rbind(output_df,output)
+    abundances_pair <- get_orf_pair_abundance(pair,abundance_file)
+    
+    mrna_changes_pair <- get_orf_mrna_changes(pair,expression_file,expression_control_regexp,expression_condition_regexp)
+    
+    if(shuffled_kds == F){
+      #if(!min_model){
+        kd <- max(abundances_pair)/20
+      #}
+      #else{
+      #  kd <- 0
+      #}
+      #print(kdmax())
+    }else if(shuffled_kds == T){
+      shuffled_pair <- shuffled_orf_pairs[i,]
+      shuffled_pair <- as.vector(as.matrix(shuffled_pair))
+      abundances_shuffled_pair <- get_orf_pair_abundance(shuffled_pair,abundance_file)
+      kd <- max(abundances_shuffled_pair)/20
+      #print(kd)
+    }
+    
+    
+    if(is.null(kd_list[[pair[1]]])){
+      kd_list[[pair[1]]] <- vector()
+    }
+    if(is.null(kd_list[[pair[2]]])){
+      kd_list[[pair[2]]] <- vector()
+    }
+    kd_list[[pair[1]]][[pair[2]]] <- kd
+    kd_list[[pair[2]]][[pair[1]]] <- kd
+    
+    abundances[[pair[1]]] <- abundances_pair[1]
+    abundances[[pair[2]]] <- abundances_pair[2]
+    mrna_changes[[pair[1]]] <- mrna_changes_pair[1]
+    mrna_changes[[pair[2]]] <- mrna_changes_pair[2]
   }
+  if(prediction_method == 'maslov'){
+    predictions <- maslov_predictor(kd_list,abundances,mrna_changes,orf_pairs,return_only_baseline=return_only_baseline)
+  }else if(prediction_method == 'independent'){
+    predictions <- mass_action_predictor_vectorized(kd_list,abundances,mrna_changes,orf_pairs,return_only_baseline=return_only_baseline)
+  }
+  print(kd_list[[1]])
+  
+  output_df <- data.frame(ORF1=orf_pairs[,1],
+                          ORF2=orf_pairs[,2],
+                          AUC=merged_pca_calls[,'AUC'],
+                          bcPCA_FC.UP=merged_pca_calls[,'FC.UP'],
+                          bcPCA_FC.DN=merged_pca_calls[,'FC.DN'],
+                          bcPCA_FC.AVG=merged_pca_calls[,'FC.avg'],
+                          bcPCA_qVal=merged_pca_calls[,'q.val'],
+                          bcPCA_DMSO.UP=merged_pca_calls[,'DMSO.UP'],
+                          bcPCA_DMSO.DN=merged_pca_calls[,'DMSO.DN'],
+                          PaxDB_Abundance_ORF1=abundances[orf_pairs[,1]],
+                          PaxDB_Abundance_ORF2=abundances[orf_pairs[,2]],
+                          mRNAFC_ORF1=mrna_changes[orf_pairs[,1]],
+                          mRNAFC_ORF2=mrna_changes[orf_pairs[,2]],
+                          Log2_MA_prediction=predictions)
+    #maslov_predictor(kd_list,abundances)
+    #print(kd_list)
+    
+    #starting_pair_conc <- rep(0,length(orf_pairs))
+    
+    #print(kds)
+  #}
   return(output_df)
 }
+
+
 
 #' Plots mRNA-based bcPCA predictions compared to quantitative bc-PCA measurements
 #'
@@ -1027,12 +1203,116 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
 
 
 
-#hub_enrichment_file = '/Users/Albi/Dropbox/barcoded-PCA/2015-09-02/Data for Figure 3D.xlsx'
-#hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
 
-#my_predictions <- pca_ma_prediction(pca_universe,protein_abundance_file,expression_file,'ethanol',expression_condition_regexp='Ethanol.4h')
-#my_predictions <- filter(my_predictions,abs(bcPCA_FC.UP - bcPCA_FC.DN) <= 1)
+mRNA_levy_comparison <- function(levy_filename,mRNA_filename,ctrl_grep='0h'){
+  
+  mRNA_data <- read.table(mRNA_filename,head=T)
+  mRNA_data <- mRNA_data[,c(grep('ORF',colnames(mRNA_data)),grep(ctrl_grep,colnames(mRNA_data)))]
+  mRNA_data <- aggregate(mRNA_data[,2:ncol(mRNA_data)],list(mRNA_data$ORF),mean)
+  saved_names <- mRNA_data[,1]
+  mRNA_data <- mRNA_data[,2:ncol(mRNA_data)]
+  rownames(mRNA_data) <- saved_names
+  mRNA_vec <- apply(mRNA_data,1,mean)
+  
+  levy_data <- read.table(levy_filename,sep='\t',head=T,row.names = 1)
+  par(mfrow=c(1,2))
+  
+  
+  
+  
+  ctrl_list <- list(
+    list(name='AB.CYTO.AGENT',
+         ylab='log10(Cytoplasm Abundance - Levy 2014)'),
+    
+    list(name='AB.MEM.AGENT',
+         ylab='log10(Membrane Abundance - Levy 2014)')
+    
+  )
+  
+  
+  for(i in 1:length(ctrl_list)){
+    
+    
+    name <- ctrl_list[[i]]$name
+    ylab <- ctrl_list[[i]]$ylab
+    
+    
+    x_pos <- quantile(log10(mRNA_vec),probs=c(0.05),na.rm=T)
+    y_pos <- quantile(log10(levy_data[names(mRNA_vec),name]),probs=c(0.95),na.rm=T)
+    
+    
+    plot(log10(mRNA_vec),
+         log10(levy_data[names(mRNA_vec),name]),
+         pch=16,
+         col=rgb(0,0,0,0.5),
+         xlab='log10(mRNA Hybridization Intensity)',
+         ylab=ylab)
+    abline(lm(log10(levy_data[names(mRNA_vec),name])~(log10(mRNA_vec))),
+           col='red',
+           lwd=3)
+    
+    r <- format(cor(log10(mRNA_vec),
+                    log10(levy_data[names(mRNA_vec),name]),
+                    use='pair'),
+                digits=2)
+    
+    text(x_pos,y_pos,sprintf('r = %s',r))
+  }
+}
 
-#plot_prediction_precision(my_predictions)
-#plot(percent_correct_predictions(my_predictions,diminished_bpcs,,'less_than'),type='l')
-#lines(percent_correct_predictions(my_predictions,enhanced_bpcs,i,'greater_than')type='l')#
+
+mRNA_levy_comparison <- function(levy_filename,mRNA_filename,ctrl_grep='0h'){
+  
+  mRNA_data <- read.table(mRNA_filename,head=T)
+  mRNA_data <- mRNA_data[,c(grep('ORF',colnames(mRNA_data)),grep(ctrl_grep,colnames(mRNA_data)))]
+  mRNA_data <- aggregate(mRNA_data[,2:ncol(mRNA_data)],list(mRNA_data$ORF),mean)
+  saved_names <- mRNA_data[,1]
+  mRNA_data <- mRNA_data[,2:ncol(mRNA_data)]
+  rownames(mRNA_data) <- saved_names
+  mRNA_vec <- apply(mRNA_data,1,mean)
+  
+  levy_data <- read.table(levy_filename,sep='\t',head=T,row.names = 1)
+  par(mfrow=c(1,2))
+  
+  
+  
+  
+  ctrl_list <- list(
+    list(name='AB.CYTO.AGENT',
+         ylab='log10(Cytoplasm Agent Growth - Levy 2014)'),
+    
+    list(name='AB.MEM.AGENT',
+         ylab='log10(Membrane Agent Growth - Levy 2014)')
+    
+  )
+  
+  
+  for(i in 1:length(ctrl_list)){
+    
+    
+    name <- ctrl_list[[i]]$name
+    ylab <- ctrl_list[[i]]$ylab
+    
+    
+    x_pos <- quantile(log10(mRNA_vec),probs=c(0.05),na.rm=T)
+    y_pos <- quantile(log10(levy_data[names(mRNA_vec),name]),probs=c(0.95),na.rm=T)
+    
+    
+    plot(log10(mRNA_vec),
+         log10(levy_data[names(mRNA_vec),name]),
+         pch=16,
+         col=rgb(0,0,0,0.5),
+         xlab='log10(mRNA Hybridization Intensity)',
+         ylab=ylab)
+    abline(lm(log10(levy_data[names(mRNA_vec),name])~(log10(mRNA_vec))),
+           col='red',
+           lwd=3)
+    
+    r <- format(cor(log10(mRNA_vec),
+                    log10(levy_data[names(mRNA_vec),name]),
+                    use='pair'),
+                digits=2)
+    
+    text(x_pos,y_pos,sprintf('r = %s',r))
+  }
+}
