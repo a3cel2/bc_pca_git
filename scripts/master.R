@@ -89,6 +89,7 @@ if('Expression PCA' %in% to_run){
   source('subtasks/mass_action_prediction.R')
 }
 
+#Makes a graph of the RBD2 CRISPRi data
 if('RBD2' %in% to_run){
   dir.create(paste(c(output_path,'rbd2'),collapse='/'),showWarnings=F)
   
@@ -106,7 +107,7 @@ if('RBD2' %in% to_run){
   all_others <- filter(rbd2_data_comb,!(Gene.1 %in% first_neihbour_genes | Gene.2 %in% first_neihbour_genes))[,'FC.avg']
   
   #Make histogram
-  nbreaks=50
+  nbreaks <- 50
   col1 <- col2rgb(RColorBrewer::brewer.pal(12,'Set3')[3])/255
   col2 <- col2rgb(RColorBrewer::brewer.pal(12,'Set3')[5])/255
   darkening_factor <- 1
@@ -115,7 +116,6 @@ if('RBD2' %in% to_run){
     rgb(col1[1]*darkening_factor,col1[2]*darkening_factor,col1[3]*darkening_factor,opacity_factor),
     rgb(col2[1]*darkening_factor,col2[2]*darkening_factor,col2[3]*darkening_factor,opacity_factor),
     rgb(0.3,0.3,0.3,opacity_factor)
-    
   )
   
   Cairo::CairoPDF(file=paste(c(output_path,'rbd2','rbd2_knockdown.pdf'),collapse='/'),width=6,height=6)

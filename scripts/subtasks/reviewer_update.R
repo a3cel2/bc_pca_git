@@ -1,11 +1,15 @@
-##Maslov simulations, shuffle Kds
+require(RCurl)
+require(XML)
+
+
+##Maslov simulations, shuffled and assigned Kds
 expression_pca_output_path <- paste(c(output_path,'expression_pca'),collapse='/')
 dir.create(expression_pca_output_path, showWarnings = FALSE)
 
 for(time_point in c('30min','1h','4h','12h')){
   condition_regexp <- paste(c('Ethanol',time_point),collapse='.')
   
-  #We'll try everything with shuffled Kds
+  #We'll try everything with shuffled assigned Kds
   shuffle_status <- c(T,F)
   for(shuffle in shuffle_status){
     
@@ -38,7 +42,7 @@ for(time_point in c('30min','1h','4h','12h')){
 }
 
 
-#Baseline growth plot
+#Baseline growth plot with full equation
 expression_pca_baseline_output_path <- paste(c(output_path,'expression_pca_baseline'),collapse='/')
 dir.create(expression_pca_baseline_output_path, showWarnings = FALSE)
 
@@ -139,7 +143,7 @@ legend('topleft',c('Shuffled data'),fill='black')
 
 dev.off()
 
-#Kinase substrate overlap
+#Kinase substrate overlap, no output, have to write overlap_table to something
 pca_univ <- read.table(pca_universe,head=T,sep='\t')
 pca_ppis <- unique(pca_univ[,c('ORF.1','ORF.2')])
 pca_ppi_vec <- as.vector(apply(pca_ppis,1,function(x){paste(sort(x),collapse='_')}))
@@ -208,3 +212,73 @@ outfile <- paste(c(levy_output_path,'mRNA_0h_vs_levy_abundance.pdf'),collapse='/
 CairoPDF(file=outfile,width=9,height=5)
 mRNA_levy_comparison(levy_filename,mRNA_filename)
 dev.off()
+
+
+#Extract available Kds
+interpret_kd <- function(kd_string){
+  unit_map <- c('nM' = 10^(-9),
+                'uM' = 10^(-6))
+  split_string <- strsplit(kd_string,split='Kd.')[[1]]
+  kd_part <- split_string[length(split_string)]              
+  
+  kd_num <- substr(kd_part,1,nchar(kd_part)-2)
+  kd_units <- substr(kd_part,nchar(kd_part)-1,nchar(kd_part))
+  
+  return(as.numeric(kd_num)*unit_map[[kd_units]])
+  #print(kd_units)
+}
+
+
+pdb_index <- '../data/PDB_kd_list'
+
+pdb_index <- read.csv(pdb_index,sep='\t',head=F,stringsAsFactors = F,row.names=1)
+
+ids <- rownames(pdb_index)
+yeast_ids <- c()
+for(id in ids){
+  webpage <- getURL(sprintf("http://www.rcsb.org/pdb/rest/describeMol?structureId=%s",id))
+  webpage <- readLines(tc <- textConnection(webpage))
+  close(tc)
+  if(length(grep('Saccharomyces',webpage)) > 1){
+    yeast_ids <- c(yeast_ids,id)
+  }
+}
+
+
+sgd_entries <- c()
+for(yeast_id in yeast_ids){
+  webpage <- getURL(sprintf("http://www.rcsb.org/pdb/rest/describeMol?structureId=%s",yeast_id))
+  webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+  xml_page <- xmlParse(webpage,asText = T)
+  page_list <- xmlToList(xml_page)
+  polymers <- grep('polymer',names(page_list$structureId))
+  if(length(polymers)  == 2){
+    sgd_ids <- c()
+    for(polymer in polymers){
+      uniprot_id <- page_list$structureId[[polymer]]$macroMolecule$accession
+      webpage <- getURL(sprintf("http://www.uniprot.org/uniprot/%s.txt",uniprot_id))
+      webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+      sgd_id_line <- webpage[grep('DR   SGD',webpage)]
+      split_line <- strsplit(sgd_id_line,split='; ')[[1]]
+      sgd_id <- strsplit(split_line[length(split_line)],split='[.]')[[1]]
+      sgd_id <- reverse_map_gene_names(sgd_id)
+      sgd_ids <- c(sgd_ids,sgd_id)
+      #print(sgd_id)
+    }
+    kd <- pdb_index[yeast_id,]
+    #interpreted_kd <- interpret_kd(kd)
+    sgd_entries <- rbind(sgd_entries,c(yeast_id,sgd_ids,kd))
+    
+    #stop()
+  }
+}
+
+pca_univ <- read.table(pca_universe,head=T,stringsAsFactors = F)
+ppis <- unique(pca_univ[,c('ORF.1','ORF.2')])
+ppis <- apply(ppis,1,function(ppi){
+  paste(sort(ppi),collapse='_')
+})
+
+ppis_with_kd <- apply(sgd_entries,1,function(entry){
+  paste(sort(entry[2:3]),collapse='_')
+})
