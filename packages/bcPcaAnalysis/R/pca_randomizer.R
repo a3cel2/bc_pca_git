@@ -72,3 +72,15 @@ get_n_sig_genes <- function(pca_file,p_cutoff = 0.05,control_regexp='DMSO',condi
   return(condsum)
 }
 
+
+filter_mtx_defects <- function(pca_file,excluded_strains){
+  ret <- c()
+  for(condition in unique(pca_file$Condition)){
+    pca_cond <- dplyr::filter(pca_file, Condition == condition)
+    excl_cond <- dplyr::filter(excluded_strains, Condition == condition)
+    ret <- rbind(ret,filter(pca_cond, !(Tag %in% excl_cond$Tag)))
+    
+  }
+  return(ret)
+}
+

@@ -56,6 +56,7 @@ process_matrix_for_heatmap <- function(pca_file,
   rownames(response_matr) <- response_matr$Tag
   response_matr <- as.matrix(response_matr[,-1])
   
+  
   if('gene' %in% centerings){
     response_matr <- response_matr - apply(response_matr,1,centering_type)
   }
@@ -209,10 +210,16 @@ condition_summary_barplot <- function(pca_enhanced,
     pca_depl <- filter(pca_depl,!(grepl(condition,Condition)))
   }
   
-  enh_table <- table(pca_enh$Condition)
-  depl_table <- table(pca_depl$Condition)
+  enh_table <- c()
+  depl_table <- c()
+  for(condition in unique(c(pca_enh$Condition,pca_depl$Condition))){
+    enh_table[[condition]] <- length(unique(dplyr::filter(pca_enh,Condition == condition)$PPI.long))
+    depl_table[[condition]] <- length(unique(dplyr::filter(pca_depl,Condition == condition)$PPI.long))
+  }
+  #enh_table <- table(pca_enh$Condition)
+  #depl_table <- table(pca_depl$Condition)
   
-  summary_table <- merge(enh_table,depl_table,by='Var1',all=T)
+  summary_table <- merge(as.data.frame(enh_table),as.data.frame(depl_table),by='row.names',all=T)
   colnames(summary_table) <- c('Condition','Accumulated','Depleted')
   
   #Sort

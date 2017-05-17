@@ -18,7 +18,7 @@ network_connectivity_graph(pca_universe,
                            my_color_list,
                            #Set this to True to edit the network layout
                            edit=F,
-                           to_plot='enhanced',
+                           to_plot='both',
                            load_saved=T,
                            node_size=10,
                            edge_width=4,
@@ -112,7 +112,7 @@ component_size_sig_search_matrix <- network_simulation_significance_node_edge_se
                                                                                             pca_depleted = pca_depleted,
                                                                                             node_probs=c(0:10)/10,
                                                                                             iterations=connectivity_iterations,
-                                                                                            load_saved=T,
+                                                                                            load_saved=F,
                                                                                             save_output=T,
                                                                                             save_directory=saved_parameter_path,
                                                                                             save_filename='parameter_search_component_size.tsv')
@@ -133,7 +133,7 @@ density_sig_search_matrix <- network_simulation_significance_node_edge_search_ma
                                                                                      pca_depleted = pca_depleted,
                                                                                      node_probs=c(0:10)/10,
                                                                                      iterations=connectivity_iterations,
-                                                                                     load_saved=T,
+                                                                                     load_saved=F,
                                                                                      save_output=T,
                                                                                      metric='density',
                                                                                      save_directory=saved_parameter_path,
@@ -151,7 +151,6 @@ node_edge_search_heatmap(processed_density_sig_search_matrix,
 dev.off()
 
 
-stop()
 
 #Shows which hubs have a bias of accumulating or depleting interactions
 Cairo::CairoPDF(file=paste(c(connectivity_output_path,'hub_bias_heatmap.pdf'),collapse='/'),width=6,height=8.5)

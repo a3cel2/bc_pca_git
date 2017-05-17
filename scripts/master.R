@@ -14,7 +14,7 @@ setwd(this.dir)
 #GO enrichment
 #Frequency Perturbation
 #Connectivity
-to_run <- c('Make figures')#'Reviewer update')#'Expression PCA')#'Make figures')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
+to_run <- c('Expression PCA')#'Make figures')#'Make figures')#'Reviewer update')#'Expression PCA')#'Make figures')#'RBD2','Make figures')#c('Frequency Perturbation')#c('Atorvastatin enrichment')
 
 #Markdown directory
 figure_path <- "../results/rmarkdown_figures"
@@ -24,7 +24,9 @@ devtools::load_all('../packages/bcPcaAnalysis')
 devtools::document('../packages/bcPcaAnalysis')
 
 #Global parameters
-pca_universe = '../data/external/Additional.file.6.txt'
+pca_universe = '../data/bcpca_univ_filtered.tsv'
+pca_universe_full = '../data/external/Additional.file.6.txt'
+excluded_strains <- '../data/external/Additional.file.8.txt'
 pca_enhanced_calls = '../data/external/Additional.file.10.txt'
 pca_depleted_calls = '../data/external/Additional.file.11.txt'
 go_association_file = '../data/funcassociate_go_associations.txt'
@@ -53,12 +55,6 @@ my_color_list <- c(
 )
 blue_black_orange <- grDevices::colorRampPalette(my_color_list)
 
-
-##Check for enrichment of isoprenylation motif under atorvastatin
-#Uninteresting result, did not bother giving output, left here for record
-if('Atorvastatin enrichment' %in% to_run){
-  source('subtasks/atorvastatin_enrichment.R')
-}
 
 #Creates a summary heatmap of the data, emulating Cluster 3.0 output
 if('Heatmap' %in% to_run){

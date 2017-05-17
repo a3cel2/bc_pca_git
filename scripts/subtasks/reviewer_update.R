@@ -253,6 +253,7 @@ for(yeast_id in yeast_ids){
   page_list <- xmlToList(xml_page)
   polymers <- grep('polymer',names(page_list$structureId))
   if(length(polymers)  == 2){
+    print('Here')
     sgd_ids <- c()
     for(polymer in polymers){
       uniprot_id <- page_list$structureId[[polymer]]$macroMolecule$accession

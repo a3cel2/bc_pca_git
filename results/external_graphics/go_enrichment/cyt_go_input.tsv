@@ -1,0 +1,133 @@
+Condition	Direction	N	M	X	LOD	LOD_cor	P	P_adj	Gene-Ontology-ID	Gene-Ontology-Attribute
+FK506	enhanced	3	7	3	3	3	8.80E-07	0.0023	GO:0042910	xenobiotic transporter activity
+FK506	enhanced	3	7	3	3	3	8.80E-07	0.0023	GO:0008559	xenobiotic-transporting ATPase activity
+FK506	enhanced	9	9	70	2.2	2.2	1.80E-09	1.00E-04	GO:0005886	plasma membrane
+FK506	enhanced	3	7	6	2.1	2.1	1.70E-05	0.038	GO:0090484	drug transporter activity
+FK506	enhanced	3	7	6	2.1	2.1	1.70E-05	0.038	GO:0015238	drug transmembrane transporter activity
+FK506	enhanced	5	7	26	1.8	1.8	1.70E-06	0.0036	GO:0022804	active transmembrane transporter activity
+FK506	depleted	4	6	18	1.9	-1.9	7.20E-06	0.018	GO:0046394	carboxylic acid biosynthetic process
+FK506	depleted	4	6	18	1.9	-1.9	7.20E-06	0.018	GO:0016053	organic acid biosynthetic process
+doxorubicin	enhanced	3	5	3	3.2	3.2	2.50E-07	0.001	GO:0015665	alcohol transmembrane transporter activity
+doxorubicin	enhanced	3	5	3	3.2	3.2	2.50E-07	0.001	GO:1901618	organic hydroxy compound transmembrane transporter activity
+doxorubicin	enhanced	5	14	13	1.6	1.6	3.10E-06	0.01	GO:0044459	plasma membrane part
+1181-0519	enhanced	7	16	26	1.4	1.4	8.80E-07	0.002	GO:0022804	active transmembrane transporter activity
+1181-0519	enhanced	22	26	193	1.1	1.1	1.30E-08	1.00E-04	GO:0016021	integral component of membrane
+1181-0519	enhanced	11	23	55	1.1	1.1	6.00E-07	0.001	GO:0022857	transmembrane transporter activity
+1181-0519	enhanced	24	26	300	1.1	1.1	1.70E-06	0.0032	GO:0016020	membrane
+1181-0519	enhanced	11	23	56	1	1	7.40E-07	0.0013	GO:0055085	transmembrane transport
+1181-0519	enhanced	11	19	76	1	1	1.60E-06	0.003	GO:0005215	transporter activity
+1181-0519	enhanced	23	26	251	1	1	3.40E-07	9.00E-04	GO:0044425	membrane part
+1181-0519	enhanced	9	23	50	0.94	0.94	2.50E-05	0.044	GO:0022891	substrate-specific transmembrane transporter activity
+1181-0519	enhanced	15	19	199	0.89	0.89	2.80E-05	0.049	GO:0044765	single-organism transport
+1181-0519	enhanced	15	35	70	0.86	0.86	8.00E-07	0.0016	GO:0005886	plasma membrane
+atorvastatin	depleted	3	11	5	2	-2	4.20E-05	0.041	GO:0008374	O-acyltransferase activity
+atorvastatin	depleted	6	11	14	1.9	-1.9	1.80E-08	0	GO:0005811	lipid particle
+atorvastatin	depleted	6	7	42	1.8	-1.8	4.70E-07	6.00E-04	GO:0044255	cellular lipid metabolic process
+atorvastatin	depleted	5	7	39	1.6	-1.6	1.50E-05	0.012	GO:0008610	lipid biosynthetic process
+atorvastatin	depleted	8	12	55	1.3	-1.3	9.20E-07	8.00E-04	GO:0006629	lipid metabolic process
+H2O2	enhanced	3	7	3	2.9	2.9	1.20E-06	0.0043	GO:0006827	high-affinity iron ion transport
+H2O2	enhanced	3	7	3	2.9	2.9	1.20E-06	0.0043	GO:0034755	iron ion transmembrane transport
+H2O2	enhanced	3	7	4	2.5	2.5	4.70E-06	0.013	GO:0006826	iron ion transport
+H2O2	enhanced	5	5	64	2	2	1.60E-05	0.044	GO:0005886	plasma membrane
+H2O2	enhanced	5	8	23	1.7	1.7	3.70E-06	0.011	GO:0034220	ion transmembrane transport
+H2O2	enhanced	8	10	53	1.6	1.6	1.40E-07	3.00E-04	GO:0055085	transmembrane transport
+H2O2	enhanced	7	10	47	1.4	1.4	1.80E-06	0.0064	GO:0022891	substrate-specific transmembrane transporter activity
+H2O2	enhanced	7	10	61	1.3	1.3	1.20E-05	0.031	GO:0022892	substrate-specific transporter activity
+H2O2	enhanced	12	46	30	0.99	0.99	6.10E-07	0.0024	GO:0006812	cation transport
+H2O2	enhanced	11	46	28	0.97	0.97	2.50E-06	0.0079	GO:0008324	cation transmembrane transporter activity
+H2O2	enhanced	12	46	36	0.86	0.86	6.20E-06	0.016	GO:0015075	ion transmembrane transporter activity
+H2O2	enhanced	15	46	52	0.8	0.8	2.50E-06	0.0079	GO:0022857	transmembrane transporter activity
+H2O2	enhanced	13	46	46	0.77	0.77	1.90E-05	0.049	GO:0006811	ion transport
+H2O2	enhanced	34	50	183	0.71	0.71	7.40E-08	2.00E-04	GO:0016021	integral component of membrane
+H2O2	enhanced	17	47	73	0.67	0.67	1.70E-05	0.045	GO:0005215	transporter activity
+H2O2	enhanced	36	50	235	0.6	0.6	5.80E-06	0.015	GO:0044425	membrane part
+H2O2	depleted	4	26	4	2.3	-2.3	3.60E-06	0.0078	GO:0015846	polyamine transport
+H2O2	depleted	4	26	4	2.3	-2.3	3.60E-06	0.0078	GO:0000297	spermine transmembrane transporter activity
+H2O2	depleted	4	26	4	2.3	-2.3	3.60E-06	0.0078	GO:0000296	spermine transport
+H2O2	depleted	4	26	4	2.3	-2.3	3.60E-06	0.0078	GO:0015297	antiporter activity
+H2O2	depleted	4	26	4	2.3	-2.3	3.60E-06	0.0078	GO:0015203	polyamine transmembrane transporter activity
+H2O2	depleted	20	20	278	1.7	-1.7	5.20E-07	0.0011	GO:0016020	membrane
+H2O2	depleted	17	18	235	1.2	-1.2	2.80E-06	0.0058	GO:0044425	membrane part
+H2O2	depleted	9	17	52	1.1	-1.1	3.40E-06	0.0073	GO:0022857	transmembrane transporter activity
+H2O2	depleted	22	42	64	1.1	-1.1	4.50E-12	0	GO:0005886	plasma membrane
+H2O2	depleted	10	33	34	0.97	-0.97	5.80E-06	0.013	GO:0043436	oxoacid metabolic process
+H2O2	depleted	10	33	34	0.97	-0.97	5.80E-06	0.013	GO:0006082	organic acid metabolic process
+H2O2	depleted	10	26	47	0.93	-0.93	1.20E-05	0.025	GO:0022891	substrate-specific transmembrane transporter activity
+N-starvation	depleted	3	9	4	2.3	-2.3	8.40E-06	0.013	GO:0015846	polyamine transport
+N-starvation	depleted	3	9	4	2.3	-2.3	8.40E-06	0.013	GO:0000297	spermine transmembrane transporter activity
+N-starvation	depleted	3	9	4	2.3	-2.3	8.40E-06	0.013	GO:0000296	spermine transport
+N-starvation	depleted	3	9	4	2.3	-2.3	8.40E-06	0.013	GO:0015297	antiporter activity
+N-starvation	depleted	3	9	4	2.3	-2.3	8.40E-06	0.013	GO:0015203	polyamine transmembrane transporter activity
+N-starvation	depleted	4	9	7	2.2	-2.2	7.00E-07	8.00E-04	GO:0015291	secondary active transmembrane transporter activity
+N-starvation	depleted	6	9	56	1.3	-1.3	2.80E-05	0.039	GO:0055085	transmembrane transport
+N-starvation	depleted	12	18	70	1.3	-1.3	1.80E-08	0	GO:0005886	plasma membrane
+N-starvation	depleted	9	18	50	1.1	-1.1	1.90E-06	0.0018	GO:0022891	substrate-specific transmembrane transporter activity
+N-starvation	depleted	9	18	55	1.1	-1.1	4.50E-06	0.0054	GO:0022857	transmembrane transporter activity
+N-starvation	depleted	9	18	64	1	-1	1.70E-05	0.027	GO:0022892	substrate-specific transporter activity
+NaCl	enhanced	6	55	6	2.2	2.2	3.70E-07	8.00E-04	GO:0005885	Arp2/3 protein complex
+NaCl	enhanced	7	55	9	1.5	1.5	9.20E-07	0.0027	GO:0030832	regulation of actin filament length
+NaCl	enhanced	7	55	9	1.5	1.5	9.20E-07	0.0027	GO:0030833	regulation of actin filament polymerization
+NaCl	enhanced	7	55	9	1.5	1.5	9.20E-07	0.0027	GO:0008064	regulation of actin polymerization or depolymerization
+NaCl	enhanced	7	55	10	1.4	1.4	2.80E-06	0.0076	GO:0032271	regulation of protein polymerization
+NaCl	enhanced	8	55	13	1.3	1.3	2.10E-06	0.0053	GO:0090066	regulation of anatomical structure size
+NaCl	enhanced	8	55	13	1.3	1.3	2.10E-06	0.0053	GO:0032535	regulation of cellular component size
+NaCl	enhanced	11	27	50	0.99	0.99	1.50E-06	0.0039	GO:0022891	substrate-specific transmembrane transporter activity
+NaCl	enhanced	11	27	55	0.94	0.94	4.20E-06	0.011	GO:0022857	transmembrane transporter activity
+NaCl	enhanced	11	27	64	0.85	0.85	2.10E-05	0.047	GO:0022892	substrate-specific transporter activity
+NaCl	enhanced	17	43	70	0.81	0.81	4.80E-07	0.001	GO:0005886	plasma membrane
+NaCl	depleted	43	50	300	0.85	-0.85	8.20E-09	0	GO:0016020	membrane
+NaCl	depleted	36	50	193	0.82	-0.82	5.70E-10	0	GO:0016021	integral component of membrane
+NaCl	depleted	15	50	50	0.82	-0.82	1.30E-06	0.0044	GO:0022891	substrate-specific transmembrane transporter activity
+NaCl	depleted	15	50	55	0.76	-0.76	5.20E-06	0.013	GO:0022857	transmembrane transporter activity
+NaCl	depleted	38	50	251	0.71	-0.71	1.00E-07	3.00E-04	GO:0044425	membrane part
+NaCl	depleted	16	50	64	0.71	-0.71	8.30E-06	0.019	GO:0022892	substrate-specific transporter activity
+sorbitol	depleted	12	26	70	0.9	-0.9	4.50E-06	0.0068	GO:0005886	plasma membrane
+sorbitol	depleted	10	26	55	0.89	-0.89	2.30E-05	0.04	GO:0022857	transmembrane transporter activity
+menadione	depleted	4	4	26	2.4	-2.4	2.40E-06	0.0023	GO:0022804	active transmembrane transporter activity
+menadione	depleted	3	4	9	2.3	-2.3	8.40E-06	0.0065	GO:0005342	organic acid transmembrane transporter activity
+menadione	depleted	3	4	13	2.1	-2.1	2.80E-05	0.021	GO:0015849	organic acid transport
+menadione	depleted	6	7	50	1.7	-1.7	1.30E-06	0.0014	GO:0022891	substrate-specific transmembrane transporter activity
+menadione	depleted	6	7	55	1.7	-1.7	2.40E-06	0.0022	GO:0022857	transmembrane transporter activity
+menadione	depleted	6	7	56	1.7	-1.7	2.70E-06	0.0023	GO:0055085	transmembrane transport
+menadione	depleted	6	7	64	1.6	-1.6	6.10E-06	0.0058	GO:0022892	substrate-specific transporter activity
+menadione	depleted	6	7	76	1.5	-1.5	1.80E-05	0.017	GO:0005215	transporter activity
+menadione	depleted	10	11	193	1.2	-1.2	5.60E-05	0.047	GO:0016021	integral component of membrane
+heat-shock	depleted	9	108	12	1.1	-1.1	1.50E-05	0.049	GO:0019829	cation-transporting ATPase activity
+heat-shock	depleted	9	108	12	1.1	-1.1	1.50E-05	0.049	GO:0042625	ATPase activity, coupled to transmembrane movement of ions
+heat-shock	depleted	18	108	26	1.1	-1.1	2.90E-09	0	GO:0022804	active transmembrane transporter activity
+heat-shock	depleted	19	108	28	1.1	-1.1	1.70E-09	0	GO:0008324	cation transmembrane transporter activity
+heat-shock	depleted	11	108	17	0.96	-0.96	1.40E-05	0.046	GO:0042626	ATPase activity, coupled to transmembrane movement of substances
+heat-shock	depleted	11	108	17	0.96	-0.96	1.40E-05	0.046	GO:0016820	hydrolase activity, acting on acid anhydrides, catalyzing transmembrane movement of substances
+heat-shock	depleted	18	108	31	0.88	-0.88	1.80E-07	4.00E-04	GO:0006812	cation transport
+heat-shock	depleted	28	100	55	0.85	-0.85	2.30E-10	0	GO:0022857	transmembrane transporter activity
+heat-shock	depleted	21	108	38	0.84	-0.84	4.60E-08	3.00E-04	GO:0015075	ion transmembrane transporter activity
+heat-shock	depleted	28	102	56	0.82	-0.82	7.10E-10	0	GO:0055085	transmembrane transport
+heat-shock	depleted	26	108	50	0.81	-0.81	4.60E-09	0	GO:0022891	substrate-specific transmembrane transporter activity
+heat-shock	depleted	24	108	49	0.74	-0.74	9.70E-08	4.00E-04	GO:0006811	ion transport
+heat-shock	depleted	28	108	64	0.66	-0.66	1.50E-07	4.00E-04	GO:0022892	substrate-specific transporter activity
+heat-shock	depleted	23	77	70	0.65	-0.65	1.30E-06	0.0051	GO:0005886	plasma membrane
+heat-shock	depleted	30	102	76	0.63	-0.63	1.80E-07	4.00E-04	GO:0005215	transporter activity
+heat-shock	depleted	62	110	193	0.57	-0.57	1.10E-09	0	GO:0016021	integral component of membrane
+heat-shock	depleted	68	110	251	0.46	-0.46	5.80E-07	0.0029	GO:0044425	membrane part
+heat-shock	depleted	74	110	300	0.41	-0.41	9.60E-06	0.034	GO:0016020	membrane
+ethanol	enhanced	14	28	70	0.97	0.97	2.00E-07	0.0011	GO:0005886	plasma membrane
+ethanol	depleted	18	164	26	0.82	-0.82	4.30E-06	0.018	GO:0022804	active transmembrane transporter activity
+ethanol	depleted	34	167	55	0.71	-0.71	1.50E-08	0	GO:0022857	transmembrane transporter activity
+ethanol	depleted	31	167	50	0.71	-0.71	6.90E-08	1.00E-04	GO:0022891	substrate-specific transmembrane transporter activity
+ethanol	depleted	23	167	38	0.66	-0.66	8.20E-06	0.035	GO:0015075	ion transmembrane transporter activity
+ethanol	depleted	68	114	193	0.65	-0.65	3.30E-12	0	GO:0016021	integral component of membrane
+ethanol	depleted	80	105	298	0.63	-0.63	2.10E-10	0	GO:0016020	membrane
+ethanol	depleted	32	167	56	0.62	-0.62	6.30E-07	0.0032	GO:0055085	transmembrane transport
+ethanol	depleted	71	105	250	0.58	-0.58	8.20E-10	0	GO:0044425	membrane part
+ethanol	depleted	38	167	70	0.58	-0.58	2.80E-07	0.0012	GO:0005886	plasma membrane
+ethanol	depleted	59	118	197	0.41	-0.41	4.60E-06	0.02	GO:0044765	single-organism transport
+AA-mixture	enhanced	12	96	20	0.95	0.95	4.70E-06	0.018	GO:0030687	preribosome, large subunit precursor
+AA-mixture	enhanced	19	114	36	0.75	0.75	1.70E-06	0.007	GO:0042254	ribosome biogenesis
+AA-mixture	enhanced	21	114	42	0.71	0.71	1.40E-06	0.0058	GO:0044085	cellular component biogenesis
+AA-mixture	enhanced	19	114	38	0.7	0.7	4.90E-06	0.018	GO:0022613	ribonucleoprotein complex biogenesis
+AA-mixture	enhanced	53	87	190	0.65	0.65	3.20E-10	0	GO:0016021	integral component of membrane
+AA-mixture	enhanced	58	87	248	0.55	0.55	7.30E-08	3.00E-04	GO:0044425	membrane part
+AA-mixture	enhanced	29	112	75	0.54	0.54	5.70E-06	0.022	GO:0044432	endoplasmic reticulum part
+AA-mixture	depleted	13	25	69	1	-1	2.60E-07	0.0011	GO:0005886	plasma membrane
+methionine	enhanced	36	60	193	0.58	0.58	9.80E-07	0.003	GO:0016021	integral component of membrane
+methionine	depleted	14	49	50	0.78	-0.78	6.40E-06	0.02	GO:0022891	substrate-specific transmembrane transporter activity

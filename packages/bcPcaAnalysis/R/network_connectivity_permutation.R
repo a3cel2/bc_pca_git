@@ -496,17 +496,17 @@ make_network_iterations <- function(pca_universe,
                                       %>% dplyr::select(ORF.1,ORF.2))
   
   
-  n_edges_enhanced <- nrow(real_edgelist_enhanced)
+  n_edges_enhanced <- nrow(unique(real_edgelist_enhanced))
   n_nodes_enhanced <- length(unique(as.vector(real_edgelist_enhanced)))
   
-  n_edges_depleted <- nrow(real_edgelist_depleted)
+  n_edges_depleted <- nrow(unique(real_edgelist_depleted))
   n_nodes_depleted <- length(unique(as.vector(real_edgelist_depleted)))
   
   n_edges_total <- n_edges_enhanced + n_edges_depleted
   
   
-  potential_edgelist <- as.matrix(dplyr::filter(pca_universe,Condition==condition) 
-                                  %>% dplyr::select(ORF.1,ORF.2))
+  potential_edgelist <- unique(as.matrix(dplyr::filter(pca_universe,Condition==condition) 
+                                  %>% dplyr::select(ORF.1,ORF.2)))
   potential_nrow <- nrow(potential_edgelist)
   
   if(is.null(cluster)){

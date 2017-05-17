@@ -14,7 +14,7 @@ output:
 <!---\usetypescript[phv]--->
 
 <!--- Supplementary Figure 4 --->
-\textbf{\LARGE{Figure S4}}
+\textbf{\LARGE{Figure EV4}}
 \begin{picture}(0,4.5)
 \graphicspath{{../../../results/master_output/expression_pca/}}
 \iffalse

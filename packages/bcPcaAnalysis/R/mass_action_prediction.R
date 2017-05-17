@@ -77,7 +77,7 @@ mass_action_predictor <- function(c1,
                                   mode='analytic'){
 
   if(is.na(k)){
-    k = min(c(c1,c2))/concentration_factor
+    k = max(c(c1,c2))/concentration_factor
   }
   if(mode == 'analytic'){
     old_pair_analytic = 0.5*(((-1)*sqrt((c1**2)-(2*c1*(c2-k))+(c2+k)**2))+c1+c2+k)
@@ -1156,8 +1156,8 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
 
   test_statistic <- fisher.test(rbind(c(sig_successes,sig_failures),c(nonsig_successes,nonsig_failures)))
 
-  sig_conf_interval <- binom.test(sig_successes,sig_successes+sig_failures)$conf.int
-  nonsig_conf_interval <- binom.test(nonsig_successes,nonsig_successes+nonsig_failures)$conf.int
+  sig_conf_interval <- binom.test(sig_successes,sig_successes+sig_failures)$conf.int*100
+  nonsig_conf_interval <- binom.test(nonsig_successes,nonsig_successes+nonsig_failures)$conf.int*100
 
   top <- max(c(sig_conf_interval,nonsig_conf_interval))
   top <- top + top*height_buffer
@@ -1166,18 +1166,19 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
     Cairo::CairoPDF(file=paste(c(output_path,filename),collapse='/'),width=pdf_width,height=pdf_height)
   }
   par(lwd = line_width, cex=text_size)
-  barCenters <- barplot(height=c(sig_successes/(sig_successes+sig_failures),nonsig_successes/(nonsig_successes+nonsig_failures)),
-          ylim=c(0.5,1),
+  par(las=1)
+  barCenters <- barplot(height=c((sig_successes/(sig_successes+sig_failures))*100,(nonsig_successes/(nonsig_successes+nonsig_failures))*100),
+          ylim=c(50,100),
           xpd=F,
           space=0.5,
           col = rgb(0.4,0.4,0.4),#RColorBrewer::brewer.pal(12,'Set3')[c(3,5)],
-          ylab='mRNA Prediction Accuracy')
+          ylab='mRNA Prediction Accuracy (%)')
 
   #Custom make labels
-  text(x=barCenters[1],y=0.46,c('Concerted\nhubs'),xpd=T)
-  text(x=barCenters[2],y=0.46,c('Other\nhubs'),xpd=T)
+  text(x=barCenters[1],y=46,c('Concerted\nhubs'),xpd=T)
+  text(x=barCenters[2],y=46,c('Other\nhubs'),xpd=T)
 
-  abline(h=0.5,lwd=line_width)
+  abline(h=50,lwd=line_width)
   #Add error bars
   segments(barCenters,c(sig_conf_interval[1],nonsig_conf_interval[1]),barCenters,c(sig_conf_interval[2],nonsig_conf_interval[2]),lwd=line_width)
   #Cap error bars
@@ -1193,7 +1194,7 @@ monochromatic_prediction_accuracy_graph <- function(my_predictions,
   #Add comparison line
   lines(barCenters,c(top,top),lwd=line_width/2)
   lines(x=rep(barCenters[1],2),y=c(top-height_buffer/2,top),lwd=line_width/2)
-  lines(x=rep(barCenters[2],2),y=c(max(nonsig_conf_interval)+height_buffer/2,top),lwd=line_width/2)
+  lines(x=rep(barCenters[2],2),y=c(max(nonsig_conf_interval)+(height_buffer*100)/2,top),lwd=line_width/2)
 
   text(mean(barCenters),top+top*height_buffer,paste(c('p = ',format(test_statistic$p.value,digits=2,scientific=T)),collapse=''),xpd=T,cex=1/1.3)
   if(draw == F){

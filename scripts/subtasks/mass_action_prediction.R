@@ -110,7 +110,7 @@ hub_comparison_graph(my_predictions,'LSP1',
 
 #Compare mass action accuracy for monochromatic hubs
 hub_df <- xlsx::read.xlsx2(hub_enrichment_file,sheetName = "Sheet1", colClasses=c("character","character",rep("numeric",5)))
-monochromatic_prediction_accuracy_graph(my_predictions,
+monochromatic_prediction_accuracy_graph(filtered_predictions,
                                         hub_df,
                                         output_path=expression_pca_output_path,
                                         filename='hub_comparison')

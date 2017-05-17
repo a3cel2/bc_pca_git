@@ -1,7 +1,7 @@
 heatmap_output_path <- paste(c(output_path,'heatmaps'),collapse='/')
 dir.create(heatmap_output_path, showWarnings = FALSE)
 
-pca_file <- read.table(pca_universe,head=T,sep='\t')
+pca_file <- read.table(pca_universe_full,head=T,sep='\t')
 pca_enh <- read.table(pca_enhanced_calls,head=T,sep='\t')
 pca_depl <- read.table(pca_depleted_calls,head=T,sep='\t')
 
